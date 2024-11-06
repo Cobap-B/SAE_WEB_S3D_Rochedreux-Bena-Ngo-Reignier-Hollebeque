@@ -12,7 +12,7 @@ class Show{
     private string $fileName;
 
     public function __construct(string $id, string $category, string $title, string $artist, int $duration, string $description, string $fileName){
-        $this->id = $id;
+        $this->id = $id;    
         $this->category = $category;
         $this->title = $title;
         $this->artist = $artist;
