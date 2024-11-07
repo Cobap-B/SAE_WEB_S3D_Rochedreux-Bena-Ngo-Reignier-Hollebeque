@@ -29,6 +29,7 @@ class FestivalRepository{
 
         return $party;
     }
+
     public function saveParty(Party $p): Party{
         $stmt = $this->bd->prepare("INSERT INTO Party (idParty, nomParty, dateDebut, dateFin, lieu) VALUES (:id, :nom, :dateDebut, :dateFin, :lieu)");
         $stmt->bindParam(':id', $p->__get(id), PDO::PARAM_INT);
