@@ -1,6 +1,6 @@
 <?php
 namespace NRV;
-
+use PDO;
 
 class FestivalRepository{
     private static array $tab = [];
