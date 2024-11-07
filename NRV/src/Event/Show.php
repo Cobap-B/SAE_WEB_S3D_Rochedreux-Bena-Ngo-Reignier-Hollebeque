@@ -21,9 +21,20 @@ class Show{
         $this->fileName = $fileName;
     } 
 
-    public function  __get(string $at):mixed{
+    public function  __get(string $at): mixed{
         if (property_exists ($this, $at)) return $this->$at;
         throw new \NRV\exception\InvalidPropertyNameExcepetion ("$at: invalid proprety");
+    }
+
+    public function __toString(): string {
+        return sprintf(
+            "Title: %s\nArtist: %s\nCategory: %s\nDuration: %d hours\nDescription: %s\n",
+            $this->category,
+            $this->title,
+            $this->artist,
+            $this->duration,
+            $this->description,
+        );
     }
 
 }
