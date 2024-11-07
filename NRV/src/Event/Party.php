@@ -1,27 +1,19 @@
 <?php
 namespace NRV\Event;
 
-class Party{
+class Party extends Event{
 
-    private int $id;
 
-    private string $name;
 
-    private string $date;
     private int $place;
     private array $shows;
 
-    public function __construct(string $id, string $name, string $date, int $place, array $shows = []){
-        $this->id = $id;
-        $this->name = $name;
-        $this->date = $date;
+    public function __construct(string $id, string $name, string $dateDebut, string $dateFin, int $place, array $shows = []){
+        parent::__construct($id, $tname, $dateDebut, $dateFin);
         $this->place = $place;
         $this->shows = $shows;
     } 
 
-    public function  __get(string $at):mixed{
-        if (property_exists ($this, $at)) return $this->$at;
-        throw new \NRV\exception\InvalidPropertyNameExcepetion ("$at: invalid proprety");
-    }
+   
 
 }
