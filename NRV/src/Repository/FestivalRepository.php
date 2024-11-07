@@ -19,6 +19,17 @@ class FestivalRepository{
         return self::$bd ;
     }
 
+    public function findPartyById(int $id): ?Party{
+        $stmt = self::$instance->bd->prepare('SELECT idParty, nomParty FROM Party WHERE idParty = ?');
+        $stmt->execute([$id]);
+        $data = $stmt->fetch();
+
+        if($data){
+            $party = new Party($data['nom']);
+        }
+
+        return $party;
+    }
     public function saveParty(Party $p): Party{
         $stmt = $this->bd->prepare("INSERT INTO Party (idParty, nomParty, dateDebut, dateFin, lieu) VALUES (:id, :nom, :dateDebut, :dateFin, :lieu)");
         $stmt->bindParam(':id', $p->__get(id), PDO::PARAM_INT);
