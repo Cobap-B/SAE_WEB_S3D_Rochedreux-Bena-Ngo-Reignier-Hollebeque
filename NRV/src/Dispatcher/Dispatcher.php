@@ -1,5 +1,5 @@
 <?php
-namespace NRV\Dispatcher;
+namespace NRV\dispatcher;
 use \NRV\action as act;
 
 
@@ -35,10 +35,10 @@ class Dispatcher{
                             <li class="nav-item"><a class="nav-link" href="?action=add-show">Add Show</a></li>
                             <li class="nav-item"><a class="nav-link" href="?action=authentication">Authentication</a></li>
                             <li class="nav-item"><a class="nav-link" href="?action=del-show">Del-show</a></li>
-                            <li class="nav-item"><a class="nav-link" href="?action=display-show">display-show</a></li>
-                            <li class="nav-item"><a class="nav-link" href="?action=display-favorite">display-favorite/a></li>
-                            <li class="nav-item"><a class="nav-link" href="?action=display-program">display-program</a></li>
-                            <li class="nav-item"><a class="nav-link" href="?action=modif-show">modif-show</a></li>
+                            <li class="nav-item"><a class="nav-link" href="?action=display-show">Display-show</a></li>
+                            <li class="nav-item"><a class="nav-link" href="?action=display-favorite">Display-favorite</a></li>
+                            <li class="nav-item"><a class="nav-link" href="?action=display-program">Display-program</a></li>
+                            <li class="nav-item"><a class="nav-link" href="?action=modif-show">Modif-show</a></li>
                         </ul>
                     </nav>
                     <br>
@@ -77,7 +77,7 @@ class Dispatcher{
                 $a = new act\ActionModifyShow();
                 break ;
             default :
-                $a = new act\DefaultAction();
+                $a = new act\ActionDefault();
                 break;
         }
         $this->renderPage($a->execute());
