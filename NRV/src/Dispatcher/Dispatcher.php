@@ -1,6 +1,6 @@
 <?php
-namespace NRV\dispatcher;
-use \NRV\action as act;
+namespace NRV\Dispatcher;
+use NRV\Action as act;
 
 
 class Dispatcher{
@@ -15,33 +15,50 @@ class Dispatcher{
     }
 
     private function renderPage(string $html): void
-    //<link rel="stylesheet" href="css/rendupage.css">
     {
         echo <<<FIN
         <!DOCTYPE html>
         <html lang="fr">
             <head>
                 <meta charset="UTF-8">
-                <title>DEFI</title>
-                
+                <title>Festival NRV</title>
+                    <link rel="stylesheet" href="./css/rendupage.css">
+
             </head>
             <body>
                 <div class="container"> 
-                    <h1 class="text-primary">NRV</h1>
-                    <nav>
+                     <nav>
                         <ul class="nav">
-                            <li class="nav-item"><a class="nav-link" href="?action=default">Accueil</a></li>
-                            <li class="nav-item"><a class="nav-link" href="?action=favorite">Favorite</a></li>
-                            <li class="nav-item"><a class="nav-link" href="?action=add-show">Add Show</a></li>
-                            <li class="nav-item"><a class="nav-link" href="?action=authentication">Authentication</a></li>
-                            <li class="nav-item"><a class="nav-link" href="?action=del-show">Del-show</a></li>
-                            <li class="nav-item"><a class="nav-link" href="?action=display-show">Display-show</a></li>
-                            <li class="nav-item"><a class="nav-link" href="?action=display-favorite">Display-favorite</a></li>
-                            <li class="nav-item"><a class="nav-link" href="?action=display-program">Display-program</a></li>
-                            <li class="nav-item"><a class="nav-link" href="?action=modif-show">Modif-show</a></li>
+                        
+                        
+                            <div class="nav-left">
+                                <li class="nav-item"><a class="nav-link" href="?action=default">HOME</a></li>
+                    
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link">DISPLAY</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="?action=display-show">Shows</a></li>
+                                        <li><a class="dropdown-item" href="?action=display-favorite">Favorites</a></li>
+                                        <li><a class="dropdown-item" href="?action=display-program">Program</a></li>
+                                    </ul>
+                                </li>
+                    
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link">MODIFY CONTENT</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="?action=modify-party">Party</a></li>
+                                        <li><a class="dropdown-item" href="?action=modify-show">Show</a></li>
+                                    </ul>
+                                </li>
+                            </div>
+                    
+                    
+                            <div class="nav-right">
+                                <li class="nav-item"><a class="nav-link" href="?action=authentication">Authentication</a></li>
+                            </div>
                         </ul>
                     </nav>
-                    <br>
+                    <br>                    
                     $html
                 </div>
             </body>
