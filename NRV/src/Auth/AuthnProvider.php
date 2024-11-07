@@ -19,7 +19,7 @@ abstract class AuthnProvider {
         $prep = $bd->prepare($query);
         $prep->bindParam(1,$e);
         $prep->execute();
-        $ide = $prep->fetch(PDO::FETCH_ASSOC)['id'];
+        $ide = $prep->fetch(PDO::FETCH_ASSOC)['idUser'];
         $_SESSION['user']['id']=$ide;
         $_SESSION['user']['email']=$e;
         $_SESSION['user']['role']=$data['role'];
