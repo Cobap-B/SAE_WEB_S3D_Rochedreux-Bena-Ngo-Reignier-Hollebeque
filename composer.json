@@ -1,0 +1,12 @@
+{
+    "name": "benah/sae_web_s3d_rochedreux-bena-ngo-reignier-hollebeque",
+    "autoload": {
+        "psr-4": {
+            "NRV\\": "NRV/src/"
+        }
+    },
+
+    "require": {
+        "ext-pdo": "*"
+    }
+}
