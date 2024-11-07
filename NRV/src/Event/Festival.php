@@ -2,24 +2,16 @@
 
 namespace NRV\Event;
 
-use NRV\exception\InvalidPropertyNameExcepetion;
+use NRV\Exception\InvalidPropertyNameExcepetion;
 
-class Festival{
+class Festival extends Event{
 
-    private int $id;
-    private string $name;
-    private string $duration;
     private array $partys;
 
-    public function __construct(string $id, string $name, string $duration, array $partys = []){
-        $this->id = $id;
-        $this->name = $name;
-        $this->duration = $duration;
+    public function __construct(string $id, string $name, string $dateDebut, string $dateFin, array $partys = []){
+        parent::__construct($id, $name, $dateDebut, $dateFin);
         $this->partys = $partys;
     }
 
-    public function  __get(string $at):mixed{
-        if (property_exists ($this, $at)) return $this->$at;
-        throw new InvalidPropertyNameExcepetion ("$at: invalid proprety");
-    }
+    
 }

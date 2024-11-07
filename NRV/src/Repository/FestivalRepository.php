@@ -1,7 +1,6 @@
 <?php
 namespace NRV\Repository;
 use PDO;
-use NRV\Event\Show as Show;
 
 class FestivalRepository{
     private static array $tab = [];
@@ -19,9 +18,37 @@ class FestivalRepository{
         return self::$bd ;
     }
 
-    public static function saveShow(Show $spec, int $idparty): int{ 
+    public function findPartyById(int $id): ?Party{
+        $stmt = self::$instance->bd->prepare('SELECT idParty, nomParty FROM Party WHERE idParty = ?');
+        $stmt->execute([$id]);
+        $data = $stmt->fetch();
+
+        if($data){
+            $party = new Party($data['nom']);
+        }
+
+        return $party;
+    }
+
+    public function saveParty(Party $p, int $idfestival): Party{
+        $stmt = $this->bd->prepare("INSERT INTO Party (idParty, nomParty, dateDebut, dateFin, lieu) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bindParam(':id', $p->__get(id));
+        $stmt->bindParam(':nom', $p->__get(name));
+        $stmt->bindParam(':dateDebut', $p->__get(dateDebut));
+        $stmt->bindParam(':dateFin', $p->__get(dateFin));
+        $stmt->bindParam(':lieu', $p->__get(place));
+        $stmt->execute();
+
+        $lastInsertId = (int)$this->bd->lastInsertId();
+
+        $stmt2 = this->bd->prepare("INSERT INTO Festival2Party (idFestival, idParty) VALUES (?,?)");
+        $stmt2->execute([$idfestival, $lastInsertId]);
+        return $p;
+    }
+
+    public static function saveShow(Show $spec, int $idparty): int{
         $bd = FestivalRepository::makeConnection();
-    
+
         $query = "INSERT into Shows (categorie, title, artist, dateDebut, dateFin) VALUES (?, ?, ?, ?, ?)";
         $prep = $bd->prepare($query);
         $cat = $spec->category;
@@ -46,17 +73,17 @@ class FestivalRepository{
         return $lastid;
     }
 
-    public static function delShow(Show $spec){ 
+    public static function delShow(Show $spec){
         $bd = FestivalRepository::makeConnection();
         $query = "DELETE from Party2Show where idShow = ?";
         $prep = $bd->prepare($query);
         $id = $spec->id;
         $prep->bindParam(1,$id);
-        $prep->execute(); 
+        $prep->execute();
 
         $query = "DELETE from Shows where idShow = ?";
         $prep = $bd->prepare($query);
         $prep->bindParam(1,$id);
-        $prep->execute(); 
+        $prep->execute();
     }
 }
