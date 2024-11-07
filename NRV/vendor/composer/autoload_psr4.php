@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Benah\\SaeWebS3dRochedreuxBenaNgoReignierHollebeque\\' => array($baseDir . '/src'),
+    'NRV\\' => array($baseDir . '/NRV/src'),
 );

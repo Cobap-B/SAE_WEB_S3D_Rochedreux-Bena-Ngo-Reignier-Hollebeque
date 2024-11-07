@@ -1,8 +1,10 @@
 {
     "name": "benah/sae_web_s3d_rochedreux-bena-ngo-reignier-hollebeque",
+    "description": "Gestion d'un festival",
+    "type": "project",
     "autoload": {
         "psr-4": {
-            "NRV\\": "NRV/src/"
+            "NRV\\": "./NRV/src"
         }
     },
 
