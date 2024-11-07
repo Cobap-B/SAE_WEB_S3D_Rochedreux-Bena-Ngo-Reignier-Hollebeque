@@ -4,11 +4,7 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "NRV\\": "./NRV/src"
+            "NRV\\": "src"
         }
-    },
-
-    "require": {
-        "ext-pdo": "*"
     }
 }
