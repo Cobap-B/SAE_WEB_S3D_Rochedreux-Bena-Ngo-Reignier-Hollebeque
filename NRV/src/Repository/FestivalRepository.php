@@ -30,15 +30,19 @@ class FestivalRepository{
         return $party;
     }
 
-    public function saveParty(Party $p): Party{
-        $stmt = $this->bd->prepare("INSERT INTO Party (idParty, nomParty, dateDebut, dateFin, lieu) VALUES (:id, :nom, :dateDebut, :dateFin, :lieu)");
-        $stmt->bindParam(':id', $p->__get(id), PDO::PARAM_INT);
-        $stmt->bindParam(':nom', $p->__get(name), PDO::PARAM_STR);
-        $stmt->bindParam(':dateDebut', $p->__get(dateDebut), PDO::PARAM_STR);
-        $stmt->bindParam(':dateFin', $p->__get(dateFin), PDO::PARAM_STR);
-        $stmt->bindParam(':lieu', $p->__get(place), PDO::PARAM_STR);
+    public function saveParty(Party $p, int $idfestival): Party{
+        $stmt = $this->bd->prepare("INSERT INTO Party (idParty, nomParty, dateDebut, dateFin, lieu) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bindParam(':id', $p->__get(id));
+        $stmt->bindParam(':nom', $p->__get(name));
+        $stmt->bindParam(':dateDebut', $p->__get(dateDebut));
+        $stmt->bindParam(':dateFin', $p->__get(dateFin));
+        $stmt->bindParam(':lieu', $p->__get(place));
         $stmt->execute();
 
+        $lastInsertId = (int)$this->bd->lastInsertId();
+
+        $stmt2 = this->bd->prepare("INSERT INTO Festival2Party (idFestival, idParty) VALUES (?,?)");
+        $stmt2->execute([$idfestival, $lastInsertId]);
         return $p;
     }
 
