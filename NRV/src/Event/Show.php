@@ -6,15 +6,17 @@ class Show extends Event{
     private string $category;
     private string $artist;
     private string $description;
-    private string $fileName;
+    private string $audioPath;
+    private string $imgPath;
 
-    public function __construct(string $id, string $category, string $name, string $dateDebut, string $dateFin, string $artist, string $description, string $fileName){
+    public function __construct(string $id, string $category, string $name, string $dateDebut, string $dateFin, string $artist, string $description, string $fileName, string $imgName){
         parent::__construct($id, $tname, $dateDebut, $dateFin); 
 
         $this->category = $category;
         $this->artist = $artist;
         $this->description = $description;
-        $this->fileName = $fileName;
+        $this->audioPath = $fileName;
+        $this->imgPath = $imgName;
     } 
 
     public function __toString(): string {
