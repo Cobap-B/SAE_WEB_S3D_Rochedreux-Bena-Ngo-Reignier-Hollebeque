@@ -8,23 +8,42 @@ class ActionAuthentication extends Action{
 
     public function execute(): string{
         if ($this->http_method === 'GET'){
-
             $html = <<<FIN
-                <div>Se connecter</div>
-                <form method='POST' '?action=authentication'>
-                <input type='email' name='email' required>
-                <input type='password' name='mdp' required>
-                <input type='submit' value='se connecter'>
-                </form> 
-            FIN;
+        <!DOCTYPE html>
+        <html lang="fr">
+        <head>
+            <meta charset="UTF-8">
+            <title>Se connecter</title>
+        </head>
+
+        <div class="login-container">
+            <h2>Se connecter</h2>
+            <form method="POST" action="?action=authentication">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="mdp">Mot de passe</label>
+                    <input type="password" id="mdp" name="mdp" required>
+                </div>
+                <button type="submit">Se connecter</button>
+                <footer> 
+                    <br>  
+                    <a class="dropdown-item" href="?action=register">S'enregistrer</a>
+                </footer>
+            </form>
+        </div>
+        </html>  
+    FIN;
         }
         else{
             $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); 
             $mdp = $_POST['mdp'];
 
-            $succes = AuthnProvider::authenticate($email,$mdp);
-            
-            $html = "<div>". $succes . "</div>";
+            AuthProvider::authenticate($email,$mdp);
+
+            $html = "<div>Vous êtes connecté</div>";
         }
         return $html;
     }
