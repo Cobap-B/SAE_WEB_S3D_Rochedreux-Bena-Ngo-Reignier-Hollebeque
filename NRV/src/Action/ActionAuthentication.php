@@ -12,8 +12,8 @@ class ActionAuthentication extends Action{
             $html = <<<FIN
                 <div>Se connecter</div>
                 <form method='POST' '?action=authentication'>
-                <input type='text' name='email'>
-                <input type='password' name='mdp'>
+                <input type='email' name='email' required>
+                <input type='password' name='mdp' required>
                 <input type='submit' value='se connecter'>
                 </form> 
             FIN;
