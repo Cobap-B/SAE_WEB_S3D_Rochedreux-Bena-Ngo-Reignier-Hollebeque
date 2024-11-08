@@ -46,7 +46,7 @@ abstract class AuthnProvider {
         && preg_match("#[\d]#", $p)
         && preg_match("#[\W]#", $p)
         && preg_match("#[\a-z]#", $p)
-        && preg_match("#[\A-Z]#", $p)){
+        && preg_match('/[A-Z]/', $p)){
 
             $hash = password_hash($p, PASSWORD_DEFAULT,['cost'=>10]);
             
@@ -63,7 +63,7 @@ abstract class AuthnProvider {
         elseif (sizeof($d)!==0){
             $res = "Cette adresse email est déjà associée à un compte.";
         }
-        elseif (!preg_match("#[\d]#", $mdp) || !preg_match("#[\W]#", $mdp) || !preg_match("#[\a-z]#", $mdp) || !preg_match("#[\A-Z]#", $mdp)){
+        elseif (!preg_match("#[\d]#", $p) || !preg_match("#[\W]#", $p) || !preg_match("#[\a-z]#", $p) || !preg_match("#[\A-Z]#", $p)){
             $res = "Veuillez utiliser au moins 10 caractères, avec au moins une majuscule, un chiffre et un caractère spécial";
         }
         return $res;
