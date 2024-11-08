@@ -1,6 +1,6 @@
 <?php
 
-namespace NRV\acton;
+namespace NRV\action;
 
 use NRV\Repository\FestivalRepository;
 use NRV\Event\Show;
@@ -13,7 +13,7 @@ class ActionDeleteShow extends Action{
             return <<<END
                     <div>Supprimer un spectacle</div>
                     <form method="POST" action = "?action=del-show">
-                    <button type="submit">Supprimer spectacle</button>
+                    <button type="submit">Suppression d'un spectacle</button>
                     </form>
             END;
         } else {

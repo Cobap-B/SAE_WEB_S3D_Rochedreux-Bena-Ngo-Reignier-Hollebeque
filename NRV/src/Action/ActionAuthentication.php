@@ -6,6 +6,8 @@ use NRV\Auth\AuthnProvider;
 
 class ActionAuthentication extends Action{
 
+    private String $error;
+
     public function execute(): string{
         if ($this->http_method === 'GET'){
             $html = <<<FIN
@@ -41,9 +43,15 @@ class ActionAuthentication extends Action{
             $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); 
             $mdp = $_POST['mdp'];
 
+<<<<<<< HEAD
             $succes = AuthnProvider::authenticate($email,$mdp);
             
             $html = "<div>". $succes . "</div>";
+=======
+            AuthnProvider::authenticate($email,$mdp);
+
+            $html = "<div>Vous êtes connecté</div>";
+>>>>>>> 8af8ed6ced92bc3092efc6e8c9a5113f4a28358c
         }
         return $html;
     }
