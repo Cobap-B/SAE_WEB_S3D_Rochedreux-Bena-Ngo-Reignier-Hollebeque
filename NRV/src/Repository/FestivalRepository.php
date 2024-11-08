@@ -4,18 +4,23 @@ use PDO;
 
 class FestivalRepository{
     private static array $tab = [];
-    public static ?PDO $bd = null;
+    public ?PDO $bd = null;
+    private static ?FestivalRepository $instance = null;
+
+    private function __construct(array $conf) {
+        $res = self::$tab['driver'].":host=".self::$tab['host'].";dbname=".self::$tab['database'];
+        $this->bd = new PDO($res, $conf['username'], $conf['password'],
+        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    }
 
     public static function setConfig(String $file ){
         self::$tab = parse_ini_file($file);
     }
-
     public static function makeConnection(){
-        if(is_null(self::$bd)){
-            $res = self::$tab['driver'].":host=".self::$tab['host'].";dbname=".self::$tab['database'];
-            self::$bd = new PDO($res, self::$tab['username'], self::$tab['password']);
+        if (is_null(self::$instance)) {
+            self::$instance = new FestivalRepository(self::$tab);
         }
-        return self::$bd ;
+        return self::$instance;
     }
 
     public function findPartyById(int $id): ?Party{
@@ -51,11 +56,9 @@ class FestivalRepository{
         return $p;
     }
 
-    public static function saveShow(Show $spec, int $idparty): int{
-        $bd = FestivalRepository::makeConnection();
-
+    public function saveShow(Show $spec, int $idparty): int{
         $query = "INSERT into Shows (categorie, title, artist, dateDebut, dateFin) VALUES (?, ?, ?, ?, ?)";
-        $prep = $bd->prepare($query);
+        $prep = $this->bd->prepare($query);
         $cat = $spec->category;
         $tit = $spec->title;
         $art = $spec->artist;
@@ -78,10 +81,9 @@ class FestivalRepository{
         return $lastid;
     }
 
-    public static function delShow(Show $spec){
-        $bd = FestivalRepository::makeConnection();
+    public function delShow(Show $spec){
         $query = "DELETE from Party2Show where idShow = ?";
-        $prep = $bd->prepare($query);
+        $prep = $this->bd->prepare($query);
         $id = $spec->id;
         $prep->bindParam(1,$id);
         $prep->execute();
@@ -90,5 +92,43 @@ class FestivalRepository{
         $prep = $bd->prepare($query);
         $prep->bindParam(1,$id);
         $prep->execute();
+    }
+
+    public function displayShow(string $category, string $date, string $lieu){
+        $query = "SELECT shows.idshow from shows 
+            INNER JOIN party2show on shows.idshow = party2show.idShow
+            INNER JOIN party on party2show.idParty = party.idParty WHERE";
+        if ($category != ""){
+            $query.=" categorie = :category AND";
+        }if ($date != ""){
+            $query.=" DATE(party.dateStart)=STR_TO_DATE(:dateVar,'%Y-%m-%d') AND";
+        }if ($lieu != ""){
+            $query.=" party.location = :lieu";
+        }
+
+        $words = explode( " ", $query );
+        if ($words[count($words)-1] == "AND" || $words[count($words)-1] == "WHERE"){
+            array_splice( $words, -1 );
+        }
+        $query = implode( " ", $words );
+        $prep = $this->bd->prepare($query);
+    
+        if ($category != ""){
+            $prep->bindParam(':category',$category, PDO::PARAM_STR);
+        }if ($date != ""){
+            $prep->bindParam(':dateVar',$date, PDO::PARAM_STR);
+        }if ($lieu != ""){
+            $prep->bindParam(':lieu',$lieu, PDO::PARAM_STR);
+        }
+        
+        $prep->execute();
+        $html = "";
+
+        while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
+            $html .= $row['idshow'];
+            $html .= '<br>';
+        }
+
+        return $html;
     }
 }
