@@ -13,17 +13,22 @@ abstract class AuthnProvider {
         $prep->bindParam(1,$e);
         $bool = $prep->execute();
         $data =$prep->fetch(PDO::FETCH_ASSOC);
-        $hash=$data['pwd'];
-        if (!password_verify($p, $hash) && $bool) throw new \Exception();
-        $query = "select idUser from UserNRV where email = ? ";
-        $prep = $bd->prepare($query);
-        $prep->bindParam(1,$e);
-        $prep->execute();
-        $ide = $prep->fetch(PDO::FETCH_ASSOC)['idUser'];
-        $_SESSION['user']['id']=$ide;
-        $_SESSION['user']['email']=$e;
-        $_SESSION['user']['role']=$data['role'];
-        return "Vous êtes connecté";
+        if (isset($data['email'])){
+            $hash=$data['pwd'] ;
+            if (!password_verify($p, $hash) && $bool) throw new \Exception();
+            $query = "select idUser from UserNRV where email = ? ";
+            $prep = $bd->prepare($query);
+            $prep->bindParam(1,$e);
+            $prep->execute();
+            $ide = $prep->fetch(PDO::FETCH_ASSOC)['idUser'];
+            $_SESSION['user']['id']=$ide;
+            $_SESSION['user']['email']=$e;
+            $_SESSION['user']['role']=$data['role'];
+            return "Vous êtes connecté";
+            }
+        else {
+            return "Aucun compte n'est associé à cette adresse email";
+            }
         }
         catch (\Exception){
             return "Mot de passe Invalide";
