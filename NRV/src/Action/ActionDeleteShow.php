@@ -1,6 +1,6 @@
 <?php
 
-namespace NRV\actopn;
+namespace NRV\acton;
 
 use NRV\Repository\FestivalRepository;
 use NRV\Event\Show;
