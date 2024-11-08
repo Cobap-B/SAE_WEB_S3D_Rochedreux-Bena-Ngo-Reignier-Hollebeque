@@ -7,6 +7,7 @@ class ActionDisplayProgram extends Action {
         return <<<FIN
             <div>Display</div>           
         FIN;
-        
+        if ($this->http_method === 'GET'){
+        }
     }
 }
