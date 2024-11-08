@@ -22,7 +22,7 @@ class ActionAuthentication extends Action{
             $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); 
             $mdp = $_POST['mdp'];
 
-            AuthProvider::authenticate($email,$mdp);
+            AuthnProvider::authenticate($email,$mdp);
 
             $html = "<div>Vous êtes connecté</div>";
         }
