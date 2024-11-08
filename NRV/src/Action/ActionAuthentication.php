@@ -34,7 +34,7 @@ class ActionAuthentication extends Action{
                 </footer>
             </form>
         </div>
-        </html>
+        </html>  
     FIN;
         }
         else{
