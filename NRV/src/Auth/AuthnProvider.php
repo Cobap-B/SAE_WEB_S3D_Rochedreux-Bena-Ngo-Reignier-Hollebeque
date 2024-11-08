@@ -14,7 +14,7 @@ abstract class AuthnProvider {
         $bool = $prep->execute();
         $data =$prep->fetch(PDO::FETCH_ASSOC);
         $hash=$data['pwd'];
-        if (!password_verify($p, $hash) && $bool) throw new Exception();
+        if (!password_verify($p, $hash) && $bool) throw new \Exception();
         $query = "select idUser from UserNRV where email = ? ";
         $prep = $bd->prepare($query);
         $prep->bindParam(1,$e);
@@ -23,11 +23,10 @@ abstract class AuthnProvider {
         $_SESSION['user']['id']=$ide;
         $_SESSION['user']['email']=$e;
         $_SESSION['user']['role']=$data['role'];
-        return true;
+        return "Vous êtes connecté";
         }
-        catch (Exception){
-            echo ("Mot de passe Invalide");
-            return false;
+        catch (\Exception){
+            return "Mot de passe Invalide";
         }
     }
 
