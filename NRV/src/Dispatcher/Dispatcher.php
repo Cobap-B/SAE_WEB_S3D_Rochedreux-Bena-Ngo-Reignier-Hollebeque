@@ -99,7 +99,7 @@ class Dispatcher {
                 break;
             case 'register':
                 $a = new act\ActionRegister();
-                $this->css_action = "register.css";
+                $this->css_action = "page_connexion.css";
                 break;
             case 'modif-show':
                 $a = new act\ActionModifyShow();
