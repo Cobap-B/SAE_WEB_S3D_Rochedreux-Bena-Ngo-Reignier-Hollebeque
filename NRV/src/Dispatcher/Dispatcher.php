@@ -13,11 +13,12 @@ class Dispatcher {
 
     private function renderPage(string $html): void {
         $str = "";
+        $bool = isset($_SESSION['user']);
         if (isset($_SESSION['user']['email'])) {
             $str =  '<li class="nav-item dropdown">
                         <a class="nav-link">Connected</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="?action=disconnect">Disconnection</a></li>
+                                <li><a class="dropdown-item" href="?action=disconnect">Log Out</a></li>
                             </ul>
                       </li> ';
 
@@ -52,23 +53,30 @@ class Dispatcher {
                                         <li><a class="dropdown-item" href="?action=display-program">Program</a></li>
                                     </ul>
                                 </li>
-                                
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link">MODIFY CONTENT</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="?action=modify-party">Party</a></li>
-                                        <li><a class="dropdown-item" href="?action=modify-show">Show</a></li>
-                                    </ul>
-                                </li>
-                                
+        FIN;
+                                if ($bool){
+                                    if ($_SESSION['user']['id'] > 1){
+                                        echo <<<FIN
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link">MODIFY CONTENT</a>
+                                            <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="?action=add-party">Create Party</a></li>
+                                            <li><a class="dropdown-item" href="?action=modif-party">Edit Party</a></li>
+                                            <li><a class="dropdown-item" href="?action=add-show">Create Show</a></li>
+                                            <li><a class="dropdown-item" href="?action=modif-show">Edit Show</a></li>
+                                            <li><a class="dropdown-item" href="?action=cancel-show">Cancel Show</a></li>
+                                            </ul>
+                                        </li>
+                                        FIN;
+                                    }
+                                } 
+                            echo <<<FIN
                             </div>
                             <div class="nav-right">                    
                             $str
                             </div>
                         </ul>
                     </nav>
-                    
-                    
                     
                     <br> 
                     
@@ -94,6 +102,9 @@ class Dispatcher {
             case 'add-show':
                 $a = new act\ActionAddShow();
                 $this->css_action = "add_show.css";
+                break;
+            case 'add-party':
+                $a = new act\ActionAddParty();
                 break;
             case 'authentication':
                 $a = new act\ActionAuthentication();
@@ -126,6 +137,12 @@ class Dispatcher {
             case 'modif-show':
                 $a = new act\ActionModifyShow();
                 $this->css_action = "modif_show.css";
+                break;
+            case 'modif-party':
+                $a = new act\ActionModifyParty();
+                break;
+            case 'disconnect':
+                $a = new act\ActionDisconnect();
                 break;
             default:
                 $a = new act\ActionDefault();
