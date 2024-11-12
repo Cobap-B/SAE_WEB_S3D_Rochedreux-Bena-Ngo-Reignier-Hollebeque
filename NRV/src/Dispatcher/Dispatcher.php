@@ -11,7 +11,9 @@ class Dispatcher {
         $this->css_action = "";
     }
 
+    // Méthode pour rendre la page avec le contenu spécifique
     private function renderPage(string $html): void {
+        // Définition de la structure de la navbar avec le lien pour se déconnecter ou s'authentifier
         $str = "";
         $bool = isset($_SESSION['user']);
         if (isset($_SESSION['user']['email'])) {
@@ -69,7 +71,7 @@ class Dispatcher {
                                         </li>
                                         FIN;
                                     }
-                                } 
+                                }
                             echo <<<FIN
                             </div>
                             <div class="nav-right">                    
@@ -77,6 +79,8 @@ class Dispatcher {
                             </div>
                         </ul>
                     </nav>
+                    
+                    
                     
                     <br> 
                     
