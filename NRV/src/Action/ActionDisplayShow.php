@@ -11,8 +11,12 @@ class ActionDisplayShow extends Action {
 
         $pdo = \NRV\Repository\FestivalRepository::makeConnection();
         if ($this->http_method === 'GET'){
-            $h = $pdo->displayShow("", "", "");
-            $html .= $h;
+            $shows = $pdo->displayShow("", "", "");
+            foreach($shows as $a){
+                $render = new \NRV\Renderer\ShowRenderer($a);
+                $html .= $render->render(2);
+                $html .= "<br><br>";
+            }
         }elseif ($this->http_method === 'POST'){
             
             if (isset($_POST["category"])){$cate = $_POST["category"];}
