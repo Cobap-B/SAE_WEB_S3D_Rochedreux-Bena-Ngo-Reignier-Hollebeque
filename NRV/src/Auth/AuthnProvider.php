@@ -47,7 +47,7 @@ abstract class AuthnProvider {
         // $prep->bindParam(1,$e);
         // $prep->execute();
         // $d = $prep->fetchall(PDO::FETCH_ASSOC);
-        $d = $bd->getPwdRole($e);
+        $d = $bd->getPwd($e);
         // $d sert a voir si l'user est deja inscrit
         if((strlen($p) >= $min)
         &&(sizeof($d)==0)

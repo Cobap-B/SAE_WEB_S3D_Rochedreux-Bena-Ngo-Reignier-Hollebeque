@@ -141,6 +141,15 @@ class FestivalRepository{
         return $data;
     }
 
+    function getPwd(String $e){
+        $query = "select pwd from UserNRV where email = ? ";
+        $prep = $this->bd->prepare($query);
+        $prep->bindParam(1,$e);
+        $prep->execute();
+        $d = $prep->fetchall(PDO::FETCH_ASSOC);
+        return $d;
+    }
+
     function getIdUser(String $e){
         $query = "select idUser from UserNRV where email = ? ";
         $prep = $this->bd->prepare($query);
