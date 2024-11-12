@@ -46,6 +46,8 @@ class Dispatcher {
                                     <a class="nav-link">DISPLAY</a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="?action=display-show">Shows</a></li>
+                                        <li><a class="dropdown-item" href="?action=display-party">Partys</a></li>
+
                                         <li><a class="dropdown-item" href="?action=display-favorite">Favorites</a></li>
                                         <li><a class="dropdown-item" href="?action=display-program">Program</a></li>
                                     </ul>
@@ -70,7 +72,7 @@ class Dispatcher {
                     
                     <br> 
                     
-                     <div class="main-content">
+                    <div class="main-content">
                         $html
                     </div>                   
                     
@@ -106,8 +108,8 @@ class Dispatcher {
                 $this->css_action = "display_show.css";
                 break;
             case 'display-party':
-                $a = new act\ActionDisplayShow();
-                $this->css_action = "display_show.css";
+                $a = new act\ActionDisplayParty();
+                $this->css_action = "display_party.css";
                 break;
             case 'display-favorite':
                 $a = new act\ActionDisplayFavorite();

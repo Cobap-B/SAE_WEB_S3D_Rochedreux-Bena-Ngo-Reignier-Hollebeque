@@ -5,7 +5,7 @@ namespace NRV\Renderer;
 use NRV\Event\FavoriteList;
 use NRV\Event\Show;
 
-class FavoriteListRenderer implements Render {
+class FavoriteListRenderer implements Renderer {
 
     private FavoriteList $favoriteList;
 

@@ -4,7 +4,7 @@ namespace NRV\Event;
 class Show extends Event{
 
     private string $category;
-    private string $artist;
+    protected string $artist;
     private string $description;
     private string $audioPath;
     private string $imgPath;
@@ -28,18 +28,17 @@ class Show extends Event{
             $this->description,
             $this->dateDebut->format('Y-m-d H:i'),
             $this->dateFin->format('Y-m-d H:i'),
-            $this->getDuration()->format("H:i")
+            $this->getDuration()->format('%H:%i')
         );
-
-             $res .= <<<FIN
+        $res .= <<<FIN
         <!DOCTYPE html>
         <html lang="fr">    
             <body>
-                <img src="./NRV/Ressources/Images/$this->imgPath" alt="">
+                <img src="Ressources/Images/$this->imgPath" alt="">
                 
                 <figure>
                     <figcaption>Listen an extract</figcaption>
-                    <audio controls src="/media/cc0-audio/$this->audiopath"></audio>
+                    <audio controls src="Ressources/Audios/$this->audioPath"></audio>
                 </figure>
                 
             </body>
