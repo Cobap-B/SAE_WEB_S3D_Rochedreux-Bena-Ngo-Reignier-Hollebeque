@@ -17,7 +17,7 @@ class Dispatcher {
             $str =  '<li class="nav-item dropdown">
                         <a class="nav-link">Connected</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="?action=disconnect">Disconnection</a></li>
+                                <li><a class="dropdown-item" href="?action=disconnect">Log Out</a></li>
                             </ul>
                       </li> ';
 
@@ -115,6 +115,9 @@ class Dispatcher {
                 break;
             case 'modif-show':
                 $a = new act\ActionModifyShow();
+                break;
+            case 'disconnect':
+                $a = new act\ActionDisconnect();
                 break;
             default:
                 $a = new act\ActionDefault();
