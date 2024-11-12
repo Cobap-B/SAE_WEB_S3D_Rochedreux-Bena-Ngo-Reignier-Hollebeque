@@ -1,18 +1,6 @@
-html, body {
+body {
     margin: 0;
     padding-top: 20px;
-    background-size: cover;
-    background-position: center center;
-    background-attachment: fixed;
-    background-color: #f9fbff;
-}
-
-/* contenu principal de la page, pas la navbar*/
-.main-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
 }
 
 nav {

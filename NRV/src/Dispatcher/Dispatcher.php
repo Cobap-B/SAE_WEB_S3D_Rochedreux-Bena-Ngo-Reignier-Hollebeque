@@ -11,7 +11,9 @@ class Dispatcher {
         $this->css_action = "";
     }
 
+    // Méthode pour rendre la page avec le contenu spécifique
     private function renderPage(string $html): void {
+        // Définition de la structure de la navbar avec le lien pour se déconnecter ou s'authentifier
         $str = "";
         if (isset($_SESSION['user']['email'])) {
             $str =  '<li class="nav-item dropdown">
@@ -20,39 +22,39 @@ class Dispatcher {
                                 <li><a class="dropdown-item" href="?action=disconnect">Disconnection</a></li>
                             </ul>
                       </li> ';
-
-        }
-        else{
+        } else {
             $str = '<li class="nav-item"><a class="nav-link" href="?action=authentication">Authentication</a></li>';
         }
+
         echo <<<FIN
         <!DOCTYPE html>
         <html lang="fr">
             <head>
                 <meta charset="UTF-8">
                 <title>Festival NRV</title>
+                <!-- Lien vers le CSS commun -->
                 <link rel="stylesheet" href="./css/rendupage.css">
+                <!-- Lien vers le CSS spécifique à l'action -->
                 <link rel="stylesheet" href="./css/{$this->css_action}">
                 <link rel="icon" href="Ressources/Images/pipotam_le_vrai.png" type="image/png">
             </head>
             <body>
-                <div class="container"> 
+                <!-- Conteneur global de la page -->
+                <div class="container">
+                    <!-- Navbar partagée -->
                     <nav>
                         <ul class="nav">
                             <div class="nav-left">
                                 <li class="nav-item"><a class="nav-link" href="?action=default">HOME</a></li>
-                                
                                 <li class="nav-item dropdown">
                                     <a class="nav-link">DISPLAY</a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="?action=display-show">Shows</a></li>
                                         <li><a class="dropdown-item" href="?action=display-party">Partys</a></li>
-
                                         <li><a class="dropdown-item" href="?action=display-favorite">Favorites</a></li>
                                         <li><a class="dropdown-item" href="?action=display-program">Program</a></li>
                                     </ul>
                                 </li>
-                                
                                 <li class="nav-item dropdown">
                                     <a class="nav-link">MODIFY CONTENT</a>
                                     <ul class="dropdown-menu">
@@ -60,32 +62,29 @@ class Dispatcher {
                                         <li><a class="dropdown-item" href="?action=modify-show">Show</a></li>
                                     </ul>
                                 </li>
-                                
                             </div>
-                            <div class="nav-right">                    
-                            $str
+                            <div class="nav-right">
+                                $str
                             </div>
                         </ul>
                     </nav>
-                    
-                    
-                    
+
                     <br> 
-                    
-                    <div class="main-content">
-                        $html
-                    </div>                   
-                    
+
+                    <!-- Contenu spécifique de la page -->
+                    $html
+
                 </div>
             </body>
         </html>
     FIN;
     }
 
-    public function run() {
+    // Méthode principale qui exécute l'action demandée
+    public function run(): void {
         $a = null;
 
-        // Choix de l'action et de la feuille CSS
+        // Choix de l'action et du CSS en fonction de l'URL
         switch ($this->action) {
             case 'favorite':
                 $a = new act\ActionAddFavorite();
@@ -129,9 +128,11 @@ class Dispatcher {
                 break;
             default:
                 $a = new act\ActionDefault();
+                $this->css_action = "default.css";
                 break;
         }
 
         $this->renderPage($a->execute());
     }
 }
+
