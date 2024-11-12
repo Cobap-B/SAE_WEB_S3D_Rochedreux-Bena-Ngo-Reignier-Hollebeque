@@ -2,7 +2,6 @@
 
 namespace NRV\Event;
 
-use NRV\Exception\InvalidPropertyNameExcepetion;
 
 class Festival extends Event{
 
@@ -13,5 +12,19 @@ class Festival extends Event{
         $this->partys = $partys;
     }
 
+
+    public function __toString(): string {
+        // Crée une chaîne de caractères pour chaque Party dans le tableau
+        $partysList = array_map(fn($party) => (string)$party, $this->partys);
+        $partysString = implode("\n\n", $partysList);
+
+        return sprintf(
+            "Festival :\nNom: %s\nDate début: %s\nDate fin: %s\nPartys:\n%s",
+            $this->name,
+            $this->dateDebut,
+            $this->dateFin,
+            $partysString
+        );
+    }
     
 }

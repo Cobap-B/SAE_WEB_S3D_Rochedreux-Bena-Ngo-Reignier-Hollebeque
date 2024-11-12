@@ -95,7 +95,7 @@ class FestivalRepository{
     }
 
     public function displayShow(string $category, string $date, string $lieu){
-        $query = "SELECT shows.idshow from shows 
+        $query = "SELECT shows.idshow, shows.categorie, shows.title, shows.artist, shows.dateStart, shows.dateEnd, shows.imageName, shows.audioName from shows 
             INNER JOIN party2show on shows.idshow = party2show.idShow
             INNER JOIN party on party2show.idParty = party.idParty WHERE";
         if ($category != ""){
@@ -122,6 +122,37 @@ class FestivalRepository{
         }
         
         $prep->execute();
+        $shows = [];
+
+        while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
+           $show = new \NRV\Event\Show($row['idshow'], $row['categorie'], $row['title'], $row['dateStart'], $row['dateEnd'], $row['artist'], "",  $row['imageName'], $row['audioName']);
+           array_push($shows, $show);
+        }
+        
+        return $shows;
+    }
+
+
+    public function displayParty(){
+        $query = "SELECT * from party";
+
+        $prep = $this->bd->prepare($query);
+        $prep->execute();
+        $html = "";
+
+        while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
+            $html .= $row['idParty'];
+            $html .= '<br>';
+        }
+
+        return $html;
+    }
+
+    public function displayFavorite(string $id){
+        $query = "SELECT idUser, idShow FROM favorite WHERE id = :id";
+        $prep = $this->bd->prepare($query);
+        $prep->bindParam(':id', $id);
+        $prep->execute();
         $html = "";
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
@@ -130,5 +161,42 @@ class FestivalRepository{
         }
 
         return $html;
+    }
+
+    function getPwdRole(String $e){
+        $query = "select email, pwd, role from UserNRV where email = ? ";
+        $prep = $this->bd->prepare($query);
+        $prep->bindParam(1,$e);
+        $bool = $prep->execute();
+        $data =$prep->fetch(PDO::FETCH_ASSOC);
+        return $data;
+    }
+
+    function getPwd(String $e){
+        $query = "select pwd from UserNRV where email = ? ";
+        $prep = $this->bd->prepare($query);
+        $prep->bindParam(1,$e);
+        $prep->execute();
+        $d = $prep->fetchall(PDO::FETCH_ASSOC);
+        return $d;
+    }
+
+    function getIdUser(String $e){
+        $query = "select idUser from UserNRV where email = ? ";
+        $prep = $this->bd->prepare($query);
+        $prep->bindParam(1,$e);
+        $prep->execute();
+        $ide = $prep->fetch(PDO::FETCH_ASSOC)['idUser'];
+        return $ide;
+    }
+
+    function insertUser(String $e, String $p, String $r){
+        $insert = "INSERT into UserNRV (email, pwd, role) values(?,?,?)";
+        $prep = $this->bd->prepare($insert);
+        $prep->bindParam(1,$e);
+        $prep->bindParam(2,$p);
+        $prep->bindParam(3,$r);
+        $bool = $prep->execute();
+        return $bool;
     }
 }

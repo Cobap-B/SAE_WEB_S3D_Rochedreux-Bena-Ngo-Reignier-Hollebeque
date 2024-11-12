@@ -4,7 +4,7 @@ namespace NRV\Renderer;
 
 use NRV\Event\Festival;
 
-class FestivalRenderer implements Render {
+class FestivalRenderer implements Renderer {
 
     private Festival $festival;
 

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace NRV\Renderer;
 
-interface Render{
+interface Renderer{
 
     const COMPACT = 1;
     const LONG = 2;

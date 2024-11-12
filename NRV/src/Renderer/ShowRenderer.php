@@ -5,7 +5,7 @@ namespace NRV\Renderer;
 use NRV\Event\Show;
 
 
-class ShowRenderer implements Render {
+class ShowRenderer implements Renderer {
 
     private Show $show;
 
@@ -28,9 +28,10 @@ class ShowRenderer implements Render {
     public function renderCompact(): string {
         return sprintf(
             "Show: %s by %s (%d min)",
-            $this->show->title,
+            $this->show->name,
             $this->show->artist,
-            $this->show->duration
+            $this->show->dateDebut->format('Y-m-d H:i'),
+
         );
     }
 
