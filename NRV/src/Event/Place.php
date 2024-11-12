@@ -5,20 +5,20 @@ namespace NRV\Event;
 
 class Place{
 
-    private int $id;
-    private string $name;
-    private string $adresse;
-    private int $nbDebout;
-    private int $nbAssis;
-    private string $img;
+    protected int $id;
+    protected string $name;
+    protected string $adresse;
+    protected int $nbDebout;
+    protected int $nbAssis;
+    protected string $img;
 
 
-    public function __construct(int $id, string $name, string $adresse, int $nbDebout, int $nbAssis, string $img){
+    public function __construct(int $id, string $name, string $adresse, int $nbAssis, int $nbDebout, string $img){
         $this->id = $id;
         $this->name = $name;
         $this->adresse = $adresse;
-        $this->nbDebout = $nbDebout;
         $this->nbAssis = $nbAssis;
+        $this->nbDebout = $nbDebout;
         $this->img = $img;
     }
 
@@ -30,19 +30,16 @@ class Place{
 
     public function __toString(): string {
         $res = sprintf(
-            "Place:\nNom: %s\nAdresse: %s\nCapacité Standing place : %d\nSeat : %d\nImage: %s",
+            "Place:\nNom: %s\nAdresse: %s\nCapacité Standing place : %d\nSeat : %d\n",
             $this->name,
             $this->adresse,
             $this->nbDebout,
-            $this->nbAssis,
+            $this->nbAssis
         );
         return $res .= <<<FIN
-        <!DOCTYPE html>
-        <html lang="fr">    
             <body>
                 <img src="./NRV/Ressources/Images/$this->img" alt="">
             </body>
-        </html>
-    FIN;
+        FIN;
     }
 }

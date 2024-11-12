@@ -80,7 +80,7 @@ class Dispatcher {
                     
                     <br> 
                     
-                     <div class="main-content">
+                    <div class="main-content">
                         $html
                     </div>                   
                     

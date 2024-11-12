@@ -24,8 +24,12 @@ class ActionDisplayShow extends Action {
             if (isset($_POST["lieu"])){$lieu = $_POST["lieu"];}
         
 
-            $h = $pdo->displayShow($cate, $date, $lieu);
-            $html .= $h;
+            $shows = $pdo->displayShow($cate, $date, $lieu);
+            foreach($shows as $a){
+                $render = new \NRV\Renderer\ShowRenderer($a);
+                $html .= $render->render(2);
+                $html .= "<br><br>";
+            }
         }
         $html .= <<<FIN
             <hr>
