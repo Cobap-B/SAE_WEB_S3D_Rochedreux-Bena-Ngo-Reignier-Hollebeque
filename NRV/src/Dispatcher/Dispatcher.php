@@ -17,7 +17,7 @@ class Dispatcher {
             $str =  '<li class="nav-item dropdown">
                         <a class="nav-link">Connected</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="?action=disconnect">Log Out</a></li>
+                                <li><a class="dropdown-item" href="?action=disconnect">Disconnection</a></li>
                             </ul>
                       </li> ';
 
@@ -87,27 +87,35 @@ class Dispatcher {
         switch ($this->action) {
             case 'favorite':
                 $a = new act\ActionAddFavorite();
+                $this->css_action = "favorite.css";
                 break;
             case 'add-show':
                 $a = new act\ActionAddShow();
+                $this->css_action = "add_show.css";
                 break;
             case 'authentication':
                 $a = new act\ActionAuthentication();
+                $this->css_action = "page_connexion.css";
                 break;
             case 'del-show':
                 $a = new act\ActionDeleteShow();
+                $this->css_action = "del_show.css";
                 break;
             case 'display-show':
                 $a = new act\ActionDisplayShow();
+                $this->css_action = "display_show.css";
                 break;
             case 'display-party':
-                $a = new act\ActionDisplayParty();
+                $a = new act\ActionDisplayShow();
+                $this->css_action = "display_party.css";
                 break;
             case 'display-favorite':
                 $a = new act\ActionDisplayFavorite();
+                $this->css_action = "display_favorite.css";
                 break;
             case 'display-program':
                 $a = new act\ActionDisplayProgram();
+                $this->css_action = "display_program.css";
                 break;
             case 'register':
                 $a = new act\ActionRegister();
@@ -115,9 +123,7 @@ class Dispatcher {
                 break;
             case 'modif-show':
                 $a = new act\ActionModifyShow();
-                break;
-            case 'disconnect':
-                $a = new act\ActionDisconnect();
+                $this->css_action = "modif_show.css";
                 break;
             default:
                 $a = new act\ActionDefault();
