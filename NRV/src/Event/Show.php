@@ -4,7 +4,7 @@ namespace NRV\Event;
 class Show extends Event{
 
     private string $category;
-    private string $artist;
+    protected string $artist;
     private string $description;
     private string $audioPath;
     private string $imgPath;
@@ -39,7 +39,7 @@ class Show extends Event{
                 
                 <figure>
                     <figcaption>Listen an extract</figcaption>
-                    <audio controls src="/media/cc0-audio/$this->audiopath"></audio>
+                    <audio controls src="/media/cc0-audio/$this->audioPath"></audio>
                 </figure>
                 
             </body>

@@ -95,7 +95,7 @@ class FestivalRepository{
     }
 
     public function displayShow(string $category, string $date, string $lieu){
-        $query = "SELECT shows.idshow from shows 
+        $query = "SELECT shows.idshow, shows.categorie, shows.title, shows.artist, shows.dateStart, shows.dateEnd, shows.imageName, shows.audioName from shows 
             INNER JOIN party2show on shows.idshow = party2show.idShow
             INNER JOIN party on party2show.idParty = party.idParty WHERE";
         if ($category != ""){
@@ -122,14 +122,14 @@ class FestivalRepository{
         }
         
         $prep->execute();
-        $html = "";
+        $shows = [];
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
-            $html .= $row['idshow'];
-            $html .= '<br>';
+           $show = new \NRV\Event\Show($row['idshow'], $row['categorie'], $row['title'], $row['dateStart'], $row['dateEnd'], $row['artist'], "",  $row['imageName'], $row['audioName']);
+           array_push($shows, $show);
         }
-
-        return $html;
+        
+        return $shows;
     }
 
     function getPwdRole(String $e){

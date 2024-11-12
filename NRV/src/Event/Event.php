@@ -11,8 +11,8 @@ abstract class Event{
     public function __construct(int $id, string $name, string $dateDebut, string $dateFin){
         $this->id = $id;
         $this->name = $name;
-        $this->dateDebut = \DateTime::createFromFormat('Y m d H:i',$dateDebut);
-        $this->dateFin = \DateTime::createFromFormat('Y m d H:i',$dateFin);
+        $this->dateDebut = \DateTime::createFromFormat('Y-m-d H:i:s',$dateDebut);
+        $this->dateFin = \DateTime::createFromFormat('Y-m-d H:i:s',$dateFin);
     }
 
     public function  __get(string $at):mixed{

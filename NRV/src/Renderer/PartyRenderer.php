@@ -4,7 +4,7 @@ namespace NRV\Renderer;
 
 use NRV\Event\Party;
 
-class PartyRenderer implements Render {
+class PartyRenderer implements Renderer {
 
     private Party $party;
 

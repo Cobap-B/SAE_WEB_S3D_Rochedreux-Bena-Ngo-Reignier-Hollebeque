@@ -5,7 +5,7 @@ namespace NRV\Renderer;
 
 use NRV\Event\Place;
 
-class PlaceRenderer implements Render {
+class PlaceRenderer implements Renderer {
 
     private Place $place;
 
