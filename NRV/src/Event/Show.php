@@ -30,16 +30,15 @@ class Show extends Event{
             $this->dateFin->format('Y-m-d H:i'),
             $this->getDuration()->format("H:i")
         );
-
-             $res .= <<<FIN
+        $res .= <<<FIN
         <!DOCTYPE html>
         <html lang="fr">    
             <body>
-                <img src="./NRV/Ressources/Images/$this->imgPath" alt="">
+                <img src="Ressources/Images/$this->imgPath" alt="">
                 
                 <figure>
                     <figcaption>Listen an extract</figcaption>
-                    <audio controls src="/media/cc0-audio/$this->audioPath"></audio>
+                    <audio controls src="Ressources/Audios/$this->audioPath"></audio>
                 </figure>
                 
             </body>
