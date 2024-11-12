@@ -19,7 +19,7 @@ class Dispatcher {
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="?action=disconnect">Disconnection</a></li>
                             </ul>
-                      </li>';
+                      </li> ';
 
         }
         else{
