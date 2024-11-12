@@ -33,9 +33,10 @@ class Dispatcher {
         <html lang="fr">
             <head>
                 <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Festival NRV</title>
-                <link rel="stylesheet" href="./css/rendupage.css">
-                <link rel="stylesheet" href="./css/{$this->css_action}">
+                <link rel="stylesheet" href="./CSS/rendupage.css">
+                <link rel="stylesheet" href="./CSS/{$this->css_action}">
                 <link rel="icon" href="Ressources/Images/pipotam_le_vrai.png" type="image/png">
             </head>
             <body>

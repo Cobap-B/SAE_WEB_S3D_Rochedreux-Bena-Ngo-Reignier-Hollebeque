@@ -3,6 +3,14 @@ body {
     padding-top: 20px;
 }
 
+img{
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+}
+
 nav {
     background-color: #1c2942;
     padding: 10px 0;
@@ -51,6 +59,7 @@ nav {
 .dropdown-menu {
     display: none;
     position: absolute;
+    z-index: 1001;
     top: 150%;
     left: 0;
     background-color: #3b556d;
@@ -78,6 +87,10 @@ nav {
 
 
 @media (max-width: 768px) {
+    body{
+        margin: 0;
+        padding-top: 120px;
+    }
     .nav {
         flex-direction: column;
         align-items: center;

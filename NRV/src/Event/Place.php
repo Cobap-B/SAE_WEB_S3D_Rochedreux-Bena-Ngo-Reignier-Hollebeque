@@ -37,9 +37,8 @@ class Place{
             $this->nbAssis
         );
         return $res .= <<<FIN
-            <body>
-                <img src="./NRV/Ressources/Images/$this->img" alt="">
-            </body>
+            <br>
+            <img src="./NRV/Ressources/Images/$this->img" alt="">
         FIN;
     }
 }

@@ -31,16 +31,10 @@ class Show extends Event{
             $this->getDuration()->format('%H:%i')
         );
         $res .= <<<FIN
-        
-            <body>
-                <img src="Ressources/Images/$this->imgPath" alt="">
-                
-                <figure>
-                    <figcaption>Listen an extract</figcaption>
-                    <audio controls src="Ressources/Audios/$this->audioPath"></audio>
-                </figure>
-                
-            </body>
+            <br>
+            <img src="Ressources/Images/$this->imgPath" alt="">
+            <br>
+            <audio controls src="Ressources/Audios/$this->audioPath"></audio>
         FIN;
 
         return $res;
