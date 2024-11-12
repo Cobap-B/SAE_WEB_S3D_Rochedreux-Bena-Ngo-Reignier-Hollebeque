@@ -105,6 +105,10 @@ class Dispatcher {
                 $a = new act\ActionDisplayShow();
                 $this->css_action = "display_show.css";
                 break;
+            case 'display-party':
+                $a = new act\ActionDisplayShow();
+                $this->css_action = "display_party.css";
+                break;
             case 'display-favorite':
                 $a = new act\ActionDisplayFavorite();
                 $this->css_action = "display_favorite.css";
