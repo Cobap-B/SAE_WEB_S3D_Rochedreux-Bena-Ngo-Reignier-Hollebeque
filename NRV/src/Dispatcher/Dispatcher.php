@@ -11,13 +11,16 @@ class Dispatcher {
         $this->css_action = "";
     }
 
+    // Méthode pour rendre la page avec le contenu spécifique
     private function renderPage(string $html): void {
+        // Définition de la structure de la navbar avec le lien pour se déconnecter ou s'authentifier
         $str = "";
+        $bool = isset($_SESSION['user']);
         if (isset($_SESSION['user']['email'])) {
             $str =  '<li class="nav-item dropdown">
                         <a class="nav-link">Connected</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="?action=disconnect">Disconnection</a></li>
+                                <li><a class="dropdown-item" href="?action=disconnect">Log Out</a></li>
                             </ul>
                       </li> ';
 
@@ -30,9 +33,10 @@ class Dispatcher {
         <html lang="fr">
             <head>
                 <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Festival NRV</title>
-                <link rel="stylesheet" href="./css/rendupage.css">
-                <link rel="stylesheet" href="./css/{$this->css_action}">
+                <link rel="stylesheet" href="./CSS/rendupage.css">
+                <link rel="stylesheet" href="./CSS/{$this->css_action}">
                 <link rel="icon" href="Ressources/Images/pipotam_le_vrai.png" type="image/png">
             </head>
             <body>
@@ -52,15 +56,24 @@ class Dispatcher {
                                         <li><a class="dropdown-item" href="?action=display-program">Program</a></li>
                                     </ul>
                                 </li>
-                                
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link">MODIFY CONTENT</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="?action=modify-party">Party</a></li>
-                                        <li><a class="dropdown-item" href="?action=modify-show">Show</a></li>
-                                    </ul>
-                                </li>
-                                
+        FIN;
+                                if ($bool){
+                                    if ($_SESSION['user']['id'] > 1){
+                                        echo <<<FIN
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link">MODIFY CONTENT</a>
+                                            <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="?action=add-party">Create Party</a></li>
+                                            <li><a class="dropdown-item" href="?action=modif-party">Edit Party</a></li>
+                                            <li><a class="dropdown-item" href="?action=add-show">Create Show</a></li>
+                                            <li><a class="dropdown-item" href="?action=modif-show">Edit Show</a></li>
+                                            <li><a class="dropdown-item" href="?action=cancel-show">Cancel Show</a></li>
+                                            </ul>
+                                        </li>
+                                        FIN;
+                                    }
+                                }
+                            echo <<<FIN
                             </div>
                             <div class="nav-right">                    
                             $str
@@ -72,7 +85,7 @@ class Dispatcher {
                     
                     <br> 
                     
-                     <div class="main-content">
+                    <div class="main-content">
                         $html
                     </div>                   
                     
@@ -94,6 +107,9 @@ class Dispatcher {
             case 'add-show':
                 $a = new act\ActionAddShow();
                 $this->css_action = "add_show.css";
+                break;
+            case 'add-party':
+                $a = new act\ActionAddParty();
                 break;
             case 'authentication':
                 $a = new act\ActionAuthentication();
@@ -127,8 +143,15 @@ class Dispatcher {
                 $a = new act\ActionModifyShow();
                 $this->css_action = "modif_show.css";
                 break;
+            case 'modif-party':
+                $a = new act\ActionModifyParty();
+                break;
+            case 'disconnect':
+                $a = new act\ActionDisconnect();
+                break;
             default:
                 $a = new act\ActionDefault();
+                $this->css_action = "default.css";
                 break;
         }
 

@@ -46,6 +46,7 @@ class ActionRegister extends Action {
             
         </head>
         <body>
+            <div class="login-wrapper">
             <div class="login-container">
                 <h2>Créer un compte</h2>
                 <div class=" error">
@@ -70,6 +71,7 @@ class ActionRegister extends Action {
                         <a class="dropdown-item" href="?action=authentication">Se connecter</a>
                     </footer>
                 </form>
+            </div>
             </div>
         </body>
         </html>

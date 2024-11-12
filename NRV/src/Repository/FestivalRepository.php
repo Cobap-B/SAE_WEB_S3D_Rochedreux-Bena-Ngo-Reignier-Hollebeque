@@ -116,7 +116,7 @@ class FestivalRepository{
         }
         $query = implode( " ", $words );
         $prep = $this->bd->prepare($query);
-    
+
         if ($category != ""){
             $prep->bindParam(':category',$category, PDO::PARAM_STR);
         }if ($date != ""){
@@ -124,7 +124,7 @@ class FestivalRepository{
         }if ($lieu != ""){
             $prep->bindParam(':lieu',$lieu, PDO::PARAM_STR);
         }
-        
+
         $prep->execute();
         $shows = [];
 
@@ -137,30 +137,38 @@ class FestivalRepository{
     }
 
 
-    public function displayParty(){
-        $query = "SELECT * from party";
+    public function displayParty(): array
+    {
+        $query = "
+        SELECT *
+        FROM party p
+        INNER JOIN location l ON p.idLocation = l.idLocation
+        ";
 
         $prep = $this->bd->prepare($query);
         $prep->execute();
-        $html = "";
+        $array = [];
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
-            $html .= $row['idParty'];
-            $html .= '<br>';
+            $place = new \NRV\Event\Place($row['idLocation'], $row['locaName'], $row['address'], $row['nbPlacesAss'], $row['nbPlacesDeb'],$row['imagePath']);
+            $party = new \NRV\Event\Party($row['idParty'], $row['partyName'], $row['dateStart'], $row['dateEnd'], $place , $row['pricing']);
+
+            array_push($array, $party);
         }
 
-        return $html;
+        return $array;
+
     }
 
     public function displayFavorite(string $id){
-        $query = "SELECT idUser, idShow FROM favorite WHERE id = :id";
+        $query = "SELECT idUser, idShow FROM favorite f WHERE f.idUser = :id";
         $prep = $this->bd->prepare($query);
         $prep->bindParam(':id', $id);
         $prep->execute();
         $html = "";
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
-            $html .= $row['idshow'];
+            $html .= $row['idUser'];
             $html .= '<br>';
         }
 
@@ -202,6 +210,27 @@ class FestivalRepository{
         $prep->bindParam(3,$r);
         $bool = $prep->execute();
         return $bool;
+    }
+
+    function insertPartyToShow(String $idp, String $ids){
+        try {
+            $insert = "INSERT into Party2Show (idParty, idShow) values(?,?)";
+            $prep = $this->bd->prepare($insert);
+            $prep->bindParam(1,$idp);
+            $prep->bindParam(2,$ids);
+            $bool = $prep->execute();
+            return "Ajouté avec succès";
+        }
+        catch(\PDOException $e){
+            $code = $e->getCode();
+            if($code == 23000){
+                return "Ce spectacle est déjà associé à cette soirée";
+            }
+            else {
+                return "Erreur de l'association";
+            }
+        }
+        
     }
 
     function getPlace(int $idPlace){
