@@ -3,11 +3,11 @@ namespace NRV\Event;
 
 class Show extends Event{
 
-    private string $category;
+    protected string $category;
     protected string $artist;
-    private string $description;
-    private string $audioPath;
-    private string $imgPath;
+    protected string $description;
+    protected string $audioPath;
+    protected string $imgPath;
 
     public function __construct(string $id, string $category, string $name, string $dateDebut, string $dateFin, string $artist, string $description, string $fileName, string $imgName){
         parent::__construct($id, $name, $dateDebut, $dateFin);
@@ -31,8 +31,7 @@ class Show extends Event{
             $this->getDuration()->format('%H:%i')
         );
         $res .= <<<FIN
-        <!DOCTYPE html>
-        <html lang="fr">    
+        
             <body>
                 <img src="Ressources/Images/$this->imgPath" alt="">
                 
@@ -42,7 +41,6 @@ class Show extends Event{
                 </figure>
                 
             </body>
-        </html>
         FIN;
 
         return $res;
