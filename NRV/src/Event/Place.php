@@ -13,12 +13,12 @@ class Place{
     private string $img;
 
 
-    public function __construct(int $id, string $name, string $adresse, int $nbDebout, int $nbAssis, string $img){
+    public function __construct(int $id, string $name, string $adresse, int $nbAssis, int $nbDebout, string $img){
         $this->id = $id;
         $this->name = $name;
         $this->adresse = $adresse;
-        $this->nbDebout = $nbDebout;
         $this->nbAssis = $nbAssis;
+        $this->nbDebout = $nbDebout;
         $this->img = $img;
     }
 
