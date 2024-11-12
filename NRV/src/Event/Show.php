@@ -28,7 +28,7 @@ class Show extends Event{
             $this->description,
             $this->dateDebut->format('Y-m-d H:i'),
             $this->dateFin->format('Y-m-d H:i'),
-            $this->getDuration()->format("H:i")
+            $this->getDuration()->format('%H:%i')
         );
         $res .= <<<FIN
         <!DOCTYPE html>
