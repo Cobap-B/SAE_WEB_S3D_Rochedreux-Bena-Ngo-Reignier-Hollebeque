@@ -133,19 +133,27 @@ class FestivalRepository{
     }
 
 
-    public function displayParty(){
-        $query = "SELECT * from party";
+    public function displayParty(): array
+    {
+        $query = "
+        SELECT *
+        FROM party p
+        INNER JOIN location l ON p.idLocation = l.idLocation
+        ";
 
         $prep = $this->bd->prepare($query);
         $prep->execute();
-        $html = "";
+        $array = [];
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
-            $html .= $row['idParty'];
-            $html .= '<br>';
+            $place = new \NRV\Event\Place($row['idLocation'], $row['locaName'], $row['address'], $row['nbPlacesAss'], $row['nbPlacesDeb'],$row['imagePath']);
+            $party = new \NRV\Event\Party($row['idParty'], $row['partyName'], $row['dateStart'], $row['dateEnd'], $place , $row['pricing']);
+
+            array_push($array, $party);
         }
 
-        return $html;
+        return $array;
+
     }
 
     public function displayFavorite(string $id){
