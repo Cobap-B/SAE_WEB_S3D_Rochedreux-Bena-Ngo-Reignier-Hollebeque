@@ -8,19 +8,21 @@ abstract class AuthnProvider {
     public static function authenticate(string $e, string $p){
         try {
         $bd = FestivalRepository::makeConnection();
-        $query = "select pwd, role from UserNRV where email = ? ";
-        $prep = $bd->prepare($query);
-        $prep->bindParam(1,$e);
-        $bool = $prep->execute();
-        $data =$prep->fetch(PDO::FETCH_ASSOC);
+        // $query = "select email, pwd, role from UserNRV where email = ? ";
+        // $prep = $bd->prepare($query);
+        // $prep->bindParam(1,$e);
+        // $bool = $prep->execute();
+        // $data =$prep->fetch(PDO::FETCH_ASSOC);
+        $data = $bd->getPwdRole($e);
         if (isset($data['email'])){
             $hash=$data['pwd'] ;
-            if (!password_verify($p, $hash) && $bool) throw new \Exception();
-            $query = "select idUser from UserNRV where email = ? ";
-            $prep = $bd->prepare($query);
-            $prep->bindParam(1,$e);
-            $prep->execute();
-            $ide = $prep->fetch(PDO::FETCH_ASSOC)['idUser'];
+            if (!password_verify($p, $hash)) throw new \Exception();
+            // $query = "select idUser from UserNRV where email = ? ";
+            // $prep = $bd->prepare($query);
+            // $prep->bindParam(1,$e);
+            // $prep->execute();
+            // $ide = $prep->fetch(PDO::FETCH_ASSOC)['idUser'];
+            $ide = $bd->getIdUser($e);
             $_SESSION['user']['id']=$ide;
             $_SESSION['user']['email']=$e;
             $_SESSION['user']['role']=$data['role'];
@@ -40,11 +42,12 @@ abstract class AuthnProvider {
         $min = 10;
 
         $bd = FestivalRepository::makeConnection();
-        $query = "select pwd from UserNRV where email = ? ";
-        $prep = $bd->prepare($query);
-        $prep->bindParam(1,$e);
-        $prep->execute();
-        $d = $prep->fetchall(PDO::FETCH_ASSOC);
+        // $query = "select pwd from UserNRV where email = ? ";
+        // $prep = $bd->prepare($query);
+        // $prep->bindParam(1,$e);
+        // $prep->execute();
+        // $d = $prep->fetchall(PDO::FETCH_ASSOC);
+        $d = $bd->getPwd($e);
         // $d sert a voir si l'user est deja inscrit
         if((strlen($p) >= $min)
         &&(sizeof($d)==0)
@@ -55,12 +58,13 @@ abstract class AuthnProvider {
 
             $hash = password_hash($p, PASSWORD_DEFAULT,['cost'=>10]);
             
-            $insert = "INSERT into UserNRV (email, pwd, role) values(?,?,?)";
-            $prep = $bd->prepare($insert);
-            $prep->bindParam(1,$e);
-            $prep->bindParam(2,$hash);
-            $prep->bindParam(3,$role);
-            $bool = $prep->execute();
+            // $insert = "INSERT into UserNRV (email, pwd, role) values(?,?,?)";
+            // $prep = $bd->prepare($insert);
+            // $prep->bindParam(1,$e);
+            // $prep->bindParam(2,$hash);
+            // $prep->bindParam(3,$role);
+            // $bool = $prep->execute();
+            $bool = $bd->insertUser($e, $hash, $role);
             if($bool){
                 $res = "Inscription réalisée avec succès";
             }
