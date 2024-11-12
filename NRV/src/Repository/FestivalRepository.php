@@ -112,7 +112,7 @@ class FestivalRepository{
         }
         $query = implode( " ", $words );
         $prep = $this->bd->prepare($query);
-    
+
         if ($category != ""){
             $prep->bindParam(':category',$category, PDO::PARAM_STR);
         }if ($date != ""){
@@ -120,7 +120,7 @@ class FestivalRepository{
         }if ($lieu != ""){
             $prep->bindParam(':lieu',$lieu, PDO::PARAM_STR);
         }
-        
+
         $prep->execute();
         $shows = [];
 
@@ -138,22 +138,21 @@ class FestivalRepository{
         $query = "
         SELECT *
         FROM party p
-        JOIN location  ON party.idlocation = location.idlocation
-    ";
+        INNER JOIN location l ON p.idLocation = l.idLocation
+        ";
 
         $prep = $this->bd->prepare($query);
         $prep->execute();
-        $html = [];
+        $array = [];
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
-            $place = new \NRV\Event\Place($row['idlocation'], $row['locaName'], $row['adress'], $row['nbPlacesAss'], $row['nbPlacesDeb'],$row['imagePath']);
-            $party = new \NRV\Event\Party($row['idparty'], $row['partyName'], $row['dateStart'], $row['dateEnd'], $place , $row['pricing']);
+            $place = new \NRV\Event\Place($row['idLocation'], $row['locaName'], $row['address'], $row['nbPlacesAss'], $row['nbPlacesDeb'],$row['imagePath']);
+            $party = new \NRV\Event\Party($row['idParty'], $row['partyName'], $row['dateStart'], $row['dateEnd'], $place , $row['pricing']);
 
-            $html[] = $row['idParty'];
-            $html[] = "<br>";
+            array_push($array, $party);
         }
 
-        return $html;
+        return $array;
 
     }
 

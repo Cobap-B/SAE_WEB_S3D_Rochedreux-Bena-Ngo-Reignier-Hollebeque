@@ -15,76 +15,89 @@ class Dispatcher {
     private function renderPage(string $html): void {
         // Définition de la structure de la navbar avec le lien pour se déconnecter ou s'authentifier
         $str = "";
+        $bool = isset($_SESSION['user']);
         if (isset($_SESSION['user']['email'])) {
             $str =  '<li class="nav-item dropdown">
                         <a class="nav-link">Connected</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="?action=disconnect">Disconnection</a></li>
+                                <li><a class="dropdown-item" href="?action=disconnect">Log Out</a></li>
                             </ul>
                       </li> ';
-        } else {
+
+        }
+        else{
             $str = '<li class="nav-item"><a class="nav-link" href="?action=authentication">Authentication</a></li>';
         }
-
         echo <<<FIN
         <!DOCTYPE html>
         <html lang="fr">
             <head>
                 <meta charset="UTF-8">
                 <title>Festival NRV</title>
-                <!-- Lien vers le CSS commun -->
                 <link rel="stylesheet" href="./css/rendupage.css">
-                <!-- Lien vers le CSS spécifique à l'action -->
                 <link rel="stylesheet" href="./css/{$this->css_action}">
                 <link rel="icon" href="Ressources/Images/pipotam_le_vrai.png" type="image/png">
             </head>
             <body>
-                <!-- Conteneur global de la page -->
-                <div class="container">
-                    <!-- Navbar partagée -->
+                <div class="container"> 
                     <nav>
                         <ul class="nav">
                             <div class="nav-left">
                                 <li class="nav-item"><a class="nav-link" href="?action=default">HOME</a></li>
+                                
                                 <li class="nav-item dropdown">
                                     <a class="nav-link">DISPLAY</a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="?action=display-show">Shows</a></li>
                                         <li><a class="dropdown-item" href="?action=display-party">Partys</a></li>
+
                                         <li><a class="dropdown-item" href="?action=display-favorite">Favorites</a></li>
                                         <li><a class="dropdown-item" href="?action=display-program">Program</a></li>
                                     </ul>
                                 </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link">MODIFY CONTENT</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="?action=modify-party">Party</a></li>
-                                        <li><a class="dropdown-item" href="?action=modify-show">Show</a></li>
-                                    </ul>
-                                </li>
+        FIN;
+                                if ($bool){
+                                    if ($_SESSION['user']['id'] > 1){
+                                        echo <<<FIN
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link">MODIFY CONTENT</a>
+                                            <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="?action=add-party">Create Party</a></li>
+                                            <li><a class="dropdown-item" href="?action=modif-party">Edit Party</a></li>
+                                            <li><a class="dropdown-item" href="?action=add-show">Create Show</a></li>
+                                            <li><a class="dropdown-item" href="?action=modif-show">Edit Show</a></li>
+                                            <li><a class="dropdown-item" href="?action=cancel-show">Cancel Show</a></li>
+                                            </ul>
+                                        </li>
+                                        FIN;
+                                    }
+                                }
+                            echo <<<FIN
                             </div>
-                            <div class="nav-right">
-                                $str
+                            <div class="nav-right">                    
+                            $str
                             </div>
                         </ul>
                     </nav>
-
+                    
+                    
+                    
                     <br> 
-
-                    <!-- Contenu spécifique de la page -->
-                    $html
-
+                    
+                    <div class="main-content">
+                        $html
+                    </div>                   
+                    
                 </div>
             </body>
         </html>
     FIN;
     }
 
-    // Méthode principale qui exécute l'action demandée
-    public function run(): void {
+    public function run() {
         $a = null;
 
-        // Choix de l'action et du CSS en fonction de l'URL
+        // Choix de l'action et de la feuille CSS
         switch ($this->action) {
             case 'favorite':
                 $a = new act\ActionAddFavorite();
@@ -93,6 +106,9 @@ class Dispatcher {
             case 'add-show':
                 $a = new act\ActionAddShow();
                 $this->css_action = "add_show.css";
+                break;
+            case 'add-party':
+                $a = new act\ActionAddParty();
                 break;
             case 'authentication':
                 $a = new act\ActionAuthentication();
@@ -126,13 +142,17 @@ class Dispatcher {
                 $a = new act\ActionModifyShow();
                 $this->css_action = "modif_show.css";
                 break;
+            case 'modif-party':
+                $a = new act\ActionModifyParty();
+                break;
+            case 'disconnect':
+                $a = new act\ActionDisconnect();
+                break;
             default:
                 $a = new act\ActionDefault();
-                $this->css_action = "default.css";
                 break;
         }
 
         $this->renderPage($a->execute());
     }
 }
-
