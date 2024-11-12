@@ -112,7 +112,7 @@ class FestivalRepository{
         }
         $query = implode( " ", $words );
         $prep = $this->bd->prepare($query);
-    
+
         if ($category != ""){
             $prep->bindParam(':category',$category, PDO::PARAM_STR);
         }if ($date != ""){
@@ -120,7 +120,7 @@ class FestivalRepository{
         }if ($lieu != ""){
             $prep->bindParam(':lieu',$lieu, PDO::PARAM_STR);
         }
-        
+
         $prep->execute();
         $shows = [];
 
@@ -133,28 +133,19 @@ class FestivalRepository{
     }
 
 
-    public function displayParty(): array
-    {
-        $query = "
-        SELECT *
-        FROM party p
-        JOIN location  ON party.idlocation = location.idlocation
-    ";
+    public function displayParty(){
+        $query = "SELECT * from party";
 
         $prep = $this->bd->prepare($query);
         $prep->execute();
-        $html = [];
+        $html = "";
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
-            $place = new \NRV\Event\Place($row['idlocation'], $row['locaName'], $row['adress'], $row['nbPlacesAss'], $row['nbPlacesDeb'],$row['imagePath']);
-            $party = new \NRV\Event\Party($row['idparty'], $row['partyName'], $row['dateStart'], $row['dateEnd'], $place , $row['pricing']);
-
-            $html[] = $row['idParty'];
-            $html[] = "<br>";
+            $html .= $row['idParty'];
+            $html .= '<br>';
         }
 
         return $html;
-
     }
 
     public function displayFavorite(string $id){

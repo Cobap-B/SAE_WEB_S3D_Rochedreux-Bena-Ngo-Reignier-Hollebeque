@@ -7,7 +7,7 @@ class Place{
 
     private int $id;
     private string $name;
-    private string $adresse;
+    private string $address;
     private int $nbDebout;
     private int $nbAssis;
     private string $img;

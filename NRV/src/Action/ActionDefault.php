@@ -12,6 +12,7 @@ class ActionDefault extends Action {
                         <section>
                             <h2>Party</h2>
         FIN;
+
         $party = $pdo->displayParty();
         foreach ((Array)$party as $h){
             $render = new \NRV\Renderer\PartyRenderer($h);
