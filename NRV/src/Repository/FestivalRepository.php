@@ -207,4 +207,25 @@ class FestivalRepository{
         $bool = $prep->execute();
         return $bool;
     }
+
+    function insertPartyToShow(String $idp, String $ids){
+        try {
+            $insert = "INSERT into Party2Show (idParty, idShow) values(?,?)";
+            $prep = $this->bd->prepare($insert);
+            $prep->bindParam(1,$idp);
+            $prep->bindParam(2,$ids);
+            $bool = $prep->execute();
+            return "Ajouté avec succès";
+        }
+        catch(\PDOException $e){
+            $code = $e->getCode();
+            if($code == 23000){
+                return "Ce spectacle est déjà associé à cette soirée";
+            }
+            else {
+                return "Erreur de l'association";
+            }
+        }
+        
+    }
 }
