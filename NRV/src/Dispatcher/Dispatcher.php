@@ -151,6 +151,7 @@ class Dispatcher {
                 break;
             default:
                 $a = new act\ActionDefault();
+                $this->css_action = "default.css";
                 break;
         }
 

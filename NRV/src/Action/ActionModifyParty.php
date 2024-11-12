@@ -11,7 +11,9 @@ class ActionModifyParty extends Action {
             $shows = $bd->displayShow("","","");
             $parties = $bd->displayParty();
             $html .= <<<FIN
-            <label for="shows">Choose a show:</label>
+            <div>
+            <label for="shows">Choose a show (spectacle):</label>
+            <br>
             <select name="shows" id="shows" form="form">
             FIN;
             foreach($shows as $show){
@@ -23,11 +25,14 @@ class ActionModifyParty extends Action {
             }
             $html .= <<<FIN
             </select>
+            </div>
             <br>
             FIN;
 
             $html .= <<<FIN
-            <label for="parties">Choose a party:</label>
+            <div>
+            <label for="parties">Choose a party (soirée):</label>
+            <br>
             <select name="parties" id="party" form="form">
             FIN;
             foreach($parties as $party){
@@ -39,6 +44,8 @@ class ActionModifyParty extends Action {
             }
             $html .= <<<FIN
             </select>
+            </div>
+            FIN;
 
             $html .= <<< FIN
             <form method="POST" action="?action=modif-party" id="form">
@@ -48,7 +55,10 @@ class ActionModifyParty extends Action {
             FIN;
         }
         else {
-
+            // comparez les dates si vous avez la foi
+            $bd = FestivalRepository::makeConnection();
+            $txt = $bd->insertPartyToShow($_POST['parties'], $_POST['shows']);
+            $html = $txt;
         }
         return $html;
     }

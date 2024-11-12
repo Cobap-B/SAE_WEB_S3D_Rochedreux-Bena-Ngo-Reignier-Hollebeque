@@ -8,9 +8,11 @@ class ActionDefault extends Action {
 
         $pdo = \NRV\Repository\FestivalRepository::makeConnection();
         $html .= <<<FIN
-                    <div>
-                        <section>
+                    <div class ="default">
+                        <a href="">
+                        <section class ="party">
                             <h2>Party</h2>
+                                <p>
         FIN;
 
         $party = $pdo->displayParty();
@@ -21,19 +23,25 @@ class ActionDefault extends Action {
         }
 
         $html .= <<<FIN
+                                </p>
                         </section>
-                        <section>
+                        </a>
+                        <a href="">
+                        <section class ="show">
                             <h2>Show</h2>
+                                <p>
         FIN;
 
-        $shows = $pdo->displayShow($cate, $date, $lieu);
+        $shows = $pdo->displayShow("", "", "");
         foreach($shows as $a){
             $render = new \NRV\Renderer\ShowRenderer($a);
             $html .= $render->render(2);
             $html .= "<br><br>";
         }
         $html .= <<<FIN
+                                </p>
                         </section>
+                        </a>
                     </div>
         FIN;
 
