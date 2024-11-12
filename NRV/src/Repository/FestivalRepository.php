@@ -154,6 +154,7 @@ class FestivalRepository{
         }
 
         return $html;
+
     }
 
     public function displayFavorite(string $id){
