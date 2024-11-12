@@ -20,7 +20,7 @@ class Show extends Event{
     } 
 
     public function __toString(): string {
-        return sprintf(
+        $res = sprintf(
             "Title : %s\nArtist : %s\nCategory : %d\nDescription : %s\nStart : %s\nEnd : %s\n Duration : %s",
             $this->name,
             $this->artist,
@@ -29,8 +29,24 @@ class Show extends Event{
             $this->dateDebut->format('Y-m-d H:i'),
             $this->dateFin->format('Y-m-d H:i'),
             $this->getDuration()->format("H:i")
-
         );
+
+             $res .= <<<FIN
+        <!DOCTYPE html>
+        <html lang="fr">    
+            <body>
+                <img src="./NRV/Ressources/Images/$this->imgPath" alt="">
+                
+                <figure>
+                    <figcaption>Listen an extract</figcaption>
+                    <audio controls src="/media/cc0-audio/$this->audiopath"></audio>
+                </figure>
+                
+            </body>
+        </html>
+        FIN;
+
+        return $res;
     }
 
 }
