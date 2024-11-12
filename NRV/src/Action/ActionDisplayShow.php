@@ -50,7 +50,6 @@ class ActionDisplayShow extends Action {
                     <input type='submit' value='Filtrer'>
                 </fieldset>
             </form>  
-            
         FIN;
         return $html;
     }
