@@ -133,14 +133,14 @@ class FestivalRepository{
     }
 
     public function displayFavorite(string $id){
-        $query = "SELECT idUser, idShow FROM favorite WHERE id = :id";
+        $query = "SELECT idUser, idShow FROM favorite f WHERE f.idUser = :id";
         $prep = $this->bd->prepare($query);
         $prep->bindParam(':id', $id);
         $prep->execute();
         $html = "";
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
-            $html .= $row['idshow'];
+            $html .= $row['idUser'];
             $html .= '<br>';
         }
 
