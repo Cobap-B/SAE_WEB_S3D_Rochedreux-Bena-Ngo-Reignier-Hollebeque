@@ -126,23 +126,31 @@ class FestivalRepository{
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
            $show = new \NRV\Event\Show($row['idshow'], $row['categorie'], $row['title'], $row['dateStart'], $row['dateEnd'], $row['artist'], "",  $row['imageName'], $row['audioName']);
-           array_push($shows, $show);
+           $shows[] = $show;
         }
         
         return $shows;
     }
 
 
-    public function displayParty(){
-        $query = "SELECT * from party";
+    public function displayParty(): array
+    {
+        $query = "
+        SELECT *
+        FROM party p
+        JOIN location  ON party.idlocation = location.idlocation
+    ";
 
         $prep = $this->bd->prepare($query);
         $prep->execute();
-        $html = "";
+        $html = [];
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
-            $html .= $row['idParty'];
-            $html .= '<br>';
+            $place = new \NRV\Event\Place($row['idlocation'], $row['locaName'], $row['adress'], $row['nbPlacesAss'], $row['nbPlacesDeb'],$row['imagePath']);
+            $party = new \NRV\Event\Party($row['idparty'], $row['partyName'], $row['dateStart'], $row['dateEnd'], $place , $row['pricing']);
+
+            $html[] = $row['idParty'];
+            $html[] = "<br>";
         }
 
         return $html;
