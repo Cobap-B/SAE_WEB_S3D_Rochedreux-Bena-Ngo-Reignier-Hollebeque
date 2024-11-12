@@ -59,7 +59,7 @@ class FestivalRepository{
     public function saveShow(string $categorie, string $title, string $artist, string $dateD, string $dateF, string $hourStart, string $hourEnd, string $desc, string $picture, string $audio): Show{
         $query = "INSERT into shows (categorie, title, artist, dateStart, dateEnd, imageName, audioName) 
             VALUES (:c, :t, :a, :d1 :h1, :d2 :h2, :p, :audio)";
-        $prep = $this->bd->prepare($query); 
+        $prep = $this->bd->prepare($query);
         $prep->bindParam(":c",$categorie, PDO::PARAM_STR);
         $prep->bindParam(":t",$title, PDO::PARAM_STR);
         $prep->bindParam(":a",$artist, PDO::PARAM_STR);
@@ -133,19 +133,28 @@ class FestivalRepository{
     }
 
 
-    public function displayParty(){
-        $query = "SELECT * from party";
+    public function displayParty(): array
+    {
+        $query = "
+        SELECT *
+        FROM party p
+        JOIN location  ON party.idlocation = location.idlocation
+    ";
 
         $prep = $this->bd->prepare($query);
         $prep->execute();
-        $html = "";
+        $html = [];
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
-            $html .= $row['idParty'];
-            $html .= '<br>';
+            $place = new \NRV\Event\Place($row['idlocation'], $row['locaName'], $row['adress'], $row['nbPlacesAss'], $row['nbPlacesDeb'],$row['imagePath']);
+            $party = new \NRV\Event\Party($row['idparty'], $row['partyName'], $row['dateStart'], $row['dateEnd'], $place , $row['pricing']);
+
+            $html[] = $row['idParty'];
+            $html[] = "<br>";
         }
 
         return $html;
+
     }
 
     public function displayFavorite(string $id){
