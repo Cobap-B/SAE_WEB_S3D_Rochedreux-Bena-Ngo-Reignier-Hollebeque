@@ -132,18 +132,40 @@ class FestivalRepository{
         return $html;
     }
 
-    public function displayFavorite(string $id){
-        $query = "SELECT idUser, idShow FROM favorite WHERE id = :id";
+    function getPwdRole(String $e){
+        $query = "select email, pwd, role from UserNRV where email = ? ";
         $prep = $this->bd->prepare($query);
-        $prep->bindParam(':id', $id);
+        $prep->bindParam(1,$e);
+        $bool = $prep->execute();
+        $data =$prep->fetch(PDO::FETCH_ASSOC);
+        return $data;
+    }
+
+    function getPwd(String $e){
+        $query = "select pwd from UserNRV where email = ? ";
+        $prep = $this->bd->prepare($query);
+        $prep->bindParam(1,$e);
         $prep->execute();
-        $html = "";
+        $d = $prep->fetchall(PDO::FETCH_ASSOC);
+        return $d;
+    }
 
-        while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
-            $html .= $row['idshow'];
-            $html .= '<br>';
-        }
+    function getIdUser(String $e){
+        $query = "select idUser from UserNRV where email = ? ";
+        $prep = $this->bd->prepare($query);
+        $prep->bindParam(1,$e);
+        $prep->execute();
+        $ide = $prep->fetch(PDO::FETCH_ASSOC)['idUser'];
+        return $ide;
+    }
 
-        return $html;
+    function insertUser(String $e, String $p, String $r){
+        $insert = "INSERT into UserNRV (email, pwd, role) values(?,?,?)";
+        $prep = $this->bd->prepare($insert);
+        $prep->bindParam(1,$e);
+        $prep->bindParam(2,$p);
+        $prep->bindParam(3,$r);
+        $bool = $prep->execute();
+        return $bool;
     }
 }

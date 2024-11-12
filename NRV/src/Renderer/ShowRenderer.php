@@ -30,7 +30,8 @@ class ShowRenderer implements Render {
             "Show: %s by %s (%d min)",
             $this->show->title,
             $this->show->artist,
-            $this->show->duration
+            $this->show->dateDebut->format('Y-m-d H:i'),
+
         );
     }
 

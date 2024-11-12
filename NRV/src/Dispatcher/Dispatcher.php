@@ -12,6 +12,19 @@ class Dispatcher {
     }
 
     private function renderPage(string $html): void {
+        $str = "";
+        if (isset($_SESSION['user']['email'])) {
+            $str =  '<li class="nav-item dropdown">
+                        <a class="nav-link">Connected</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="?action=disconnect">Disconnection</a></li>
+                            </ul>
+                      </li> ';
+
+        }
+        else{
+            $str = '<li class="nav-item"><a class="nav-link" href="?action=authentication">Authentication</a></li>';
+        }
         echo <<<FIN
         <!DOCTYPE html>
         <html lang="fr">
@@ -28,6 +41,7 @@ class Dispatcher {
                         <ul class="nav">
                             <div class="nav-left">
                                 <li class="nav-item"><a class="nav-link" href="?action=default">HOME</a></li>
+                                
                                 <li class="nav-item dropdown">
                                     <a class="nav-link">DISPLAY</a>
                                     <ul class="dropdown-menu">
@@ -36,6 +50,7 @@ class Dispatcher {
                                         <li><a class="dropdown-item" href="?action=display-program">Program</a></li>
                                     </ul>
                                 </li>
+                                
                                 <li class="nav-item dropdown">
                                     <a class="nav-link">MODIFY CONTENT</a>
                                     <ul class="dropdown-menu">
@@ -43,9 +58,10 @@ class Dispatcher {
                                         <li><a class="dropdown-item" href="?action=modify-show">Show</a></li>
                                     </ul>
                                 </li>
+                                
                             </div>
-                            <div class="nav-right">
-                                <li class="nav-item"><a class="nav-link" href="?action=authentication">Authentication</a></li>
+                            <div class="nav-right">                    
+                            $str
                             </div>
                         </ul>
                     </nav>
