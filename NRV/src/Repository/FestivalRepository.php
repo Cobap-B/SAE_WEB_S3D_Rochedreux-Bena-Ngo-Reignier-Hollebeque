@@ -132,6 +132,22 @@ class FestivalRepository{
         return $html;
     }
 
+
+    public function displayParty(){
+        $query = "SELECT * from party";
+
+        $prep = $this->bd->prepare($query);
+        $prep->execute();
+        $html = "";
+
+        while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
+            $html .= $row['idParty'];
+            $html .= '<br>';
+        }
+
+        return $html;
+    }
+
     public function displayFavorite(string $id){
         $query = "SELECT idUser, idShow FROM favorite WHERE id = :id";
         $prep = $this->bd->prepare($query);
