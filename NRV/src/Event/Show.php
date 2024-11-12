@@ -10,7 +10,7 @@ class Show extends Event{
     private string $imgPath;
 
     public function __construct(string $id, string $category, string $name, string $dateDebut, string $dateFin, string $artist, string $description, string $fileName, string $imgName){
-        parent::__construct($id, $tname, $dateDebut, $dateFin); 
+        parent::__construct($id, $name, $dateDebut, $dateFin);
 
         $this->category = $category;
         $this->artist = $artist;
@@ -21,11 +21,15 @@ class Show extends Event{
 
     public function __toString(): string {
         return sprintf(
-            "Title: %s\nArtist: %s\nCategory: %d hours\nDescription: %s\n",
-            $this->category,
-            $this->title,
+            "Title : %s\nArtist : %s\nCategory : %d\nDescription : %s\nStart : %s\nEnd : %s\n Duration : %s",
+            $this->name,
             $this->artist,
+            $this->category,
             $this->description,
+            $this->dateDebut->format('Y-m-d H:i'),
+            $this->dateFin->format('Y-m-d H:i'),
+            $this->getDuration()->format("H:i")
+
         );
     }
 
