@@ -2,7 +2,6 @@
 
 namespace NRV\Event;
 
-use NRV\Exception\InvalidPropertyNameExcepetion;
 
 class Festival extends Event{
 
