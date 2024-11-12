@@ -17,7 +17,7 @@ class ActionAuthentication extends Action{
             <meta charset="UTF-8">
             <title>Se connecter</title>
         </head>
-
+        <div class="login-wrapper">
         <div class="login-container">
             <h2>Se connecter</h2>
             <form method="POST" action="?action=authentication">
@@ -35,6 +35,7 @@ class ActionAuthentication extends Action{
                     <a class="dropdown-item" href="?action=register">S'enregistrer</a>
                 </footer>
             </form>
+        </div>
         </div>
         </html>  
     FIN;

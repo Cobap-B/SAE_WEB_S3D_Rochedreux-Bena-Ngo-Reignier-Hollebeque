@@ -48,6 +48,6 @@ class ActionDisplayFavorite extends Action{
                 return $html;
             }
         }*/
-        return $html
+        return $html;
     }
 }

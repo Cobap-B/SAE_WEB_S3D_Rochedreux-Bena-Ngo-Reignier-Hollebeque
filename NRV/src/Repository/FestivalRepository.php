@@ -112,7 +112,7 @@ class FestivalRepository{
         }
         $query = implode( " ", $words );
         $prep = $this->bd->prepare($query);
-    
+
         if ($category != ""){
             $prep->bindParam(':category',$category, PDO::PARAM_STR);
         }if ($date != ""){
@@ -120,7 +120,7 @@ class FestivalRepository{
         }if ($lieu != ""){
             $prep->bindParam(':lieu',$lieu, PDO::PARAM_STR);
         }
-        
+
         $prep->execute();
         $shows = [];
 
@@ -149,7 +149,7 @@ class FestivalRepository{
             $place = new \NRV\Event\Place($row['idLocation'], $row['locaName'], $row['address'], $row['nbPlacesAss'], $row['nbPlacesDeb'],$row['imagePath']);
             $party = new \NRV\Event\Party($row['idParty'], $row['partyName'], $row['dateStart'], $row['dateEnd'], $place , $row['pricing']);
 
-            array_push($array, $party); 
+            array_push($array, $party);
         }
 
         return $array;
