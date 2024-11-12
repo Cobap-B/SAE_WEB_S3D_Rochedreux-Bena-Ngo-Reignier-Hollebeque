@@ -35,17 +35,7 @@ class PartyRenderer implements Render {
     }
 
     public function renderLong(): string {
-        $details = "";
-        foreach ($this->party->shows as $show) {
-            $details .= $show ."\n";
-        }
+        return (string)$this->party;
 
-        return sprintf(
-            "%s Party\n on %s\nat: %d\nShows:\n%s",
-            $this->party->name,
-            $this->party->date,
-            $this->party->place,
-            $details
-        );
     }
 }

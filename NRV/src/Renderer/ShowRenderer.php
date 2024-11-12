@@ -31,6 +31,7 @@ class ShowRenderer implements Render {
             $this->show->title,
             $this->show->artist,
             $this->show->dateDebut->format('Y-m-d H:i'),
+
         );
     }
 
