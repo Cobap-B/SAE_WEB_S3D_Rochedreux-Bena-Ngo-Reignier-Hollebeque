@@ -49,8 +49,10 @@ class ActionDisplayShow extends Action {
             $html.='<div class="conta">';
             $shows = $pdo->displayShow($cate, $date, $lieu);
             foreach($shows as $a){
+                $id = $pdo->getIdParty($a->id);
                 $render = new \NRV\Renderer\ShowRenderer($a);
                 $html .= '<div class="cont">';
+                $html .= "<a href='?action=display-une-party?id=$id'>Look party</a>";
                 $html .= $render->render(2);
                 $html .= "</div>";
                 $html .= "<br><br>";

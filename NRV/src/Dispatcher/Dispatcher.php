@@ -139,6 +139,10 @@ class Dispatcher {
                 $a = new act\ActionDisplayParty();
                 $this->css_action = "page_connexion.css";
                 break;
+            case 'display-une-party':
+                    $a = new act\ActionDisplayUneParty();
+                    $this->css_action = "display_party.css";
+                    break;
             case 'display-favorite':
                 $a = new act\ActionDisplayFavorite();
                 $this->css_action = "display_favorite.css";
