@@ -10,33 +10,39 @@ class ActionDisplayShow extends Action {
         $lieu = "";
 
         $html .= <<<FIN
-        <hr>
-        <form method='POST' '?action=display-show'>
-            <fieldset>  
-                <legend>Filtre</legend>
+        <br>
+                <br>
+        <br>
+        <br>
+        <br>
 
-                <fieldset>
-                    <legend>Category</legend>
-                    <p>Style de musique : </p>
-                    <input type='text' name='category' value='$cate'>
+            <form method='POST' action='?action=display-show'>
+                <fieldset>  
+                    <legend>Filtre</legend>
+        
+                    <fieldset>
+                        <legend>Catégorie</legend>
+                        <label for='category'>Style de musique :</label>
+                        <input type='text' name='category' value='$cate'>
+                    </fieldset>
+        
+                    <fieldset>
+                        <legend>Date</legend>
+                        <label for='date'>Date :</label>
+                        <input type='date' name='date' value='$date'>
+                    </fieldset>
+        
+                    <fieldset>
+                        <legend>Lieu</legend>
+                        <label for='lieu'>Emplacement :</label>
+                        <input type='text' name='lieu' value='$lieu'>
+                    </fieldset>
+        
+                    <input type='submit' name='val' value='Filtrer'>
                 </fieldset>
+            </form>  
+        FIN;
 
-                <fieldset>
-                    <legend>Date</legend>
-                    <p>Date :</p>
-                    <input type='date' name='date' value=$date>
-                </fieldset><br>
-
-                <fieldset>
-                    <legend>Location</legend>
-                    <p>Location :</p>
-                    <input type='text' name='lieu' value='$lieu'>
-                </fieldset><br>
-
-                <input type='submit' name="val" value='Filtrer'>
-            </fieldset>
-        </form>  
-    FIN;
         $pdo = \NRV\Repository\FestivalRepository::makeConnection();
         if ($this->http_method === 'GET'){
             //r
@@ -58,7 +64,7 @@ class ActionDisplayShow extends Action {
             }
             $html.='</div">';
         }
-       
+
         return $html;
     }
 }

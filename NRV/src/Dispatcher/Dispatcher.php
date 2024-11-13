@@ -39,10 +39,13 @@ class Dispatcher {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Festival NRV</title>
                 <link rel="stylesheet" href="./CSS/rendupage.css">
+
                 <link rel="stylesheet" href="./CSS/{$this->css_action}">
                 <link rel="icon" href="Ressources/Images/pipotam_le_vrai.png" type="image/png">
             </head>
             <body>
+            <div class="background-container"></div>
+            <div class="overlay"></div>
                 <div class="container"> 
                     <nav>
                         <ul class="nav">
@@ -54,9 +57,7 @@ class Dispatcher {
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="?action=display-show">Shows</a></li>
                                         <li><a class="dropdown-item" href="?action=display-party">Partys</a></li>
-
                                         <li><a class="dropdown-item" href="?action=display-favorite">Favorites</a></li>
-                                        <li><a class="dropdown-item" href="?action=display-program">Program</a></li>
                                     </ul>
                                 </li>
         FIN;
@@ -113,23 +114,23 @@ class Dispatcher {
         switch ($this->action) {
             case 'favorite':
                 $a = new act\ActionAddFavorite();
-                $this->css_action = "page_connexion.css";
+                $this->css_action = "formulaire.css";
                 break;
             case 'add-show':    
                 $a = new act\ActionAddShow();
-                $this->css_action = "page_connexion.css";
+                $this->css_action = "formulaire.css";
                 break;
             case 'add-party':
                 $a = new act\ActionAddParty();
-                $this->css_action = "page_connexion.css";
+                $this->css_action = "formulaire.css";
                 break;
             case 'authentication':
                 $a = new act\ActionAuthentication();
-                $this->css_action = "page_connexion.css";
+                $this->css_action = "formulaire.css";
                 break;
             case 'del-show':
                 $a = new act\ActionDeleteShow();
-                $this->css_action = "page_connexion.css";
+                $this->css_action = "formulaire.css";
                 break;
             case 'display-show':
                 $a = new act\ActionDisplayShow();
@@ -137,38 +138,40 @@ class Dispatcher {
                 break;
             case 'display-party':
                 $a = new act\ActionDisplayParty();
-                $this->css_action = "page_connexion.css";
+                $this->css_action = "formulaire.css";
                 break;
             case 'display-une-party':
                     $a = new act\ActionDisplayUneParty();
-                    $this->css_action = "display_party.css";
+                $this->css_action = "formulaire.css";
                     break;
             case 'display-favorite':
                 $a = new act\ActionDisplayFavorite();
-                $this->css_action = "page_connexion.css";
+                $this->css_action = "formulaire.css";
                 break;
             case 'display-program':
                 $a = new act\ActionDisplayProgram();
-                $this->css_action = "page_connexion.css";
+                $this->css_action = "formulaire.css";
                 break;
             case 'register':
                 $a = new act\ActionRegister();
-                $this->css_action = "page_connexion.css";
+                $this->css_action = "formulaire.css";
                 break;
             case 'modif-show':
                 $a = new act\ActionModifyShow();
-                $this->css_action = "page_connexion.css";
+                $this->css_action = "formulaire.css";
                 break;
             case 'modif-party':
                 $a = new act\ActionModifyParty();
+                $this->css_action = "formulaire.css";
+
                 break;
             case 'disconnect':
                 $a = new act\ActionDisconnect();
-                $this->css_action = "page_connexion.css";
+                $this->css_action = "formulaire.css";
                 break;
             case 'add-staff':
                 $a = new act\ActionAddStaff();
-                $this->css_action = "page_connexion.css";
+                $this->css_action = "formulaire.css";
                 break;
             default:
                 $a = new act\ActionDefault();

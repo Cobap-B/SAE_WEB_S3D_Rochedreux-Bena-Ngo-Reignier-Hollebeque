@@ -1,72 +1,66 @@
-.default {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    gap: 20px;
-    padding: 20px;
-
-}
-
-.default section {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px;
-    width: 45%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
-
-.default section:hover {
-    transform: scale(1.05);
-}
-
-
-.default h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-    color: #333;
-    text-align: center;
-}
-
-.default section .party-item, .default section .show-item {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-
-.party-item, .show-item {
-    display: inline-block;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    background-color: #f9f9f9;
-    text-align: center;
+body {
     font-family: 'AVBold', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
-.show-item a {
-    text-decoration: none;
-    color: inherit;
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://images.pexels.com/photos/154147/pexels-photo-154147.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+    background-size: cover;
+    background-position: center;
+    filter: blur(5px);
+    z-index: -1;
 }
 
 
-.default br {
-    display: none;
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(28, 41, 66, 0.7);
+    z-index: -1;
+}
+
+.welcome-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    background: linear-gradient(180deg, #0f192c, #62345b);
+    color: #fff;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.welcome-message h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.welcome-message p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin: 10px 0;
 }
 
 @media (max-width: 768px) {
-    .default {
-        flex-direction: column;
-        align-items: center;
+    .welcome-container {
+        padding: 20px;
+        width: 90%;
     }
-    .default section {
-        width: 100%;
-    }
-    .default section .party, .default section .show {
-        flex-direction: column;
-        align-items: center;
+    .welcome-message h1 {
+        font-size: 2em;
     }
 }

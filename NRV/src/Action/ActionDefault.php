@@ -3,40 +3,21 @@ namespace NRV\action;
 
 class ActionDefault extends Action {
 
-    public function execute() {
-        $html = "";
-
-        $pdo = \NRV\Repository\FestivalRepository::makeConnection();
-        $html .= <<<FIN
-                    <div class ="default">
-                        <section class ="party">
-                            <h2>Party</h2>
+    public function execute(): string
+    {
+        $html = <<<FIN
+            <div class="background-container"></div>
+            <div class="overlay"></div>
+            <div class="welcome-container">
+                <section class="welcome-message">
+                    <h1>Bienvenue au Festival NRV!</h1>
+                    <p>Plongez dans un univers de musique et de découvertes artistiques, Le Festival NRV est disponible prêt de chez vous.</p>
+                    <p>Venez vivre des expériences inoubliables, vibrez avec des performances uniques et créez des souvenirs mémorables avec nous au Festivaz NRV !</p>
+                </section>
+            </div>
+            </div>
+            </div>
         FIN;
-
-        $party = $pdo->displayParty();
-        foreach ((Array)$party as $h){
-            $render = new \NRV\Renderer\PartyRenderer($h);
-            $html .= $render->render(2);
-            $html .= "<br><br>";
-        }
-
-        $html .= <<<FIN
-                        </section>
-                        <section class ="show">
-                            <h2>Show</h2>
-        FIN;
-
-        $shows = $pdo->displayShow("", "", "");
-        foreach($shows as $a){
-            $render = new \NRV\Renderer\ShowRenderer($a);
-            $html .= $render->render(2);
-            $html .= "<br><br>";
-        }
-        $html .= <<<FIN
-                        </section>
-                    </div>
-        FIN;
-
         return $html;
     }
 }
