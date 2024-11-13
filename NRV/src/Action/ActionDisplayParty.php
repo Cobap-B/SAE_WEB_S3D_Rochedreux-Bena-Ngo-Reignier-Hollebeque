@@ -10,6 +10,7 @@ class ActionDisplayParty extends Action {
         $pdo = \NRV\Repository\FestivalRepository::makeConnection();
 
             $party = $pdo->displayParty();
+            $html .= "<br>";
             foreach ($party as $h){
                 $render = new \NRV\Renderer\PartyRenderer($h);
                 $html .= $render->render(2);

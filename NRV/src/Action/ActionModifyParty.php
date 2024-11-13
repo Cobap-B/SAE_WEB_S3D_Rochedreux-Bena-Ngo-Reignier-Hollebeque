@@ -11,6 +11,7 @@ class ActionModifyParty extends Action {
             $shows = $bd->displayShow("","","");
             $parties = $bd->displayParty();
             $html .= <<<FIN
+            <br>
             <div>
             <label for="shows">Choose a show (spectacle):</label>
             <br>

@@ -10,35 +10,35 @@ class ActionAddShow extends Action{
     public function execute(): string{
         if ($this->http_method === 'GET'){
             $html = <<<FIN
-                <div>Enregistrer un nouveau spectacle</div>
+                <div>Enregistrer un nouveau Show</div>
                 <form method='POST' '?action=add-show' enctype="multipart/form-data">
 
-                    <label for="categorie">Categorie du spectacle :</label>
+                    <label for="categorie">Categorie du Show :</label>
                     <input type='text' name='categorie' required><br>
 
-                    <label for="title">Nom du spectacle :</label>
+                    <label for="title">Nom du Show :</label>
                     <input type='text' name='title' required><br>
 
-                    <label for="artist">L'artiste du spectacle :</label>
+                    <label for="artist">L'artiste du Show :</label>
                     <input type='text' name='artist'><br>
 
-                    <label for="dateStart">L'heure et la date du début du spectacle :</label>
+                    <label for="dateStart">L'heure et la date du début du Show :</label>
                     <input type='date' name='dateStart' required><br>
                     <label for="hourStart"> L'heure de début dushow : </label>
                     <input type='time' name='hourStart' required><br>
 
-                    <label for="dateEnd">L'heure et la date de la fin du spectacle:</label>
+                    <label for="dateEnd">L'heure et la date de la fin du Show:</label>
                     <input type='date' name='dateEnd' required><br>
-                    <label for="hourEnd"> L'heure de fin du show : </label>
+                    <label for="hourEnd"> L'heure de fin du Show : </label>
                     <input type='time' name='hourEnd' required><br>
 
-                    <label for="desc">La description du spectacle :</label>
+                    <label for="desc">La description du Show :</label>
                     <input type='text' name='desc' required><br>
 
-                    <label for='img'>L'image du spectacle :</label>
+                    <label for='img'>L'image du Show :</label>
                     <input type='file' name='img' accept="png/jpeg/jpg" required><br>
 
-                    <label for='audio'>L'audio du spectacle :</label>
+                    <label for='audio'>L'audio du Show :</label>
                     <input type='file' name='audio' accept="mp3/mpeg" required><br>
 
 
@@ -54,8 +54,6 @@ class ActionAddShow extends Action{
             $dateEnd = $_POST['dateEnd'];
             $hourStart = $_POST['hourStart'];
             $hourEnd = $_POST['hourEnd'];
-            var_dump($dateStart);
-            var_dump($hourStart);
             $desc = filter_var($_POST['desc'] , FILTER_SANITIZE_SPECIAL_CHARS);
 
             

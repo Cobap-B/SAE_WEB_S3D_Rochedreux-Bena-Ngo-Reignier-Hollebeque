@@ -100,7 +100,7 @@ class FestivalRepository{
     }
 
     public function displayShow(string $category, string $date, string $lieu){
-        $query = "SELECT shows.idshow, shows.categorie, shows.title, shows.artist, shows.dateStart, shows.dateEnd, shows.imageName, shows.audioName from shows 
+        $query = "SELECT shows.idshow, shows.categorie, shows.description, shows.title, shows.artist, shows.dateStart, shows.dateEnd, shows.imageName, shows.audioName from shows 
             INNER JOIN party2show on shows.idshow = party2show.idShow
             INNER JOIN party on party2show.idParty = party.idParty WHERE";
         if ($category != ""){
@@ -130,8 +130,8 @@ class FestivalRepository{
         $shows = [];
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
-           $show = new \NRV\Event\Show($row['idshow'], $row['categorie'], $row['title'], $row['dateStart'], $row['dateEnd'], $row['artist'], "",  $row['audioName'], $row['imageName']);
-           array_push($shows, $show);
+            $show = new \NRV\Event\Show($row['idshow'], $row['categorie'], $row['title'], $row['dateStart'], $row['dateEnd'], $row['artist'], $row['description'],  $row['audioName'], $row['imageName']);
+            array_push($shows, $show);
         }
 
         return $shows;

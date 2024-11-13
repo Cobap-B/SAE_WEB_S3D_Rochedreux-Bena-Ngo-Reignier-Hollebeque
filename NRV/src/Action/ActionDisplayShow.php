@@ -46,7 +46,7 @@ class ActionDisplayShow extends Action {
             if (isset($_POST["date"])){$date = $_POST["date"];}
             if (isset($_POST["lieu"])){$lieu = $_POST["lieu"];}
         
-            $html.='<div class="container">';
+            $html.='<div class="conta">';
             $shows = $pdo->displayShow($cate, $date, $lieu);
             foreach($shows as $a){
                 $render = new \NRV\Renderer\ShowRenderer($a);
