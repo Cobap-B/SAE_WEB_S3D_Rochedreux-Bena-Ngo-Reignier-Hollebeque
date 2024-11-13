@@ -102,10 +102,11 @@ class Dispatcher {
                 break;
             case 'add-show':    
                 $a = new act\ActionAddShow();
-                $this->css_action = "add_show.css";
+                $this->css_action = "page_connexion.css";
                 break;
             case 'add-party':
                 $a = new act\ActionAddParty();
+                $this->css_action = "page_connexion.css";
                 break;
             case 'authentication':
                 $a = new act\ActionAuthentication();
@@ -117,11 +118,11 @@ class Dispatcher {
                 break;
             case 'display-show':
                 $a = new act\ActionDisplayShow();
-                $this->css_action = "display_show2.css";
+                $this->css_action = "page_connexion.css";
                 break;
             case 'display-party':
                 $a = new act\ActionDisplayParty();
-                $this->css_action = "display_party.css";
+                $this->css_action = "page_connexion.css";
                 break;
             case 'display-favorite':
                 $a = new act\ActionDisplayFavorite();
