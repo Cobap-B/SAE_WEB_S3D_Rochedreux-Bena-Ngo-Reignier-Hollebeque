@@ -39,10 +39,13 @@ class Dispatcher {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Festival NRV</title>
                 <link rel="stylesheet" href="./CSS/rendupage.css">
+
                 <link rel="stylesheet" href="./CSS/{$this->css_action}">
                 <link rel="icon" href="Ressources/Images/pipotam_le_vrai.png" type="image/png">
             </head>
             <body>
+            <div class="background-container"></div>
+            <div class="overlay"></div>
                 <div class="container"> 
                     <nav>
                         <ul class="nav">
@@ -161,6 +164,8 @@ class Dispatcher {
                 break;
             case 'modif-party':
                 $a = new act\ActionModifyParty();
+                $this->css_action = "page_connexion.css";
+
                 break;
             case 'disconnect':
                 $a = new act\ActionDisconnect();
