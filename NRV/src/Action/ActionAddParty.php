@@ -10,27 +10,47 @@ class ActionAddParty extends Action{
     public function execute(): string{
         if ($this->http_method === 'GET'){
             $html = <<<FIN
-                <div>Enregistrer une nouvelle Party</div>
-                <form method='POST' '?action=add-show' enctype="multipart/form-data">
+                <div class="login-wrapper">
+            <div class="login-container">
+                <h2>Enregistrer une nouvelle Party</h2>
+                <form method="POST" action="?action=add-show" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="partyName">Nom de la Party :</label>
+                        <input type="text" id="partyName" name="partyName" required>
+                    </div>
 
-                    <label for="partyName">Nom de la Party :</label>
-                    <input type='text' name='partyName' required><br>
+                    <div class="form-group">
+                        <label for="dateStart">Date de début de la Party :</label>
+                        <input type="date" id="dateStart" name="dateStart" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hourStart">Heure de début de la Party :</label>
+                        <input type="time" id="hourStart" name="hourStart" required>
+                    </div>
 
-                    <label for="dateStart">La date du début de la Party :</label>
-                    <input type='date' name='dateStart' required><br>
-                    <label for="hourStart"> L'heure de début de la Party : </label>
-                    <input type='time' name='hourStart' required><br>
+                    <div class="form-group">
+                        <label for="dateEnd">Date de fin de la Party :</label>
+                        <input type="date" id="dateEnd" name="dateEnd" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hourEnd">Heure de fin de la Party :</label>
+                        <input type="time" id="hourEnd" name="hourEnd" required>
+                    </div>
 
-                    <label for="dateEnd">La date de fin de la Party:</label>
-                    <input type='date' name='dateEnd' required><br>
-                    <label for="hourEnd"> L'heure de fin de la Party</label>
-                    <input type='time' name='hourEnd' required><br>
+                    <div class="form-group">
+                        <label for="price">Prix de la Party :</label>
+                        <input type="number" id="price" name="price" required>
+                    </div>
 
-                    <label for="price">Le prix de la party:</label>
-                    <input type='number' name='price' required><br>
-                    
-                    <label for="video">video de la soirée (youtube.com) :</label>
-                    <input type='text' name='video' required><br>
+                    <div class="form-group">
+                        <label for="video">Vidéo de la soirée (YouTube) :</label>
+                        <input type="text" id="video" name="video" required>
+                    </div>
+
+                    <button type="submit">Enregistrer la Party</button>
+                </form>
+            </div>
+            </div>
 
                     
             FIN;

@@ -231,7 +231,6 @@ class FestivalRepository{
         $prep->bindParam(2,$p);
         $prep->bindParam(3,$r);
         $bool = $prep->execute();
-        echo $r;
         return $bool;
     }
 

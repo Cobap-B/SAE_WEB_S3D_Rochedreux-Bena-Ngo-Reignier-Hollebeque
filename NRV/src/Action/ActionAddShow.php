@@ -10,41 +10,66 @@ class ActionAddShow extends Action{
     public function execute(): string{
         if ($this->http_method === 'GET'){
             $html = <<<FIN
-                <div>Enregistrer un nouveau Show</div>
-                <form method='POST' '?action=add-show' enctype="multipart/form-data">
+                <body>
+        <div class="login-wrapper">
+            <div class="login-container">
+                <h2>Enregistrer un nouveau Show</h2>
+                <form method='POST' action='?action=add-show' enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="categorie">Catégorie du Show :</label>
+                        <input type='text' id="categorie" name='categorie' required>
+                    </div>
 
-                    <label for="categorie">Categorie du Show :</label>
-                    <input type='text' name='categorie' required><br>
+                    <div class="form-group">
+                        <label for="title">Nom du Show :</label>
+                        <input type='text' id="title" name='title' required>
+                    </div>
 
-                    <label for="title">Nom du Show :</label>
-                    <input type='text' name='title' required><br>
+                    <div class="form-group">
+                        <label for="artist">L'artiste du Show :</label>
+                        <input type='text' id="artist" name='artist'>
+                    </div>
 
-                    <label for="artist">L'artiste du Show :</label>
-                    <input type='text' name='artist'><br>
+                    <div class="form-group">
+                        <label for="dateStart">Date de début du Show :</label>
+                        <input type='date' id="dateStart" name='dateStart' required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hourStart">Heure de début du Show :</label>
+                        <input type='time' id="hourStart" name='hourStart' required>
+                    </div>
 
-                    <label for="dateStart">L'heure et la date du début du Show :</label>
-                    <input type='date' name='dateStart' required><br>
-                    <label for="hourStart"> L'heure de début dushow : </label>
-                    <input type='time' name='hourStart' required><br>
+                    <div class="form-group">
+                        <label for="dateEnd">Date de fin du Show :</label>
+                        <input type='date' id="dateEnd" name='dateEnd' required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hourEnd">Heure de fin du Show :</label>
+                        <input type='time' id="hourEnd" name='hourEnd' required>
+                    </div>
 
-                    <label for="dateEnd">L'heure et la date de la fin du Show:</label>
-                    <input type='date' name='dateEnd' required><br>
-                    <label for="hourEnd"> L'heure de fin du Show : </label>
-                    <input type='time' name='hourEnd' required><br>
+                    <div class="form-group">
+                        <label for="desc">Description du Show :</label>
+                        <input type='text' id="desc" name='desc' required>
+                    </div>
 
-                    <label for="desc">La description du Show :</label>
-                    <input type='text' name='desc' required><br>
+                    <div class="form-group">
+                        <label for='img'>Image du Show :</label>
+                        <input type='file' id="img" name='img' accept="image/png, image/jpeg" required>
+                    </div>
 
-                    <label for='img'>L'image du Show :</label>
-                    <input type='file' name='img' accept="png/jpeg/jpg" required><br>
+                    <div class="form-group">
+                        <label for='audio'>Audio du Show :</label>
+                        <input type='file' id="audio" name='audio' accept="audio/mp3, audio/mpeg" required>
+                    </div>
 
-                    <label for='audio'>L'audio du Show :</label>
-                    <input type='file' name='audio' accept="mp3/mpeg" required><br>
-
-
-                    <input type='submit' value='Enregistrer le Show'>
-                </form> 
-            FIN;
+                    <button type='submit'>Enregistrer le Show</button>
+                </form>
+            </div>
+        </div>
+    </body>
+    </html>
+FIN;
         }else{
             $categorie = filter_var($_POST['categorie'] , FILTER_SANITIZE_SPECIAL_CHARS);
             $title = filter_var($_POST['title'] , FILTER_SANITIZE_SPECIAL_CHARS);
