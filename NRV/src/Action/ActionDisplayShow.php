@@ -51,6 +51,7 @@ class ActionDisplayShow extends Action {
             foreach($shows as $a){
                 $render = new \NRV\Renderer\ShowRenderer($a);
                 $html .= '<div class="cont">';
+                $html .= "<a href='?action=add-playlist'>Look party</a>";
                 $html .= $render->render(2);
                 $html .= "</div>";
                 $html .= "<br><br>";
