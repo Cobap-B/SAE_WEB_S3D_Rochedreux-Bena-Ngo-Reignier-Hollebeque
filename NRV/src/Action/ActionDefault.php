@@ -29,7 +29,8 @@ class ActionDefault extends Action {
         $shows = $pdo->displayShow("", "", "");
         foreach($shows as $a){
             $render = new \NRV\Renderer\ShowRenderer($a);
-            $html .= "<div class='show'>" . '<a href="">' . $render->render(2) . "</a>" . "</div>";
+            $html .= $render->render(2);
+            $html .= "<br><br>";
         }
         $html .= <<<FIN
                         </section>
