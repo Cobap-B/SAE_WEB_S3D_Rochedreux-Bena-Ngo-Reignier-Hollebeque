@@ -84,7 +84,13 @@ class Dispatcher {
                             echo <<<FIN
                             </div>
                             <div class="nav-right">
-                            <li class="nav-item"><a class="nav-link">$m</a></li>                    
+                            FIN;
+                            if (isset($_SESSION['user']['email'])) {
+                                echo <<<FIN
+                                <li class="nav-item"><a class="nav-link">$m</a></li>    
+                                FIN;
+                            }
+                            ECHO <<<FIN
                             $str
                             </div>
                         </ul>
