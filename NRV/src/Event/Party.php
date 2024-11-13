@@ -9,11 +9,14 @@ class Party extends Event{
     protected array $shows;
     protected int $tarif;
 
-    public function __construct(string $id, string $name, string $dateDebut, string $dateFin, Place $place, int $tarif, array $shows = []){
+    protected string $video_link;
+
+    public function __construct(string $id, string $name, string $dateDebut, string $dateFin, Place $place, int $tarif, array $shows = [], string $link){
         parent::__construct($id, $name, $dateDebut, $dateFin);
         $this->place = $place;
         $this->shows = $shows;
         $this->tarif = $tarif;
+        $this->video_link = $link;
     }
 
 
@@ -22,7 +25,14 @@ class Party extends Event{
         foreach ($this->shows as $show) {
             $details .= $show ."\n";
         }
-        return sprintf(
+
+        $res = <<<FIN
+            <br>
+            <video src="$this->video_link"></video>
+            <br>
+        FIN;
+
+        $res .= sprintf(
             "Party (ID: %s)\nNom: %s\nDate début: %s\nDate fin: %s\nLieu: %s\nTarif: %d€\nSpectacles: %s",
             $this->id,
             $this->name,
@@ -32,6 +42,9 @@ class Party extends Event{
             $this->tarif,
             $details
         );
+
+
+        return $res;
     }
    
 

@@ -18,7 +18,7 @@ class ActionDefault extends Action {
         $party = $pdo->displayParty();
         foreach ((Array)$party as $h){
             $render = new \NRV\Renderer\PartyRenderer($h);
-            $html .= $render->render(2);
+            $html .= $render->render(1);
             $html .= "<br><br>";
         }
 
@@ -35,7 +35,7 @@ class ActionDefault extends Action {
         $shows = $pdo->displayShow("", "", "");
         foreach($shows as $a){
             $render = new \NRV\Renderer\ShowRenderer($a);
-            $html .= $render->render(2);
+            $html .= $render->render(1);
             $html .= "<br><br>";
         }
         $html .= <<<FIN

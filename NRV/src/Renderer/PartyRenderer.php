@@ -26,10 +26,9 @@ class PartyRenderer implements Renderer {
 
     public function renderCompact(): string {
         return sprintf(
-            "%s Party on %s at %d with %d shows)",
+            "%s on %s with %d shows)",
             $this->party->name,
-            $this->party->date,
-            $this->party->place,
+            $this->party->dateDebut->format('Y-m-d'),
             count($this->party->shows)
         );
     }
