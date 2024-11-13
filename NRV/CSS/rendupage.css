@@ -3,14 +3,6 @@ body {
     padding-top: 20px;
 }
 
-img{
-    width: 100%;
-    max-width: 400px;
-    height: auto;
-    object-fit: cover;
-    object-position: center;
-}
-
 nav {
     background-color: #1c2942;
     padding: 10px 0;
