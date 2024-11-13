@@ -80,7 +80,19 @@ class ActionAddParty extends Action{
             $hourEnd = $_POST['hourEnd'];
             $price = $_POST['price'];
             $idLoc = $_POST["Location"];
-            $video = $_POST["video"];
+
+            $verifLink = str_split($_POST["video"]);
+            $verif = str_split("https://www.youtube.com/watch?v=");
+            $res = true;
+            for ($i = 0; $i <= 31; $i++) {
+                if (!$verifLink[i] = $verif[i]){
+                    $res = false;
+                    break;
+                }
+            }
+            if ($res == true){
+                $video = $_POST["video"];
+            }
 
 
             $r = FestivalRepository::makeConnection();
