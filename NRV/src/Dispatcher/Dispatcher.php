@@ -84,7 +84,13 @@ class Dispatcher {
                             echo <<<FIN
                             </div>
                             <div class="nav-right">
-                            <li class="nav-item"><a class="nav-link">$m</a></li>                    
+                            FIN;
+                            if (isset($_SESSION['user']['email'])) {
+                                echo <<<FIN
+                                <li class="nav-item"><a class="nav-link">$m</a></li>    
+                                FIN;
+                            }
+                            ECHO <<<FIN
                             $str
                             </div>
                         </ul>
@@ -133,6 +139,10 @@ class Dispatcher {
                 $a = new act\ActionDisplayParty();
                 $this->css_action = "page_connexion.css";
                 break;
+            case 'display-une-party':
+                    $a = new act\ActionDisplayUneParty();
+                    $this->css_action = "display_party.css";
+                    break;
             case 'display-favorite':
                 $a = new act\ActionDisplayFavorite();
                 $this->css_action = "page_connexion.css";

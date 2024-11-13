@@ -161,6 +161,27 @@ class FestivalRepository{
 
     }
 
+    public function getParty(int $id){
+        $query = "
+        SELECT *
+        FROM party p
+        INNER JOIN location l ON p.idLocation = l.idLocation
+        WHERE p.idParty = :id;
+        ";
+
+        $prep = $this->bd->prepare($query);
+        $prep->bindParam(':id', $id, PDO::PARAM_INT);
+        $prep->execute();
+        $party=null;
+        $row =$prep->fetch(PDO::FETCH_ASSOC);
+        if ($row){
+            $place = new \NRV\Event\Place($row['idLocation'], $row['locaName'], $row['address'], $row['nbPlacesAss'], $row['nbPlacesDeb'],$row['imagePath']);
+            $party = new \NRV\Event\Party($row['idParty'], $row['partyName'], $row['dateStart'], $row['dateEnd'], $place , $row['pricing']);
+        }
+        
+        return $party;
+    }
+
     public function displayFavorite(string $id){
         $query = "SELECT idUser, idShow FROM favorite f WHERE f.idUser = :id";
         $prep = $this->bd->prepare($query);
@@ -210,7 +231,6 @@ class FestivalRepository{
         $prep->bindParam(2,$p);
         $prep->bindParam(3,$r);
         $bool = $prep->execute();
-        echo $r;
         return $bool;
     }
 
@@ -262,5 +282,22 @@ class FestivalRepository{
         }
 
         return $places;
+    }
+
+    function getIdParty(int $id){
+        $query = "
+        SELECT * from Party2Show where idShow = :id;
+        ";
+
+        $prep = $this->bd->prepare($query);
+        $prep->bindParam(':id', $id, PDO::PARAM_INT);
+        $prep->execute();
+        $idParty=null;
+        $row =$prep->fetch(PDO::FETCH_ASSOC);
+        if ($row){
+            $idParty = $row["idParty"];
+        }
+        
+        return $idParty;
     }
 }
