@@ -35,9 +35,9 @@ class FestivalRepository{
         return $party;
     }
 
-    public function saveParty(string $name, string $dateD, string $dateF, string $hourStart, string $hourEnd, string $idLoc, int $price ): \NRV\Event\Party{
-        $stmt = $this->bd->prepare("INSERT INTO party (partyName, dateStart, dateEnd, idLocation, pricing) 
-        VALUES (:n, STR_TO_DATE( :d1 :h1,'%Y-%m-%d %H:%i'), STR_TO_DATE( :d2 :h2,'%Y-%m-%d %H:%i'), :i, :p)");
+    public function saveParty(string $name, string $dateD, string $dateF, string $hourStart, string $hourEnd, string $idLoc, int $price, string $video ): \NRV\Event\Party{
+        $stmt = $this->bd->prepare("INSERT INTO party (partyName, dateStart, dateEnd, idLocation, pricing, link) 
+        VALUES (:n, STR_TO_DATE( :d1 :h1,'%Y-%m-%d %H:%i'), STR_TO_DATE( :d2 :h2,'%Y-%m-%d %H:%i'), :i, :p, :v)");
         $stmt->bindParam(":n", $name);
         $stmt->bindParam(":d1", $dateD);
         $stmt->bindParam(":h1", $hourStart);
@@ -45,6 +45,7 @@ class FestivalRepository{
         $stmt->bindParam(":h2", $hourEnd);
         $stmt->bindParam(":i", $idLoc);
         $stmt->bindParam(":p", $price);
+        $stmt->bindParam(":v", $video);
         $stmt->execute();
 
         $lastInsertId = (int)$this->bd->lastInsertId();
@@ -99,7 +100,7 @@ class FestivalRepository{
     }
 
     public function displayShow(string $category, string $date, string $lieu){
-        $query = "SELECT shows.idshow, shows.categorie, shows.title, shows.artist, shows.dateStart, shows.dateEnd, shows.imageName, shows.audioName from shows 
+        $query = "SELECT shows.idshow, shows.categorie, shows.description, shows.title, shows.artist, shows.dateStart, shows.dateEnd, shows.imageName, shows.audioName from shows 
             INNER JOIN party2show on shows.idshow = party2show.idShow
             INNER JOIN party on party2show.idParty = party.idParty WHERE";
         if ($category != ""){
@@ -129,8 +130,8 @@ class FestivalRepository{
         $shows = [];
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
-           $show = new \NRV\Event\Show($row['idshow'], $row['categorie'], $row['title'], $row['dateStart'], $row['dateEnd'], $row['artist'], "",  $row['audioName'], $row['imageName']);
-           array_push($shows, $show);
+            $show = new \NRV\Event\Show($row['idshow'], $row['categorie'], $row['title'], $row['dateStart'], $row['dateEnd'], $row['artist'], $row['description'],  $row['audioName'], $row['imageName']);
+            array_push($shows, $show);
         }
 
         return $shows;

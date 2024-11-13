@@ -80,11 +80,7 @@ class Dispatcher {
                             </div>
                         </ul>
                     </nav>
-                    
-                    
-                    
-                    <br> 
-                    
+                         
                     <div class="main-content">
                         $html
                     </div>                   
@@ -104,7 +100,7 @@ class Dispatcher {
                 $a = new act\ActionAddFavorite();
                 $this->css_action = "favorite.css";
                 break;
-            case 'add-show':
+            case 'add-show':    
                 $a = new act\ActionAddShow();
                 $this->css_action = "add_show.css";
                 break;
@@ -121,7 +117,7 @@ class Dispatcher {
                 break;
             case 'display-show':
                 $a = new act\ActionDisplayShow();
-                $this->css_action = "display_show.css";
+                $this->css_action = "display_show2.css";
                 break;
             case 'display-party':
                 $a = new act\ActionDisplayParty();
@@ -148,6 +144,7 @@ class Dispatcher {
                 break;
             case 'disconnect':
                 $a = new act\ActionDisconnect();
+                $this->css_action = "page_connexion.css";
                 break;
             default:
                 $a = new act\ActionDefault();

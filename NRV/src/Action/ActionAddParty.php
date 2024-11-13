@@ -28,6 +28,9 @@ class ActionAddParty extends Action{
 
                     <label for="price">Le prix de la party:</label>
                     <input type='number' name='price' required><br>
+                    
+                    <label for="video">video de la soirée (youtube.com) :</label>
+                    <input type='text' name='video' required><br>
 
                     
             FIN;
@@ -44,7 +47,7 @@ class ActionAddParty extends Action{
 
             $html .= '</select><br><br>';
             $html .= <<<FIN
-            <input type='submit' value='Enregistrer la Party'>
+            <input type='submit' value='Enregistrer la Soirée'>
             </form>
             FIN;
 
@@ -57,10 +60,12 @@ class ActionAddParty extends Action{
             $hourEnd = $_POST['hourEnd'];
             $price = $_POST['price'];
             $idLoc = $_POST["Location"];
+            $video = $_POST["video"];
+
 
             $r = FestivalRepository::makeConnection();
-            $party = $r->saveParty($partyName,$dateStart,$dateEnd,$hourStart,$hourEnd,$idLoc,$price);
-            $html = "<div>Party ajouté avec succés</div>";
+            $party = $r->saveParty($partyName,$dateStart,$dateEnd,$hourStart,$hourEnd,$idLoc,$price, $video);
+            $html = "<div>Party ajoutée avec succès</div>";
         }
         return $html;
     }
