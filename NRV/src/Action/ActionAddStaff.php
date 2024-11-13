@@ -4,7 +4,7 @@ namespace NRV\Action;
 use PDO;
 use NRV\Repository\FestivalRepository;
 
-class ActionRegister extends Action {
+class ActionAddStaff extends Action {
 
     public function __construct(){
         parent::__construct();
@@ -23,19 +23,21 @@ class ActionRegister extends Action {
 
             if ($password1 === $password2) {
                 // Inscription réussie
-                $errorMessage = "<p>" . \NRV\Auth\AuthnProvider::register($email, $password1, 1) . "</p>";
+                $errorMessage = "<p>" . \NRV\Auth\AuthnProvider::register($email, $password1, 2) . "</p>";
             } else {
                 $errorMessage = "<p class='error'>Les mots de passe ne correspondent pas.</p>";
             }
         }
 
         // Génération du formulaire HTML
+        echo"<br>";
+        var_dump($_SESSION['user']);
         return <<<HTML
         <!DOCTYPE html>
         <html lang="fr">
         <head>
             <meta charset="UTF-8">
-            <title>Créer un compte</title>
+            <title>Créer un compte Staff</title>
             
            <style> 
            .error{
@@ -48,11 +50,11 @@ class ActionRegister extends Action {
         <body>
             <div class="login-wrapper">
             <div class="login-container">
-                <h2>Créer un compte</h2>
+                <h2>Créer un compte Staff</h2>
                 <div class=" error">
                 <i>$errorMessage</i>
                 </div>
-                <form method="POST" action="?action=register">
+                <form method="POST" action="?action=add-staff">
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="text" id="email" name="email" value="$emailValue" required>
@@ -62,14 +64,10 @@ class ActionRegister extends Action {
                         <input type="password" id="mdp" name="mdp" required>
                     </div>
                     <div class="form-group">
-                        <label for="mdp2">Confirmer votre mot de passe</label>
+                        <label for="mdp2">Confirmer le mot de passe</label>
                         <input type="password" id="mdp2" name="mdp2" required>
                     </div>
-                    <button type="submit">S'inscrire</button>
-                    <footer> 
-                        <br>  
-                        <a class="dropdown-item" href="?action=authentication">Se connecter</a>
-                    </footer>
+                    <button type="submit">Créer un compte Staff</button>
                 </form>
             </div>
             </div>
