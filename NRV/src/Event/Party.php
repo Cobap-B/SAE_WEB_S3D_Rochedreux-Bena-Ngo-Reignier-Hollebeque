@@ -11,7 +11,7 @@ class Party extends Event{
 
     protected string $video_link;
 
-    public function __construct(string $id, string $name, string $dateDebut, string $dateFin, Place $place, int $tarif, array $shows = [], string $link){
+    public function __construct(string $id, string $name, string $dateDebut, string $dateFin, Place $place, int $tarif, string $link, array $shows = []){
         parent::__construct($id, $name, $dateDebut, $dateFin);
         $this->place = $place;
         $this->shows = $shows;
@@ -28,7 +28,7 @@ class Party extends Event{
 
         $res = <<<FIN
             <br>
-            <video src="$this->video_link"></video>
+            <iframe width="420" height="315" src="$this->video_link"></iframe>
             <br>
         FIN;
 

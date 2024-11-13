@@ -38,7 +38,7 @@ class FestivalRepository{
     public function saveParty(string $name, string $dateD, string $dateF, string $hourStart, string $hourEnd, string $idLoc, int $price, string $video ): \NRV\Event\Party{
         $stmt = $this->bd->prepare("INSERT INTO party (partyName, dateStart, dateEnd, idLocation, pricing, link) 
         VALUES (:n, STR_TO_DATE( :d1 :h1,'%Y-%m-%d %H:%i'), STR_TO_DATE( :d2 :h2,'%Y-%m-%d %H:%i'), :i, :p, :v)");
-        $stmt->bindParam(":n", $name);
+        $stmt->bindParam(":n", $name, PDO::PARAM_STR);
         $stmt->bindParam(":d1", $dateD);
         $stmt->bindParam(":h1", $hourStart);
         $stmt->bindParam(":d2", $dateF);
@@ -55,7 +55,7 @@ class FestivalRepository{
 
         $place = $this->getPlace($idLoc);
 
-        $party = new \NRV\Event\Party($lastInsertId, $name, $dhS, $dhF, $place, $price);
+        $party = new \NRV\Event\Party($lastInsertId, $name, $dhS, $dhF, $place, $price, $video);
         
         return $party;
     }
@@ -152,7 +152,7 @@ class FestivalRepository{
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
             $place = new \NRV\Event\Place($row['idLocation'], $row['locaName'], $row['address'], $row['nbPlacesAss'], $row['nbPlacesDeb'],$row['imagePath']);
-            $party = new \NRV\Event\Party($row['idParty'], $row['partyName'], $row['dateStart'], $row['dateEnd'], $place , $row['pricing']);
+            $party = new \NRV\Event\Party($row['idParty'], $row['partyName'], $row['dateStart'], $row['dateEnd'], $place , $row['pricing'], $row['link']);
 
             array_push($array, $party);
         }
@@ -210,6 +210,7 @@ class FestivalRepository{
         $prep->bindParam(2,$p);
         $prep->bindParam(3,$r);
         $bool = $prep->execute();
+        echo $r;
         return $bool;
     }
 
