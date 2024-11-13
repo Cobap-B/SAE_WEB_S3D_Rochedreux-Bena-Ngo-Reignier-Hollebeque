@@ -35,31 +35,34 @@ class FestivalRepository{
         return $party;
     }
 
-    public function saveParty(Party $p, int $idfestival): Party{
-        $stmt = $this->bd->prepare("INSERT INTO Party (idParty, nomParty, dateDebut, dateFin, lieu) VALUES (?, ?, ?, ?, ?)");
-        $idP = $p->idParty;
-        $nP = $p->nomParty;
-        $dD = $p->dateDebut;
-        $dF = $p->dateFin;
-        $l = $p->lieu;
-        $stmt->bindParam(1, $idP);
-        $stmt->bindParam(2, $nP);
-        $stmt->bindParam(3, $dD);
-        $stmt->bindParam(4, $dF);
-        $stmt->bindParam(5, $l);
+    public function saveParty(string $name, string $dateD, string $dateF, string $hourStart, string $hourEnd, string $idLoc, int $price ): \NRV\Event\Party{
+        $stmt = $this->bd->prepare("INSERT INTO party (partyName, dateStart, dateEnd, idLocation, pricing) 
+        VALUES (:n, STR_TO_DATE( :d1 :h1,'%Y-%m-%d %H:%i'), STR_TO_DATE( :d2 :h2,'%Y-%m-%d %H:%i'), :i, :p)");
+        $stmt->bindParam(":n", $name);
+        $stmt->bindParam(":d1", $dateD);
+        $stmt->bindParam(":h1", $hourStart);
+        $stmt->bindParam(":d2", $dateF);
+        $stmt->bindParam(":h2", $hourEnd);
+        $stmt->bindParam(":i", $idLoc);
+        $stmt->bindParam(":p", $price);
         $stmt->execute();
 
         $lastInsertId = (int)$this->bd->lastInsertId();
 
-        $stmt2 = $this->bd->prepare("INSERT INTO Festival2Party (idFestival, idParty) VALUES (?,?)");
-        $stmt2->execute([$idfestival, $lastInsertId]);
-        return $p;
+        $dhS = $dateD . " " . $hourStart . ":00";
+        $dhF = $dateF . " " . $hourEnd . ":00";
+
+        $place = $this->getPlace($idLoc);
+
+        $party = new \NRV\Event\Party($lastInsertId, $name, $dhS, $dhF, $place, $price);
+        
+        return $party;
     }
 
-    public function saveShow(string $categorie, string $title, string $artist, string $dateD, string $dateF, string $hourStart, string $hourEnd, string $desc, string $picture, string $audio): Show{
+    public function saveShow(string $categorie, string $title, string $artist, string $dateD, string $dateF, string $hourStart, string $hourEnd, string $desc, string $picture, string $audio): \NRV\Event\Show{
         $query = "INSERT into shows (categorie, title, artist, dateStart, dateEnd, imageName, audioName) 
-            VALUES (:c, :t, :a, :d1 :h1, :d2 :h2, :p, :audio)";
-        $prep = $this->bd->prepare($query);
+            VALUES (:c, :t, :a,  STR_TO_DATE( :d1 :h1,'%Y-%m-%d %H:%i'), STR_TO_DATE( :d2 :h2,'%Y-%m-%d %H:%i'), :p, :audio)";
+        $prep = $this->bd->prepare($query); 
         $prep->bindParam(":c",$categorie, PDO::PARAM_STR);
         $prep->bindParam(":t",$title, PDO::PARAM_STR);
         $prep->bindParam(":a",$artist, PDO::PARAM_STR);
@@ -73,8 +76,9 @@ class FestivalRepository{
 
         $lastId = $this->bd->lastInsertId();
 
-        $dhS = $dateD . $hourStart;
-        $dhF = $dateF . $hourEnd;
+        $dhS = $dateD . " " . $hourStart . ":00";
+
+        $dhF = $dateF . " " . $hourEnd . ":00";
 
         $show = new \NRV\Event\Show($lastId, $categorie, $title, $dhS, $dhF, $artist, $desc, $audio, $picture);
 
@@ -206,5 +210,55 @@ class FestivalRepository{
         $prep->bindParam(3,$r);
         $bool = $prep->execute();
         return $bool;
+    }
+
+    function insertPartyToShow(String $idp, String $ids){
+        try {
+            $insert = "INSERT into Party2Show (idParty, idShow) values(?,?)";
+            $prep = $this->bd->prepare($insert);
+            $prep->bindParam(1,$idp);
+            $prep->bindParam(2,$ids);
+            $bool = $prep->execute();
+            return "Ajouté avec succès";
+        }
+        catch(\PDOException $e){
+            $code = $e->getCode();
+            if($code == 23000){
+                return "Ce spectacle est déjà associé à cette soirée";
+            }
+            else {
+                return "Erreur de l'association";
+            }
+        }
+        
+    }
+
+    function getPlace(int $idPlace){
+        $query = "select locaName, address, nbPlacesAss, nbPlacesDeb, imagePath from Location where idLocation = ?";
+        $prep = $this->bd->prepare($query);
+        $prep->bindParam(1,$idPlace);
+        $prep->execute();
+
+        while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
+            $place = new \NRV\Event\Place($idPlace, $row['locaName'], $row['address'], $row['nbPlacesAss'], $row['nbPlacesDeb'], $row['imagePath']);
+        }
+        return $place;
+
+    }
+
+
+    function getAllLocation(){
+        $query = "select idLocation, locaName, address, nbPlacesAss, nbPlacesDeb, imagePath from Location";
+        $prep = $this->bd->prepare($query);
+        $prep->execute();
+        
+        $places = [];
+
+        while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
+            $place = new \NRV\Event\Place($row['idLocation'], $row['locaName'], $row['address'], $row['nbPlacesAss'], $row['nbPlacesDeb'], $row['imagePath']);
+            array_push($places, $place);
+        }
+
+        return $places;
     }
 }

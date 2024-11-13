@@ -42,7 +42,7 @@ class ActionAddShow extends Action{
                     <input type='file' name='audio' accept="mp3/mpeg" required><br>
 
 
-                    <input type='submit' value='se connecter'>
+                    <input type='submit' value='Enregistrer le Show'>
                 </form> 
             FIN;
         }else{
@@ -58,7 +58,6 @@ class ActionAddShow extends Action{
             var_dump($hourStart);
             $desc = filter_var($_POST['desc'] , FILTER_SANITIZE_SPECIAL_CHARS);
 
-            //$img = $_POST['img'];
             
             if($_FILES['img']['type'] === 'png' or $_FILES['img']['type'] === 'jpeg'){
                 $upload_dir = 'Ressources/Images/';
@@ -72,7 +71,6 @@ class ActionAddShow extends Action{
             $image = $_FILES['img']['name'];
 
 
-            //$audio = $_POST['audio'];
             if($_FILES['audio']['type'] === 'mpeg'){
                 $upload_dir = 'Ressources/Audios/';
                 $tmp = $_FILES['audio']['tmp_names'];
@@ -86,8 +84,8 @@ class ActionAddShow extends Action{
             
             $r = FestivalRepository::makeConnection();
             $show = $r->saveShow($categorie,$title,$artist,$dateStart,$dateEnd,$hourStart,$hourEnd,$desc,$audio,$image);
+            $html = "<div>Show ajoutée</div>";
 
-            //$show = new Show($categorie,$title,$dateStart,$dateEnd,$artist,$desc,$audio,$image);
         }
 
         return $html;

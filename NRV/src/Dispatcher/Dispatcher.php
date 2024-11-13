@@ -33,9 +33,10 @@ class Dispatcher {
         <html lang="fr">
             <head>
                 <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Festival NRV</title>
-                <link rel="stylesheet" href="./css/rendupage.css">
-                <link rel="stylesheet" href="./css/{$this->css_action}">
+                <link rel="stylesheet" href="./CSS/rendupage.css">
+                <link rel="stylesheet" href="./CSS/{$this->css_action}">
                 <link rel="icon" href="Ressources/Images/pipotam_le_vrai.png" type="image/png">
             </head>
             <body>
@@ -99,7 +100,7 @@ class Dispatcher {
                 $a = new act\ActionAddFavorite();
                 $this->css_action = "favorite.css";
                 break;
-            case 'add-show':
+            case 'add-show':    
                 $a = new act\ActionAddShow();
                 $this->css_action = "add_show.css";
                 break;
@@ -147,6 +148,7 @@ class Dispatcher {
                 break;
             default:
                 $a = new act\ActionDefault();
+                $this->css_action = "default.css";
                 break;
         }
 
