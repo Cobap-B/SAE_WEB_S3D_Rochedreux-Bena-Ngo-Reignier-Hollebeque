@@ -113,7 +113,7 @@ class Dispatcher {
         switch ($this->action) {
             case 'favorite':
                 $a = new act\ActionAddFavorite();
-                $this->css_action = "favorite.css";
+                $this->css_action = "page_connexion.css";
                 break;
             case 'add-show':    
                 $a = new act\ActionAddShow();
@@ -129,11 +129,11 @@ class Dispatcher {
                 break;
             case 'del-show':
                 $a = new act\ActionDeleteShow();
-                $this->css_action = "del_show.css";
+                $this->css_action = "page_connexion.css";
                 break;
             case 'display-show':
                 $a = new act\ActionDisplayShow();
-                $this->css_action = "page_connexion.css";
+                $this->css_action = "display_show2.css";
                 break;
             case 'display-party':
                 $a = new act\ActionDisplayParty();
@@ -145,11 +145,11 @@ class Dispatcher {
                     break;
             case 'display-favorite':
                 $a = new act\ActionDisplayFavorite();
-                $this->css_action = "display_favorite.css";
+                $this->css_action = "page_connexion.css";
                 break;
             case 'display-program':
                 $a = new act\ActionDisplayProgram();
-                $this->css_action = "display_program.css";
+                $this->css_action = "page_connexion.css";
                 break;
             case 'register':
                 $a = new act\ActionRegister();
@@ -157,7 +157,7 @@ class Dispatcher {
                 break;
             case 'modif-show':
                 $a = new act\ActionModifyShow();
-                $this->css_action = "modif_show.css";
+                $this->css_action = "page_connexion.css";
                 break;
             case 'modif-party':
                 $a = new act\ActionModifyParty();
@@ -168,6 +168,7 @@ class Dispatcher {
                 break;
             case 'add-staff':
                 $a = new act\ActionAddStaff();
+                $this->css_action = "page_connexion.css";
                 break;
             default:
                 $a = new act\ActionDefault();
