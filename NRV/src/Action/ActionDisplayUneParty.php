@@ -10,13 +10,14 @@ class ActionDisplayUneParty extends Action {
         $id = 0;
         if (isset($_REQUEST["id"])){$id = $_REQUEST["id"];}
 
-        $party = $pdo->getParty();
-        $html .= "<br>";
+        $party = $pdo->getParty($id);
+        if ($party){
+            $html .= "<br>";
       
-        $render = new \NRV\Renderer\PartyRenderer($party);
-        $html .= $render->render(2);
-        $html .= "<br><br>";
-        
+            $render = new \NRV\Renderer\PartyRenderer($party);
+            $html .= $render->render(2);
+            $html .= "<br><br>";
+        }
         return $html;
 
     }

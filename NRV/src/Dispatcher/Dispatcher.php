@@ -17,12 +17,15 @@ class Dispatcher {
         $str = "";
         $bool = isset($_SESSION['user']);
         if (isset($_SESSION['user']['email'])) {
-            $str =  '<li class="nav-item dropdown">
+            $m = $_SESSION['user']['email'];
+            $str = <<<FIN
+             '<li class="nav-item dropdown">
                         <a class="nav-link">Connected</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="?action=disconnect">Log Out</a></li>
                             </ul>
                       </li> ';
+            FIN;
 
         }
         else{
@@ -58,7 +61,7 @@ class Dispatcher {
                                 </li>
         FIN;
                                 if ($bool){
-                                    if ($_SESSION['user']['id'] > 1){
+                                    if ($_SESSION['user']['role'] > 1){
                                         echo <<<FIN
                                         <li class="nav-item dropdown">
                                             <a class="nav-link">MODIFY CONTENT</a>
@@ -72,10 +75,16 @@ class Dispatcher {
                                         </li>
                                         FIN;
                                     }
+                                    if ($_SESSION['user']['role'] > 2){
+                                        echo <<<FIN
+                                        <li class="nav-item"><a class="nav-link" href="?action=add-staff">CREATE STAFF ACCOUNT</a></li>
+                                        FIN;
+                                    }
                                 }
                             echo <<<FIN
                             </div>
-                            <div class="nav-right">                    
+                            <div class="nav-right">
+                            <li class="nav-item"><a class="nav-link">$m</a></li>                    
                             $str
                             </div>
                         </ul>
@@ -123,6 +132,10 @@ class Dispatcher {
                 $a = new act\ActionDisplayParty();
                 $this->css_action = "display_party.css";
                 break;
+            case 'display-une-party':
+                    $a = new act\ActionDisplayUneParty();
+                    $this->css_action = "display_party.css";
+                    break;
             case 'display-favorite':
                 $a = new act\ActionDisplayFavorite();
                 $this->css_action = "display_favorite.css";
@@ -145,6 +158,9 @@ class Dispatcher {
             case 'disconnect':
                 $a = new act\ActionDisconnect();
                 $this->css_action = "page_connexion.css";
+                break;
+            case 'add-staff':
+                $a = new act\ActionAddStaff();
                 break;
             default:
                 $a = new act\ActionDefault();
