@@ -16,7 +16,7 @@ class Party extends Event{
         $this->place = $place;
         $this->shows = $shows;
         $this->tarif = $tarif;
-        $this->video_link = $link;
+        $this->video_link = str_replace("watch?v=","embed/",$link);
     }
 
 
