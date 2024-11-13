@@ -104,7 +104,7 @@ class Dispatcher {
                 $a = new act\ActionAddFavorite();
                 $this->css_action = "favorite.css";
                 break;
-            case 'add-show':
+            case 'add-show':    
                 $a = new act\ActionAddShow();
                 $this->css_action = "add_show.css";
                 break;
