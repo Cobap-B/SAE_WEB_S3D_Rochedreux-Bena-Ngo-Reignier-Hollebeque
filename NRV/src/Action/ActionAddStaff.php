@@ -31,7 +31,6 @@ class ActionAddStaff extends Action {
 
         // Génération du formulaire HTML
         echo"<br>";
-        var_dump($_SESSION['user']);
         return <<<HTML
         <!DOCTYPE html>
         <html lang="fr">
