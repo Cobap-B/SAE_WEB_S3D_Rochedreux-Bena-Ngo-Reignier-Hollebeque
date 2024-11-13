@@ -4,6 +4,7 @@ namespace NRV\Action;
 
 use NRV\Repository\FestivalRepository;
 use NRV\Event\Party;
+use NRV\Exception\InvalidLinkException;
 
 class ActionAddParty extends Action{
 
@@ -13,7 +14,7 @@ class ActionAddParty extends Action{
                 <div class="login-wrapper">
             <div class="login-container">
                 <h2>Enregistrer une nouvelle Party</h2>
-                <form method="POST" action="?action=add-show" enctype="multipart/form-data">
+                <form method="POST" action="?action=add-party" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="partyName">Nom de la Party :</label>
                         <input type="text" id="partyName" name="partyName" required>
@@ -46,13 +47,6 @@ class ActionAddParty extends Action{
                         <label for="video">Vidéo de la soirée (YouTube) :</label>
                         <input type="text" id="video" name="video" required>
                     </div>
-
-                    <button type="submit">Enregistrer la Party</button>
-                </form>
-            </div>
-            </div>
-
-                    
             FIN;
 
             $bd = FestivalRepository::makeConnection();
@@ -67,37 +61,38 @@ class ActionAddParty extends Action{
 
             $html .= '</select><br><br>';
             $html .= <<<FIN
-            <input type='submit' value='Enregistrer la Soirée'>
+            <input type='submit' value='Enregistrer la Party'>
             </form>
             FIN;
 
         }else{
+            try{
+                $partyName = filter_var($_POST['partyName'] , FILTER_SANITIZE_SPECIAL_CHARS);
+                $dateStart = $_POST['dateStart'];
+                $dateEnd = $_POST['dateEnd'];
+                $hourStart = $_POST['hourStart'];
+                $hourEnd = $_POST['hourEnd'];
+                $price = $_POST['price'];
+                $idLoc = $_POST["Location"];
 
-            $partyName = filter_var($_POST['partyName'] , FILTER_SANITIZE_SPECIAL_CHARS);
-            $dateStart = $_POST['dateStart'];
-            $dateEnd = $_POST['dateEnd'];
-            $hourStart = $_POST['hourStart'];
-            $hourEnd = $_POST['hourEnd'];
-            $price = $_POST['price'];
-            $idLoc = $_POST["Location"];
+                //Preparation des variables pour voir si le lien Youtube est correct
+                $verifLink = substr($_POST["video"], 0, 32);
+                $verif = "https://www.youtube.com/watch?v=";
 
-            $verifLink = str_split($_POST["video"]);
-            $verif = str_split("https://www.youtube.com/watch?v=");
-            $res = true;
-            for ($i = 0; $i <= 31; $i++) {
-                if (!$verifLink[i] = $verif[i]){
-                    $res = false;
-                    break;
+                //Si le lien est correct, il effectue la sauvegarde dans la BD
+                if ($verifLink === $verif){
+                    $video = $_POST["video"];
+                    $r = FestivalRepository::makeConnection();
+                    $party = $r->saveParty($partyName,$dateStart,$dateEnd,$hourStart,$hourEnd,$idLoc,$price, $video);
+                    $html = "<div>Party ajoutée avec succès</div>";
                 }
+                //Si il n'est pas valide, renvoie une erreur
+                else{
+                    throw new InvalidLinkException('Lien Youtube invalide');
+                }
+            }catch(InvalidLinkException $e1){
+                $html = $e1->getMessage();
             }
-            if ($res == true){
-                $video = $_POST["video"];
-            }
-
-
-            $r = FestivalRepository::makeConnection();
-            $party = $r->saveParty($partyName,$dateStart,$dateEnd,$hourStart,$hourEnd,$idLoc,$price, $video);
-            $html = "<div>Party ajoutée avec succès</div>";
         }
         return $html;
     }
