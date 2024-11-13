@@ -12,6 +12,7 @@ class ActionDefault extends Action {
                         <a href="">
                         <section class ="party">
                             <h2>Party</h2>
+                                <a href="">
                                 <p>
         FIN;
 
@@ -26,9 +27,9 @@ class ActionDefault extends Action {
                                 </p>
                         </section>
                         </a>
-                        <a href="">
                         <section class ="show">
                             <h2>Show</h2>
+                            <a href="">
                                 <p>
         FIN;
 
