@@ -126,7 +126,7 @@ class Dispatcher {
                 break;
             case 'display-show':
                 $a = new act\ActionDisplayShow();
-                $this->css_action = "display_show.css";
+                $this->css_action = "display_show2.css";
                 break;
             case 'display-party':
                 $a = new act\ActionDisplayParty();

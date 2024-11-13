@@ -23,7 +23,12 @@ class ActionAuthentication extends Action {
             // Si l'authentification échoue
             if ($succes !== true) {
                 // Mise à jour du message d'erreur
-                $this->errorMessage = "<p class='error'>$succes</p>";
+                if ($succes == "Vous êtes connecté"){
+                    $this->errorMessage = "<p class='sucess'>$succes</p>";
+                }else{
+                    $this->errorMessage = "<p class='error'>$succes</p>";
+                }
+                
             } else {
                 // Authentification réussie, rediriger ou autre action
                 header("Location: /default"); // Exemple de redirection après connexion réussie
@@ -38,23 +43,11 @@ class ActionAuthentication extends Action {
     // Méthode pour générer le HTML du formulaire avec les erreurs
     private function getFormHTML(): string {
         return <<<FIN
-        <!DOCTYPE html>
-        <html lang="fr">
-        <head>
-            <meta charset="UTF-8">
-            <title>Se connecter</title>
-            <style>
-                .error {
-                    color: red;
-                }
-            </style>
-        </head>
-        <body>
             <div class="login-wrapper">
             <div class="login-container">
                 <h2>Se connecter</h2>
                 <!-- Affichage des erreurs s'il y en a -->
-                <div class="error">
+                <div>
                     <i>{$this->errorMessage}</i>
                 </div>
                 <form method="POST" action="?action=authentication">
@@ -74,8 +67,6 @@ class ActionAuthentication extends Action {
                 </form>
             </div>
             </div>
-        </body>
-        </html>  
     FIN;
     }
 }

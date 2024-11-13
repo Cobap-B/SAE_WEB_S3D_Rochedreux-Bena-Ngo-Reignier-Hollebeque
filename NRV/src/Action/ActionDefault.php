@@ -9,10 +9,8 @@ class ActionDefault extends Action {
         $pdo = \NRV\Repository\FestivalRepository::makeConnection();
         $html .= <<<FIN
                     <div class ="default">
-                        <a href="">
                         <section class ="party">
                             <h2>Party</h2>
-                                <p>
         FIN;
 
         $party = $pdo->displayParty();
@@ -23,13 +21,9 @@ class ActionDefault extends Action {
         }
 
         $html .= <<<FIN
-                                </p>
                         </section>
-                        </a>
-                        <a href="">
                         <section class ="show">
                             <h2>Show</h2>
-                                <p>
         FIN;
 
         $shows = $pdo->displayShow("", "", "");
@@ -39,9 +33,7 @@ class ActionDefault extends Action {
             $html .= "<br><br>";
         }
         $html .= <<<FIN
-                                </p>
                         </section>
-                        </a>
                     </div>
         FIN;
 

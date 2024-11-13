@@ -18,7 +18,7 @@ class ActionDisplayShow extends Action {
                 <fieldset>
                     <legend>Category</legend>
                     <p>Style de musique : </p>
-                    <input type='category' name='category' value='$cate'>
+                    <input type='text' name='category' value='$cate'>
                 </fieldset>
 
                 <fieldset>
@@ -28,12 +28,12 @@ class ActionDisplayShow extends Action {
                 </fieldset><br>
 
                 <fieldset>
-                    <legend>Lieu</legend>
-                    <p>Lieu :</p>
-                    <input type='label' name='lieu' value='$lieu'>
+                    <legend>Location</legend>
+                    <p>Location :</p>
+                    <input type='text' name='lieu' value='$lieu'>
                 </fieldset><br>
 
-                <input type='submit' value='Filtrer'>
+                <input type='submit' name="val" value='Filtrer'>
             </fieldset>
         </form>  
     FIN;
@@ -41,12 +41,12 @@ class ActionDisplayShow extends Action {
         if ($this->http_method === 'GET'){
             //r
         }elseif ($this->http_method === 'POST'){
-            
+            var_dump($_ENV);
             if (isset($_POST["category"])){$cate = $_POST["category"];}
             if (isset($_POST["date"])){$date = $_POST["date"];}
             if (isset($_POST["lieu"])){$lieu = $_POST["lieu"];}
         
-            $html.='<div class="container">';
+            $html.='<div class="conta">';
             $shows = $pdo->displayShow($cate, $date, $lieu);
             foreach($shows as $a){
                 $render = new \NRV\Renderer\ShowRenderer($a);
