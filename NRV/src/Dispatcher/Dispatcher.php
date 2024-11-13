@@ -111,7 +111,7 @@ class Dispatcher {
 
     public function run() {
         $a = null;
-
+        
         // Choix de l'action et de la feuille CSS
         switch ($this->action) {
             case 'favorite':

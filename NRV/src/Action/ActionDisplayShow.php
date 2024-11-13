@@ -47,7 +47,6 @@ class ActionDisplayShow extends Action {
         if ($this->http_method === 'GET'){
             //r
         }elseif ($this->http_method === 'POST'){
-            var_dump($_ENV);
             if (isset($_POST["category"])){$cate = $_POST["category"];}
             if (isset($_POST["date"])){$date = $_POST["date"];}
             if (isset($_POST["lieu"])){$lieu = $_POST["lieu"];}
@@ -58,7 +57,7 @@ class ActionDisplayShow extends Action {
                 $id = $pdo->getIdParty($a->id);
                 $render = new \NRV\Renderer\ShowRenderer($a);
                 $html .= '<div class="cont">';
-                $html .= "<a href='?action=display-une-party?id=$id'>Look party</a>";
+                $html .= "<a href='?action=display-une-party&id=$id'>Look party</a>";
                 $html .= $render->render(2);
                 $html .= "</div>";
                 $html .= "<br><br>";
