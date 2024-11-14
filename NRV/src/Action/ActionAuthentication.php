@@ -60,10 +60,10 @@ class ActionAuthentication extends Action {
                         <input type="password" id="mdp" name="mdp" required>
                     </div>
                     <button type="submit">Se connecter</button>
-                    <footer> 
+                    <div class="register"> 
                         <br>  
                         <a class="dropdown-item" href="?action=register">S'enregistrer</a>
-                    </footer>
+                    </div>
                 </form>
             </div>
             </div>

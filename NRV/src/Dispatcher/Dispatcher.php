@@ -39,10 +39,13 @@ class Dispatcher {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Festival NRV</title>
                 <link rel="stylesheet" href="./CSS/rendupage.css">
+
                 <link rel="stylesheet" href="./CSS/{$this->css_action}">
                 <link rel="icon" href="Ressources/Images/pipotam_le_vrai.png" type="image/png">
             </head>
             <body>
+            <div class="background-container"></div>
+            <div class="overlay"></div>
                 <div class="container"> 
                     <nav>
                         <ul class="nav">
@@ -54,9 +57,7 @@ class Dispatcher {
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="?action=display-show">Shows</a></li>
                                         <li><a class="dropdown-item" href="?action=display-party">Partys</a></li>
-
                                         <li><a class="dropdown-item" href="?action=display-favorite">Favorites</a></li>
-                                        <li><a class="dropdown-item" href="?action=display-program">Program</a></li>
                                     </ul>
                                 </li>
         FIN;
@@ -70,7 +71,6 @@ class Dispatcher {
                                             <li><a class="dropdown-item" href="?action=modif-party">Edit Party</a></li>
                                             <li><a class="dropdown-item" href="?action=add-show">Create Show</a></li>
                                             <li><a class="dropdown-item" href="?action=modif-show">Edit Show</a></li>
-                                            <li><a class="dropdown-item" href="?action=cancel-show">Cancel Show</a></li>
                                             </ul>
                                         </li>
                                         FIN;
@@ -98,72 +98,71 @@ class Dispatcher {
                          
                     <div class="main-content">
                         $html
-                    </div>                   
-                    
-                </div>
-            </body>
+                    </div> 
+                                                                                
+                </div>         
+                <footer>
+                    <div class="footer-content">
+                        &copy; 2024 Festival NRV. Tous droits réservés.
+                    </div>
+                </footer> 
+            </body>  
         </html>
     FIN;
     }
 
     public function run() {
         $a = null;
-
+        
         // Choix de l'action et de la feuille CSS
         switch ($this->action) {
             case 'favorite':
                 $a = new act\ActionAddFavorite();
-                $this->css_action = "favorite.css";
+                $this->css_action = "formulaire.css";
                 break;
             case 'add-show':    
                 $a = new act\ActionAddShow();
-                $this->css_action = "page_connexion.css";
+                $this->css_action = "formulaire.css";
                 break;
             case 'add-party':
                 $a = new act\ActionAddParty();
-                $this->css_action = "page_connexion.css";
+                $this->css_action = "formulaire.css";
                 break;
             case 'authentication':
                 $a = new act\ActionAuthentication();
-                $this->css_action = "page_connexion.css";
-                break;
-            case 'del-show':
-                $a = new act\ActionDeleteShow();
-                $this->css_action = "del_show.css";
+                $this->css_action = "formulaire.css";
                 break;
             case 'display-show':
                 $a = new act\ActionDisplayShow();
-                $this->css_action = "page_connexion.css";
+                $this->css_action = "display_show2.css";
                 break;
             case 'display-party':
                 $a = new act\ActionDisplayParty();
-                $this->css_action = "page_connexion.css";
+                $this->css_action = "formulaire.css";
                 break;
+            case 'display-une-party':
+                    $a = new act\ActionDisplayUneParty();
+                $this->css_action = "formulaire.css";
+                    break;
             case 'display-favorite':
                 $a = new act\ActionDisplayFavorite();
-                $this->css_action = "display_favorite.css";
-                break;
-            case 'display-program':
-                $a = new act\ActionDisplayProgram();
-                $this->css_action = "display_program.css";
+                $this->css_action = "formulaire.css";
                 break;
             case 'register':
                 $a = new act\ActionRegister();
-                $this->css_action = "page_connexion.css";
-                break;
-            case 'modif-show':
-                $a = new act\ActionModifyShow();
-                $this->css_action = "modif_show.css";
+                $this->css_action = "formulaire.css";
                 break;
             case 'modif-party':
                 $a = new act\ActionModifyParty();
+                $this->css_action = "formulaire.css";
                 break;
             case 'disconnect':
                 $a = new act\ActionDisconnect();
-                $this->css_action = "page_connexion.css";
+                $this->css_action = "formulaire.css";
                 break;
             case 'add-staff':
                 $a = new act\ActionAddStaff();
+                $this->css_action = "formulaire.css";
                 break;
             default:
                 $a = new act\ActionDefault();

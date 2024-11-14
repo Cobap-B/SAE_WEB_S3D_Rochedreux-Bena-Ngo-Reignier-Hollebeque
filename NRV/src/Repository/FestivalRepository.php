@@ -20,6 +20,7 @@ class FestivalRepository{
         if (is_null(self::$instance)) {
             self::$instance = new FestivalRepository(self::$tab);
         }
+        self::$instance->bd->exec("SET NAMES 'utf8mb4'");
         return self::$instance;
     }
 
@@ -108,7 +109,7 @@ class FestivalRepository{
         }if ($date != ""){
             $query.=" DATE(party.dateStart)=STR_TO_DATE(:dateVar,'%Y-%m-%d') AND";
         }if ($lieu != ""){
-            $query.=" party.location = :lieu";
+            $query.=" party.idLocation = :lieu";
         }
 
         $words = explode( " ", $query );
@@ -123,7 +124,7 @@ class FestivalRepository{
         }if ($date != ""){
             $prep->bindParam(':dateVar',$date, PDO::PARAM_STR);
         }if ($lieu != ""){
-            $prep->bindParam(':lieu',$lieu, PDO::PARAM_STR);
+            $prep->bindParam(':lieu',$lieu, PDO::PARAM_INT);
         }
 
         $prep->execute();
@@ -159,6 +160,27 @@ class FestivalRepository{
 
         return $array;
 
+    }
+
+    public function getParty(int $id){
+        $query = "
+        SELECT *
+        FROM party p
+        INNER JOIN location l ON p.idLocation = l.idLocation
+        WHERE p.idParty = :id;
+        ";
+
+        $prep = $this->bd->prepare($query);
+        $prep->bindParam(':id', $id, PDO::PARAM_INT);
+        $prep->execute();
+        $party=null;
+        $row =$prep->fetch(PDO::FETCH_ASSOC);
+        if ($row){
+            $place = new \NRV\Event\Place($row['idLocation'], $row['locaName'], $row['address'], $row['nbPlacesAss'], $row['nbPlacesDeb'],$row['imagePath']);
+            $party = new \NRV\Event\Party($row['idParty'], $row['partyName'], $row['dateStart'], $row['dateEnd'], $place , $row['pricing'], $row['link']);
+        }
+        
+        return $party;
     }
 
     public function displayFavorite(string $id){
@@ -210,7 +232,6 @@ class FestivalRepository{
         $prep->bindParam(2,$p);
         $prep->bindParam(3,$r);
         $bool = $prep->execute();
-        echo $r;
         return $bool;
     }
 
@@ -262,5 +283,40 @@ class FestivalRepository{
         }
 
         return $places;
+    }
+
+    function getIdParty(int $id){
+        $query = "
+        SELECT * from Party2Show where idShow = :id;
+        ";
+
+        $prep = $this->bd->prepare($query);
+        $prep->bindParam(':id', $id, PDO::PARAM_INT);
+        $prep->execute();
+        $idParty=null;
+        $row =$prep->fetch(PDO::FETCH_ASSOC);
+        if ($row){
+            $idParty = $row["idParty"];
+        }
+        
+        return $idParty;
+    }
+
+
+    function getCategorie(){
+        $query = "
+        SELECT Distinct(shows.categorie) as cat from shows;
+        ";
+
+        $prep = $this->bd->prepare($query);
+        $prep->execute();
+        $cat=[];
+        $row =$prep->fetch(PDO::FETCH_ASSOC);
+        while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
+            array_push($cat, $row["cat"]);
+        }
+        
+        
+        return $cat;
     }
 }

@@ -66,10 +66,11 @@ class ActionRegister extends Action {
                         <input type="password" id="mdp2" name="mdp2" required>
                     </div>
                     <button type="submit">S'inscrire</button>
-                    <footer> 
+                    <div class="register"> 
+
                         <br>  
                         <a class="dropdown-item" href="?action=authentication">Se connecter</a>
-                    </footer>
+                    </div>    
                 </form>
             </div>
             </div>
