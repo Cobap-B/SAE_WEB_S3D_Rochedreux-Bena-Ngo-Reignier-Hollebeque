@@ -1,13 +1,25 @@
 <?php
+
 namespace NRV\action;
 
 class ActionDisplayShow extends Action {
 
     public function execute() {
+        
         $html = "";
         $cate = "";
         $date = "";
         $lieu = "";
+
+        $pdo = \NRV\Repository\FestivalRepository::makeConnection();
+
+
+        if ($this->http_method === 'POST'){
+            //Permet de garder les valeurs
+            if (isset($_POST["category"])){$cate = $_POST["category"];}
+            if (isset($_POST["date"])){$date = $_POST["date"];}
+            if (isset($_POST["lieu"])){$lieu = $_POST["lieu"];}
+        }
 
         $html .= <<<FIN
         <br>
@@ -22,8 +34,22 @@ class ActionDisplayShow extends Action {
         
                     <fieldset>
                         <legend>Catégorie</legend>
-                        <label for='category'>Style de musique :</label>
-                        <input type='text' name='category' value='$cate'>
+        FIN;
+        //Bouton select Categorie
+        $pl = $pdo->getCategorie();
+        $html .= "Category : <select name='category' size='1' default='$cate'>";
+        $html .= "<option value=''>  </option>";
+        foreach($pl as $p){
+            if ($p == $cate){
+                $html .= "<option selected value='$p'> $p </option>";
+            }else{
+                $html .= "<option value='$p'> $p </option>";
+            }
+            
+        }
+        $html .= '</select><br><br>';
+
+        $html .= <<<FIN
                     </fieldset>
         
                     <fieldset>
@@ -34,8 +60,23 @@ class ActionDisplayShow extends Action {
         
                     <fieldset>
                         <legend>Lieu</legend>
-                        <label for='lieu'>Emplacement :</label>
-                        <input type='text' name='lieu' value='$lieu'>
+        FIN;
+        //Bouton select Location
+        $pl = $pdo->getAllLocation();
+        $html .= "Lieu : <select name='lieu' size='1' default='$lieu'>";
+        $html .= "<option value=''>  </option>";
+        foreach($pl as $p){
+            $id = $p->__get("id");
+            $name = $p->__get("name");
+            if ($id == $lieu){
+                $html .= "<option selected value='$id'> $name </option>";
+            }else{
+                $html .= "<option value='$id'> $name </option>";
+            }
+        }
+        $html .= '</select><br><br>';
+
+        $html .= <<<FIN
                     </fieldset>
         
                     <input type='submit' name='val' value='Filtrer'>
@@ -43,13 +84,10 @@ class ActionDisplayShow extends Action {
             </form>  
         FIN;
 
-        $pdo = \NRV\Repository\FestivalRepository::makeConnection();
+        
         if ($this->http_method === 'GET'){
             //r
         }elseif ($this->http_method === 'POST'){
-            if (isset($_POST["category"])){$cate = $_POST["category"];}
-            if (isset($_POST["date"])){$date = $_POST["date"];}
-            if (isset($_POST["lieu"])){$lieu = $_POST["lieu"];}
         
             $html.='<div class="conta">';
             $shows = $pdo->displayShow($cate, $date, $lieu);

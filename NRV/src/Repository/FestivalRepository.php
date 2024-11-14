@@ -20,6 +20,7 @@ class FestivalRepository{
         if (is_null(self::$instance)) {
             self::$instance = new FestivalRepository(self::$tab);
         }
+        self::$instance->bd->exec("SET NAMES 'utf8mb4'");
         return self::$instance;
     }
 
@@ -108,7 +109,7 @@ class FestivalRepository{
         }if ($date != ""){
             $query.=" DATE(party.dateStart)=STR_TO_DATE(:dateVar,'%Y-%m-%d') AND";
         }if ($lieu != ""){
-            $query.=" party.location = :lieu";
+            $query.=" party.idLocation = :lieu";
         }
 
         $words = explode( " ", $query );
@@ -123,7 +124,7 @@ class FestivalRepository{
         }if ($date != ""){
             $prep->bindParam(':dateVar',$date, PDO::PARAM_STR);
         }if ($lieu != ""){
-            $prep->bindParam(':lieu',$lieu, PDO::PARAM_STR);
+            $prep->bindParam(':lieu',$lieu, PDO::PARAM_INT);
         }
 
         $prep->execute();
@@ -299,5 +300,23 @@ class FestivalRepository{
         }
         
         return $idParty;
+    }
+
+
+    function getCategorie(){
+        $query = "
+        SELECT Distinct(shows.categorie) as cat from shows;
+        ";
+
+        $prep = $this->bd->prepare($query);
+        $prep->execute();
+        $cat=[];
+        $row =$prep->fetch(PDO::FETCH_ASSOC);
+        while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
+            array_push($cat, $row["cat"]);
+        }
+        
+        
+        return $cat;
     }
 }
