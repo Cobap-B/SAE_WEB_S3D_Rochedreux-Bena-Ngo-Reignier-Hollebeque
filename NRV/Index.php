@@ -10,3 +10,4 @@ FestivalRepository::setConfig( 'config.ini' );
 $d = new \NRV\dispatcher\Dispatcher();
 $d->run();
 
+

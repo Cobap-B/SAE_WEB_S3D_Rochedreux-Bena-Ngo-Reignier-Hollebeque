@@ -3,6 +3,8 @@
 namespace NRV\Event;
 
 
+use NRV\Exception\InvalidPropertyNameException;
+
 class Place{
 
     protected int $id;
@@ -23,22 +25,30 @@ class Place{
     }
 
 
+    /**
+     * @throws InvalidPropertyNameException
+     */
     public function  __get(string $at):mixed{
         if (property_exists ($this, $at)) return $this->$at;
         throw new \NRV\Exception\InvalidPropertyNameException ("$at: invalid proprety");
     }
 
     public function __toString(): string {
-        $res = sprintf(
-            "Place:\nNom: %s\nAdresse: %s\nCapacité Standing place : %d\nSeat : %d\n",
-            $this->name,
-            $this->adresse,
-            $this->nbDebout,
-            $this->nbAssis
-        );
-        return $res .= <<<FIN
-            <br>
-            <img src="./NRV/Ressources/Images/$this->img" alt="">
-        FIN;
+        return <<<HTML
+    <div class="place-container">
+        <h2 class="place-title">{$this->name}</h2>
+        <div class="place-details">
+        <center>
+            <img class="place-image" src="Ressources/Images/{$this->img}" alt="Image de {$this->name}">
+        </center>
+                <li><strong>Adresse:</strong> {$this->adresse}</li>
+                <li><strong>Places debouts:</strong> {$this->nbDebout}</li>
+                <li><strong>Places Assises:</strong> {$this->nbAssis}</li>
+        </div>
+    </div>
+ 
+
+HTML;
     }
+
 }

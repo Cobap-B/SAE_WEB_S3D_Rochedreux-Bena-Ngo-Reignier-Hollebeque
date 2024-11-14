@@ -23,29 +23,36 @@ class Party extends Event{
     public function __toString(): string {
         $details = "";
         foreach ($this->shows as $show) {
-            $details .= $show ."\n";
+            $details .= "<li>" . htmlspecialchars($show) . "</li>\n";
         }
 
-        $res = <<<FIN
-            <br>
-            <iframe width="420" height="315" src="$this->video_link"></iframe>
-            <br>
-        FIN;
+        return <<<HTML
+            <center>
+            <div class="party-container">
+                <h2 class="party-title">{$this->name} </h2>
+                <div class="party-details">
+                    <div class="party-video">
+                        <iframe width="420" height="315" src="{$this->video_link}" allowfullscreen></iframe>
+                    </div>
+                    <ul class="party-info">
+                        <li><strong>Date début:</strong> {$this->dateDebut->format('Y-m-d H:i')}</li>
+                        <li><strong>Date fin:</strong> {$this->dateFin->format('Y-m-d H:i')}</li>
+                        <li><strong>Tarif:</strong> {$this->tarif} €</li>
 
-        $res .= sprintf(
-            "Party (ID: %s)\nNom: %s\nDate début: %s\nDate fin: %s\nLieu: %s\nTarif: %d€\nSpectacles: %s",
-            $this->id,
-            $this->name,
-            $this->dateDebut->format('Y-m-d H:i'),
-            $this->dateFin->format('Y-m-d H:i'),
-            $this->place,
-            $this->tarif,
-            $details
-        );
-
-
-        return $res;
+                        {$this->place}
+                    </ul>
+                </div>
+                <div class="party-shows">
+                    <h3>Liste des spectacles</h3>
+                    <ul>
+                        {$details}
+                    </ul>
+                </div>
+            </div>
+        </center>
+        HTML;
     }
-   
+
+
 
 }

@@ -11,8 +11,8 @@ class ActionDefault extends Action {
             <div class="welcome-container">
                 <section class="welcome-message">
                     <h1>Bienvenue au Festival NRV!</h1>
-                    <p>Plongez dans un univers de musique et de découvertes artistiques, Le Festival NRV est disponible prêt de chez vous.</p>
-                    <p>Venez vivre des expériences inoubliables, vibrez avec des performances uniques et créez des souvenirs mémorables avec nous au Festivaz NRV !</p>
+                    <p>Plongez dans un univers de musique et de découvertes artistiques, Le Festival NRV ouvre ses portes prêt de chez vous.</p>
+                    <p>Venez vivre des expériences inoubliables, vibrez avec des performances uniques et créez des souvenirs mémorables avec nous au Festival NRV !</p>
                 </section>
             </div>
             </div>
