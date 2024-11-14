@@ -17,7 +17,5 @@ class ActionDisplayParty extends Action {
                 $html .= "<br><br>";
             }
             return $html;
-
     }
-
 }

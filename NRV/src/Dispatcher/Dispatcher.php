@@ -98,10 +98,15 @@ class Dispatcher {
                          
                     <div class="main-content">
                         $html
-                    </div>                   
-                    
-                </div>
-            </body>
+                    </div> 
+                                                                                
+                </div>         
+                <footer>
+                    <div class="footer-content">
+                        &copy; 2024 Festival NRV. Tous droits réservés.
+                    </div>
+                </footer> 
+            </body>  
         </html>
     FIN;
     }

@@ -10,6 +10,10 @@ class ActionAddShow extends Action{
     public function execute(): string{
         if ($this->http_method === 'GET'){
             $html = <<<FIN
+            <br>
+            <br>
+            <br>
+            <br>
                 <body>
         <div class="login-wrapper">
             <div class="login-container">
@@ -67,6 +71,9 @@ class ActionAddShow extends Action{
                 </form>
             </div>
         </div>
+         <br>
+         <br>
+            
     </body>
     </html>
 FIN;

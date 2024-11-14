@@ -11,7 +11,12 @@ class ActionAddParty extends Action{
     public function execute(): string{
         if ($this->http_method === 'GET'){
             $html = <<<FIN
-                <div class="login-wrapper">
+            <br>
+            <br>
+            <br>
+            <br>
+
+            <div class="login-wrapper">
             <div class="login-container">
                 <h2>Enregistrer une nouvelle Party</h2>
                 <form method="POST" action="?action=add-party" enctype="multipart/form-data">
@@ -39,14 +44,15 @@ class ActionAddParty extends Action{
                     </div>
 
                     <div class="form-group">
-                        <label for="price">Prix de la Party :</label>
+                        <label for="price">Prix de la party :</label>
                         <input type="number" id="price" name="price" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="video">Vidéo de la soirée (YouTube) :</label>
+                        <label for="video">Vidéo de la party (YouTube) :</label>
                         <input type="text" id="video" name="video" required>
                     </div>
+
             FIN;
 
             $bd = FestivalRepository::makeConnection();
@@ -63,6 +69,9 @@ class ActionAddParty extends Action{
             $html .= <<<FIN
             <input type='submit' value='Enregistrer la Party'>
             </form>
+            <br>
+            <br>
+            
             FIN;
 
         }else{
