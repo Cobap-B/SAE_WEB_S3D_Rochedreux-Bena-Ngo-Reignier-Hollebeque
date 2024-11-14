@@ -71,7 +71,6 @@ class Dispatcher {
                                             <li><a class="dropdown-item" href="?action=modif-party">Edit Party</a></li>
                                             <li><a class="dropdown-item" href="?action=add-show">Create Show</a></li>
                                             <li><a class="dropdown-item" href="?action=modif-show">Edit Show</a></li>
-                                            <li><a class="dropdown-item" href="?action=cancel-show">Cancel Show</a></li>
                                             </ul>
                                         </li>
                                         FIN;
@@ -128,10 +127,6 @@ class Dispatcher {
                 $a = new act\ActionAuthentication();
                 $this->css_action = "formulaire.css";
                 break;
-            case 'del-show':
-                $a = new act\ActionDeleteShow();
-                $this->css_action = "formulaire.css";
-                break;
             case 'display-show':
                 $a = new act\ActionDisplayShow();
                 $this->css_action = "display_show2.css";
@@ -148,22 +143,13 @@ class Dispatcher {
                 $a = new act\ActionDisplayFavorite();
                 $this->css_action = "formulaire.css";
                 break;
-            case 'display-program':
-                $a = new act\ActionDisplayProgram();
-                $this->css_action = "formulaire.css";
-                break;
             case 'register':
                 $a = new act\ActionRegister();
-                $this->css_action = "formulaire.css";
-                break;
-            case 'modif-show':
-                $a = new act\ActionModifyShow();
                 $this->css_action = "formulaire.css";
                 break;
             case 'modif-party':
                 $a = new act\ActionModifyParty();
                 $this->css_action = "formulaire.css";
-
                 break;
             case 'disconnect':
                 $a = new act\ActionDisconnect();
