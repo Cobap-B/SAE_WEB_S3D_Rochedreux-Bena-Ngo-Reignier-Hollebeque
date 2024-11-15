@@ -26,6 +26,12 @@ abstract class AuthnProvider {
             $_SESSION['user']['id']=$ide;
             $_SESSION['user']['email']=$e;
             $_SESSION['user']['role']=$data['role'];
+
+            $favorite = $bd->getFavorite($ide);
+            $_SESSION["Favorite"] = [];
+            foreach($favorite as $f){
+                array_push($_SESSION["Favorite"], $f);
+            }
             return "Vous êtes connecté";
             }
         else {

@@ -8,15 +8,35 @@ img {
 }
 
 .conta {
+    position : relative;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
     padding: 20px;
+    
+}
+
+.p {
+    position: relative;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 350px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    gap: 10px;
+    text-align: center;
+    margin: 0;
+    font-size: 15px;
+    color: #333;
+    font-family: 'Arial', sans-serif;
 }
 
 .cont {
+    position: relative;
     background-color: #f8f9fa;
     padding: 20px;
     border-radius: 12px;
@@ -29,6 +49,7 @@ img {
     gap: 10px;
     text-align: center;
     transition: transform 0.3s ease;
+    box-sizing: border-box;
 }
 
 .cont:hover {
@@ -63,7 +84,7 @@ img {
 }
 
 /* Formulaire de filtre */
-form {
+form:not(.formLove) {
     width: 100%;
     max-width: 600px;
     margin: 20px auto;
@@ -87,7 +108,7 @@ legend {
 
 input[type="text"],
 input[type="date"],
-input[type="submit"] {
+input[type="submit"]:not(.love):not(.love2) {
     width: 100%;
     padding: 8px;
     margin-top: 8px;
@@ -97,15 +118,65 @@ input[type="submit"] {
     box-sizing: border-box;
 }
 
-input[type="submit"] {
+input[type="submit"]:not(.love):not(.love2) {
     background-color: #1c2942;
     color: #ffffff;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-input[type="submit"]:hover {
+input[type="submit"]:hover:not(.love):not(.love2){
     background-color: #162033;
+}
+
+
+.love {
+    background-color: #f8f9fa;
+    color: #ffffff;
+    position:absolute;
+    right: 10px;  /* 10px à partir du bord droit de son parent */
+    top: 10px;    /* 10px à partir du bord supérieur de son parent */
+
+    background-image: url('../Ressources/Images/coeurVide.png'); /* Ton image de cœur */
+    background-size: contain; /* Ajuste la taille de l'image sans la déformer */
+    background-position: center;
+    background-repeat: no-repeat;
+
+    width: 50px;  /* Ajuste selon la taille de l'image */
+    height: 50px; /* Ajuste selon la taille de l'image */
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Effet au survol */
+.love:hover {
+    transform: scale(1.1); /* Agrandir légèrement au survol */
+}
+
+
+.love2 {
+    background-color: #f8f9fa;
+    color: #FF5E95;
+    position:absolute;
+    right: 10px;  /* 10px à partir du bord droit de son parent */
+    top: 10px;    /* 10px à partir du bord supérieur de son parent */
+
+    background-image: url('../Ressources/Images/coeurPlein1.png'); /* Ton image de cœur */
+    background-size: contain; /* Ajuste la taille de l'image sans la déformer */
+    background-position: center;
+    background-repeat: no-repeat;
+
+    width: 50px;  /* Ajuste selon la taille de l'image */
+    height: 50px; /* Ajuste selon la taille de l'image */
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Effet au survol */
+.love2:hover {
+    transform: scale(1.1); /* Agrandir légèrement au survol */
 }
 
 
