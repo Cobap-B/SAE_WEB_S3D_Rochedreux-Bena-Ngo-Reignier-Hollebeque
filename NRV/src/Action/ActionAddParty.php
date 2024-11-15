@@ -9,6 +9,9 @@ use NRV\Exception\InvalidLinkException;
 class ActionAddParty extends Action{
 
     public function execute(): string{
+        if (! isset($_SESSION['user']) || isset($_SESSION['user']['id']) == 0){
+            return "<div>Il faut être admin</div>";
+        }
         if ($this->http_method === 'GET'){
             $html = <<<FIN
             <br>

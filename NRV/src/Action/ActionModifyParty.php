@@ -7,8 +7,10 @@ use NRV\Repository\FestivalRepository as FestivalRepository;
 class ActionModifyParty extends Action
 {
 
-    public function execute(): string
-    {
+    public function execute(): string{
+        if (! isset($_SESSION['user']) || isset($_SESSION['user']['id']) == 0){
+            return "<div>Il faut être admin</div>";
+        }
         $html = "";
         if ($this->http_method === 'GET' || $this->http_method === 'POST') {
             $bd = FestivalRepository::makeConnection();

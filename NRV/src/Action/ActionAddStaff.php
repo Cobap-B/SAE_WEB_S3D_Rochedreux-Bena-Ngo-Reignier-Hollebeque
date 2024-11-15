@@ -11,6 +11,9 @@ class ActionAddStaff extends Action {
     }
 
     public function execute(): string {
+        if (! isset($_SESSION['user']) || isset($_SESSION['user']['id']) < 2){
+            return "<div>Il faut être admin</div>";
+        }
         $errorMessage = "";
         $emailValue = "";
 
