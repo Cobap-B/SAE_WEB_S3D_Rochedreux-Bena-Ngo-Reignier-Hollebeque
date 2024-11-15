@@ -60,6 +60,43 @@ class FestivalRepository{
         
         return $party;
     }
+    
+    public function savePartyWithNewLoc(string $name, string $dateD, string $dateF, string $hourStart, string $hourEnd, int $price, string $video, string $locName, string $address, int $nbPlAs, int $nbPlDe, string $imgLoc): \NRV\Event\Party{
+        $stmt = $this->bd->prepare("INSERT INTO location(locaName, address, nbPlacesAss, nbPlacesDeb, imagePath)
+        VALUES (:locN, :adr, :PlA, :PlD, :img)");
+        $stmt->bindParam(":locN", $locName, PDO::PARAM_STR);
+        $stmt->bindParam(":adr", $address, PDO::PARAM_STR);
+        $stmt->bindParam(":PlA", $nbPlAs);
+        $stmt->bindParam(":PlD", $nbPlDe);
+        $stmt->bindParam(":img", $imgLoc);
+        $stmt->execute();
+
+        $idLoc = (int)$this->bd->lastInsertId();
+        
+        $stmt = $this->bd->prepare("INSERT INTO party (partyName, dateStart, dateEnd, idLocation, pricing, link) 
+        VALUES (:n, STR_TO_DATE( :d1 :h1,'%Y-%m-%d %H:%i'), STR_TO_DATE( :d2 :h2,'%Y-%m-%d %H:%i'), :i, :p, :v)");
+        $stmt->bindParam(":n", $name, PDO::PARAM_STR);
+        $stmt->bindParam(":d1", $dateD);
+        $stmt->bindParam(":h1", $hourStart);
+        $stmt->bindParam(":d2", $dateF);
+        $stmt->bindParam(":h2", $hourEnd);
+        $stmt->bindParam(":i", $idLoc);
+        $stmt->bindParam(":p", $price);
+        $stmt->bindParam(":v", $video);
+        $stmt->execute();
+
+        $lastInsertId = (int)$this->bd->lastInsertId();
+
+        $dhS = $dateD . " " . $hourStart . ":00";
+        $dhF = $dateF . " " . $hourEnd . ":00";
+
+        $place = $this->getPlace($idLoc);
+
+        $party = new \NRV\Event\Party($lastInsertId, $name, $dhS, $dhF, $place, $price, $video);
+        
+        return $party;
+    }
+
 
     public function saveShow(string $categorie, string $title, string $artist, string $dateD, string $dateF, string $hourStart, string $hourEnd, string $desc, string $picture, string $audio): \NRV\Event\Show{
         $query = "INSERT into shows (categorie, title, artist, dateStart, dateEnd, imageName, audioName) 

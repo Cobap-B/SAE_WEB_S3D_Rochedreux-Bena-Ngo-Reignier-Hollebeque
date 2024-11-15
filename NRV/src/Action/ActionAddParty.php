@@ -57,21 +57,59 @@ class ActionAddParty extends Action{
 
             $bd = FestivalRepository::makeConnection();
             $pl = $bd->getAllLocation();
-            $html .= 'Lieu : <select name="Location" size="1">';
+            $html .= 'Lieu : <select id="locationSelect" name="Location" size="1" onchange="toggleTextBoxes()">';
 
             foreach($pl as $p){
                 $id = $p->__get("id");
                 $name = $p->__get("name");
                 $html .= "<option value='$id'> $name </option>";
             }
-
-            $html .= '</select><br><br>';
             $html .= <<<FIN
+            <option value="optionAutre">Autre (ajouter un nouveau lieu)</option>
+            </select><br><br>
+            FIN;
+
+            //Bloc pour l'ajout d'un lieu quand l'option "Autres" est choisi
+            $html .= <<<FIN
+            <div id="BlocLoc" style="display: none; margin-top: 15px;">
+                <label for="locName">Nom du lieu :</label>
+                <input type="text" id="locName" name="locName" required><br>
+                
+                <label for="address">Adresse du lieu :</label>
+                <input type="text" id="address" name="address" required><br>
+                
+                <label for="nbPlAs">Nombre places assis :</label>
+                <input type="number" id="nbPlAs" name="nbPlAs" required><br>
+                
+                <label for="nbPlDe">Nombre de places debouts :</label>
+                <input type="number" id="nbPlDe" name="nbPlDe" required><br>
+
+                <label for="imgLoc">Image du lieu :</label>
+                <input type='file' id="imgLoc" name='imgLoc' accept="image/png, image/jpeg, image/jpg" required>
+            </div>
             <input type='submit' value='Enregistrer la Party'>
             </form>
             <br>
             <br>
-            
+            <script>
+            function toggleTextBoxes() {
+                var elementLocationSelect = document.getElementById("locationSelect");
+                var BlocLocDiv = document.getElementById("BlocLoc");
+                var selectInput = BlocLocDiv.querySelectorAll('input');
+                
+                if (elementLocationSelect.value == "optionAutre") {
+                    BlocLocDiv.style.display = "block";
+                    selectInput.forEach(function (input) {
+                        input.setAttribute('required', 'required');
+                    });
+                } else {
+                    BlocLocDiv.style.display = "none";
+                    selectInput.forEach(function (input) {
+                        input.removeAttribute('required');
+                    });
+                }
+            }
+            </script>   
             FIN;
 
         }else{
@@ -84,16 +122,39 @@ class ActionAddParty extends Action{
                 $price = $_POST['price'];
                 $idLoc = $_POST["Location"];
 
+
                 //Preparation des variables pour voir si le lien Youtube est correct
                 $verifLink = substr($_POST["video"], 0, 32);
                 $verif = "https://www.youtube.com/watch?v=";
 
                 //Si le lien est correct, il effectue la sauvegarde dans la BD
                 if ($verifLink === $verif){
-                    $video = $_POST["video"];
-                    $r = FestivalRepository::makeConnection();
-                    $party = $r->saveParty($partyName,$dateStart,$dateEnd,$hourStart,$hourEnd,$idLoc,$price, $video);
-                    $html = "<div>Party ajoutée avec succès</div>";
+                    if ($idLoc == 'optionAutre') {
+                        $locName = filter_var($_POST['locName'], FILTER_SANITIZE_SPECIAL_CHARS);
+                        $address = filter_var($_POST['address'], FILTER_SANITIZE_SPECIAL_CHARS);
+                        $nbPlAs = $_POST['nbPlAs'];
+                        $nbPlDe = $_POST['nbPlDe'];
+
+                        if($_FILES['imgLoc']['type'] === 'png' or $_FILES['imgLoc']['type'] === 'jpeg' or $_FILES['imgLoc']['type'] === 'jpg'){
+                            $upload_dir = 'Ressources/Images/';
+                            $tmp = $_FILES['imgLoc']['tmp_names'];
+            
+                            if ($_FILES['imgLoc']['error'] === UPLOAD_ERR_OK){
+                                $dest = $upload_dir . $_FILES['imgLoc']['name'];
+                                move_uploaded_file($tmp, $dest);
+                            }
+                        }
+                        $imgLoc = $_FILES['imgLoc']['name'];
+                        $video = $_POST["video"];
+                        $r = FestivalRepository::makeConnection();
+                        $party = $r->savePartyWithNewLoc($partyName,$dateStart,$dateEnd,$hourStart,$hourEnd,$price,$video, $locName,$address,$nbPlAs,$nbPlDe,$imgLoc);
+                        $html = "<div>Party ajoutée avec succès</div>";
+                    }else{
+                        $video = $_POST["video"];
+                        $r = FestivalRepository::makeConnection();
+                        $party = $r->saveParty($partyName,$dateStart,$dateEnd,$hourStart,$hourEnd,$idLoc,$price,$video);
+                        $html = "<div>Party ajoutée avec succès</div>";
+                    }
                 }
                 //Si il n'est pas valide, renvoie une erreur
                 else{
