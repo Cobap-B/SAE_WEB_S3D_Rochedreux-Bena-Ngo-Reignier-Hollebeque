@@ -177,6 +177,7 @@ class FestivalRepository{
         $shows = [];
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
+            
             $show = new \NRV\Event\Show($row['idshow'], $row['categorie'], $row['title'], $row['dateStart'], $row['dateEnd'], $row['artist'], $row['description'],  $row['audioName'], $row['imageName']);
             array_push($shows, $show);
         }
@@ -372,6 +373,14 @@ class FestivalRepository{
 
     function saveFavorite(int $id){
         $query = "INSERT into Favorite (idUser, idShow) Values (:idUser, :idShow)";
+        $prep = $this->bd->prepare($query); 
+        $prep->bindParam(":idUser",$_SESSION['user']['id'], PDO::PARAM_INT);
+        $prep->bindParam(":idShow",$id, PDO::PARAM_INT);
+        $prep->execute();
+    }
+
+    function removeFavorite(int $id){
+        $query = "DELETE from Favorite where idUser = :idUser and idShow = :idShow";
         $prep = $this->bd->prepare($query); 
         $prep->bindParam(":idUser",$_SESSION['user']['id'], PDO::PARAM_INT);
         $prep->bindParam(":idShow",$id, PDO::PARAM_INT);
