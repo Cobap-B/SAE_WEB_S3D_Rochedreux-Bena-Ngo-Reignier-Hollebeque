@@ -22,7 +22,7 @@ class PlaceRenderer implements Renderer {
             case self::LONG:
                 return $this->renderLong();
             default:
-                throw new \InvalidArgumentException("Invalid selector, please choose COMPACT or LONG.");
+                throw new \InvalidArgumentException("selecteur invalide, veuillez choisir 1 ou 2");
         }
     }
 

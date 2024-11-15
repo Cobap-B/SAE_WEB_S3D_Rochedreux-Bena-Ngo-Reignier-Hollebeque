@@ -127,7 +127,7 @@ class FestivalRepository{
 //    }
 
     public function displayShow(string $category, string $date, string $lieu){
-        $query = "SELECT shows.idshow, shows.categorie, shows.description, shows.title, shows.artist, shows.dateStart, shows.dateEnd, shows.imageName, shows.audioName from shows 
+        $query = "SELECT DISTINCT (shows.idshow), shows.categorie, shows.description, shows.title, shows.artist, shows.dateStart, shows.dateEnd, shows.imageName, shows.audioName from shows 
             INNER JOIN party2show on shows.idshow = party2show.idShow
             INNER JOIN party on party2show.idParty = party.idParty WHERE";
         if ($category != ""){
@@ -177,9 +177,12 @@ class FestivalRepository{
         $shows = [];
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
+
             $show = new \NRV\Event\Show($row['idshow'], $row['categorie'], $row['title'], $row['dateStart'], $row['dateEnd'], $row['artist'], $row['description'],  $row['audioName'], $row['imageName']);
             array_push($shows, $show);
         }
+
+        var_dump($shows);
 
         return $shows;
     }
@@ -372,6 +375,14 @@ class FestivalRepository{
 
     function saveFavorite(int $id){
         $query = "INSERT into Favorite (idUser, idShow) Values (:idUser, :idShow)";
+        $prep = $this->bd->prepare($query); 
+        $prep->bindParam(":idUser",$_SESSION['user']['id'], PDO::PARAM_INT);
+        $prep->bindParam(":idShow",$id, PDO::PARAM_INT);
+        $prep->execute();
+    }
+
+    function removeFavorite(int $id){
+        $query = "DELETE from Favorite where idUser = :idUser and idShow = :idShow";
         $prep = $this->bd->prepare($query); 
         $prep->bindParam(":idUser",$_SESSION['user']['id'], PDO::PARAM_INT);
         $prep->bindParam(":idShow",$id, PDO::PARAM_INT);

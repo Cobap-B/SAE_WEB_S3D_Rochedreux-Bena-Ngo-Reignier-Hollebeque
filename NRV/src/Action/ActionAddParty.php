@@ -18,38 +18,38 @@ class ActionAddParty extends Action{
 
             <div class="login-wrapper">
             <div class="login-container">
-                <h2>Enregistrer une nouvelle Party</h2>
+                <h2>Enregistrer une nouvelle soirée</h2>
                 <form method="POST" action="?action=add-party" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="partyName">Nom de la Party :</label>
+                        <label for="partyName">Nom de la soirée :</label>
                         <input type="text" id="partyName" name="partyName" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="dateStart">Date de début de la Party :</label>
+                        <label for="dateStart">Date de début de la soirée :</label>
                         <input type="date" id="dateStart" name="dateStart" required>
                     </div>
                     <div class="form-group">
-                        <label for="hourStart">Heure de début de la Party :</label>
+                        <label for="hourStart">Heure de début de la soirée :</label>
                         <input type="time" id="hourStart" name="hourStart" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="dateEnd">Date de fin de la Party :</label>
+                        <label for="dateEnd">Date de fin de la soirée :</label>
                         <input type="date" id="dateEnd" name="dateEnd" required>
                     </div>
                     <div class="form-group">
-                        <label for="hourEnd">Heure de fin de la Party :</label>
+                        <label for="hourEnd">Heure de fin de la soirée :</label>
                         <input type="time" id="hourEnd" name="hourEnd" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="price">Prix de la party :</label>
+                        <label for="price">Prix de la soirée :</label>
                         <input type="number" id="price" name="price" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="video">Vidéo de la party (YouTube) :</label>
+                        <label for="video">Vidéo de la soirée (lien YouTube) :</label>
                         <input type="text" id="video" name="video" required>
                     </div>
 

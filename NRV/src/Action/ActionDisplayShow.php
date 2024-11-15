@@ -92,7 +92,9 @@ class ActionDisplayShow extends Action {
             }
             if (in_array($_POST["Favorite"], $_SESSION["Favorite"])){
                 $i = array_search($_POST["Favorite"], $_SESSION["Favorite"]);
+                $pdo->removeFavorite($_SESSION["Favorite"][$i]);
                 unset($_SESSION["Favorite"][$i]);
+                
             }else{
                 array_push($_SESSION["Favorite"], $_POST["Favorite"]);
                 if (isset($_SESSION['user']['id'])){

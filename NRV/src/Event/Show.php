@@ -22,12 +22,12 @@ class Show extends Event{
     public function __toString(): string {
         $res = sprintf(
             "<ol>
-                <li>Title : %s</li>\n
-                <li>Artist : %s</li>\n
-                <li>Category : %s</li>\n
+                <li>Titre : %s</li>\n
+                <li>Artiste : %s</li>\n
+                <li>Categorie : %s</li>\n
                 <li>Description : %s</li>\n
-                <li>Start : %s</li>\n
-                <li>Duration : %s</li>\n
+                <li>Début : %s</li>\n
+                <li>Durée : %s</li>\n
             <ol>",
             $this->name,
             $this->artist,

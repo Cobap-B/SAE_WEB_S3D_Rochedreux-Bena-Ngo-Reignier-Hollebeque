@@ -27,7 +27,7 @@ class Party extends Event{
         foreach ($this->shows as $show) {
 
             $render = new ShowRenderer($show);
-            $details = $render->renderCompact();
+            $details = $render->render(1);
         }
 
         return <<<HTML

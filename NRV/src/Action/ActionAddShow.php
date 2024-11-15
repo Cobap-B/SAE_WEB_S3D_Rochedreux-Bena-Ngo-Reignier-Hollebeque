@@ -17,57 +17,57 @@ class ActionAddShow extends Action{
                 <body>
         <div class="login-wrapper">
             <div class="login-container">
-                <h2>Enregistrer un nouveau Show</h2>
+                <h2>Enregistrer un nouveau spectacle</h2>
                 <form method='POST' action='?action=add-show' enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="categorie">Catégorie du Show :</label>
+                        <label for="categorie">Catégorie du spectacle :</label>
                         <input type='text' id="categorie" name='categorie' required>
                     </div>
 
                     <div class="form-group">
-                        <label for="title">Nom du Show :</label>
+                        <label for="title">Nom du spectacle :</label>
                         <input type='text' id="title" name='title' required>
                     </div>
 
                     <div class="form-group">
-                        <label for="artist">L'artiste du Show :</label>
+                        <label for="artist">L'artiste du spectacle :</label>
                         <input type='text' id="artist" name='artist'>
                     </div>
 
                     <div class="form-group">
-                        <label for="dateStart">Date de début du Show :</label>
+                        <label for="dateStart">Date de début du spectacle :</label>
                         <input type='date' id="dateStart" name='dateStart' required>
                     </div>
                     <div class="form-group">
-                        <label for="hourStart">Heure de début du Show :</label>
+                        <label for="hourStart">Heure de début du spectacle :</label>
                         <input type='time' id="hourStart" name='hourStart' required>
                     </div>
 
                     <div class="form-group">
-                        <label for="dateEnd">Date de fin du Show :</label>
+                        <label for="dateEnd">Date de fin du spectacle :</label>
                         <input type='date' id="dateEnd" name='dateEnd' required>
                     </div>
                     <div class="form-group">
-                        <label for="hourEnd">Heure de fin du Show :</label>
+                        <label for="hourEnd">Heure de fin du spectacle :</label>
                         <input type='time' id="hourEnd" name='hourEnd' required>
                     </div>
 
                     <div class="form-group">
-                        <label for="desc">Description du Show :</label>
+                        <label for="desc">Description du spectacle :</label>
                         <input type='text' id="desc" name='desc' required>
                     </div>
 
                     <div class="form-group">
-                        <label for='img'>Image du Show :</label>
+                        <label for='img'>Image du spectacle :</label>
                         <input type='file' id="img" name='img' accept="image/png, image/jpeg" required>
                     </div>
 
                     <div class="form-group">
-                        <label for='audio'>Audio du Show :</label>
+                        <label for='audio'>Audio du spectacle :</label>
                         <input type='file' id="audio" name='audio' accept="audio/mp3, audio/mpeg" required>
                     </div>
 
-                    <button type='submit'>Enregistrer le Show</button>
+                    <button type='submit'>Enregistrer le spectacle</button>
                 </form>
             </div>
         </div>
@@ -114,7 +114,7 @@ FIN;
             
             $r = FestivalRepository::makeConnection();
             $show = $r->saveShow($categorie,$title,$artist,$dateStart,$dateEnd,$hourStart,$hourEnd,$desc,$audio,$image);
-            $html = "<div>Show ajoutée</div>";
+            $html = "<div>Spectacle ajoutée</div>";
 
         }
 
