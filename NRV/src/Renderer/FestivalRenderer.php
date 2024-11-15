@@ -19,13 +19,13 @@ class FestivalRenderer implements Renderer {
             case self::LONG:
                 return $this->renderLong();
             default:
-                throw new \InvalidArgumentException("Invalid selector, please choose case 1 or 2");
+                throw new \InvalidArgumentException("selecteur invalide, veuillez choisir 1 ou 2");
         }
     }
 
     public function renderCompact(): string {
         return sprintf(
-            "Festival: %s, Duration: %s, Number of Parties: %d",
+            "Festival: %s, Durée: %s, Nombre de soirées : %d",
             $this->festival->name,
             $this->festival->duration,
             count($this->festival->partys)
@@ -40,7 +40,7 @@ class FestivalRenderer implements Renderer {
         }
 
         return sprintf(
-            "Festival: %s\nDuration: %s\nParties:\n%s",
+            "Festival: %s\nDurée: %s\nSoirées:\n%s",
             $this->festival->name,
             $this->festival->duration,
             $details

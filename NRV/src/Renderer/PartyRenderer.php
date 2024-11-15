@@ -20,13 +20,13 @@ class PartyRenderer implements Renderer {
             case self::LONG:
                 return $this->renderLong();
             default:
-                throw new \InvalidArgumentException("Invalid selector, please choose case 1 or 2");
+                throw new \InvalidArgumentException("selecteur invalide, veuillez choisir 1 ou 2");
         }
     }
 
     public function renderCompact(): string {
         return sprintf(
-            "%s on %s with %d shows)",
+            "%s à %s avec %d shows)",
             $this->party->name,
             $this->party->dateDebut->format('Y-m-d'),
             count($this->party->shows)
