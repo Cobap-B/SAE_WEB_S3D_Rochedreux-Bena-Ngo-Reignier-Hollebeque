@@ -379,7 +379,6 @@ class FestivalRepository{
         $prep = $this->bd->prepare($query);
         $prep->execute();
         $cat=[];
-        $row =$prep->fetch(PDO::FETCH_ASSOC);
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
             array_push($cat, $row["cat"]);
         }

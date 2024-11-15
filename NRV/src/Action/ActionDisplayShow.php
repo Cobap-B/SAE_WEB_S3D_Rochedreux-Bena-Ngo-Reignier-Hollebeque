@@ -39,6 +39,7 @@ class ActionDisplayShow extends Action {
         $pl = $pdo->getCategorie();
         $html .= "Category : <select name='category' size='1' default='$cate'>";
         $html .= "<option value=''>  </option>";
+        
         foreach($pl as $p){
             if ($p == $cate){
                 $html .= "<option selected value='$p'> $p </option>";
