@@ -378,6 +378,14 @@ class FestivalRepository{
         $prep->execute();
     }
 
+    function removeFavorite(int $id){
+        $query = "DELETE from Favorite where idUser = :idUser and idShow = :idShow";
+        $prep = $this->bd->prepare($query); 
+        $prep->bindParam(":idUser",$_SESSION['user']['id'], PDO::PARAM_INT);
+        $prep->bindParam(":idShow",$id, PDO::PARAM_INT);
+        $prep->execute();
+    }
+
     function getFavorite(int $id){
         $query = "Select idShow from Favorite where idUser = :idUser";
         $prep = $this->bd->prepare($query); 
