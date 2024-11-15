@@ -72,20 +72,30 @@ class ActionAddParty extends Action{
             //Bloc pour l'ajout d'un lieu quand l'option "Autres" est choisi
             $html .= <<<FIN
             <div id="BlocLoc" style="display: none; margin-top: 15px;">
-                <label for="locName">Nom du lieu :</label>
-                <input type="text" id="locName" name="locName" required><br>
+                <div class="form-group">
+                    <label for="locName">Nom du lieu :</label>
+                    <input type="text" id="locName" name="locName" required><br>
+                </div>
                 
-                <label for="address">Adresse du lieu :</label>
-                <input type="text" id="address" name="address" required><br>
+                <div class="form-group">
+                    <label for="address">Adresse du lieu :</label>
+                    <input type="text" id="address" name="address" required><br>
+                </div>
                 
-                <label for="nbPlAs">Nombre places assis :</label>
-                <input type="number" id="nbPlAs" name="nbPlAs" required><br>
-                
-                <label for="nbPlDe">Nombre de places debouts :</label>
-                <input type="number" id="nbPlDe" name="nbPlDe" required><br>
-
+                <div class="form-group">                
+                    <label for="nbPlAs">Nombre places assis :</label>
+                    <input type="number" id="nbPlAs" name="nbPlAs" required><br>
+                </div>
+            
+                <div class="form-group">               
+                    <label for="nbPlDe">Nombre de places debouts :</label>
+                    <input type="number" id="nbPlDe" name="nbPlDe" required><br>
+                </div>    
+                    
+            <div class="form-group">
                 <label for="imgLoc">Image du lieu :</label>
                 <input type='file' id="imgLoc" name='imgLoc' accept="image/png, image/jpeg, image/jpg" required>
+            </div>
             </div>
             <input type='submit' value='Enregistrer la Party'>
             </form>
@@ -97,7 +107,7 @@ class ActionAddParty extends Action{
                 var BlocLocDiv = document.getElementById("BlocLoc");
                 var selectInput = BlocLocDiv.querySelectorAll('input');
                 
-                if (elementLocationSelect.value == "optionAutre") {
+                if (elementLocationSelect.value === "optionAutre") {
                     BlocLocDiv.style.display = "block";
                     selectInput.forEach(function (input) {
                         input.setAttribute('required', 'required');
@@ -148,13 +158,12 @@ class ActionAddParty extends Action{
                         $video = $_POST["video"];
                         $r = FestivalRepository::makeConnection();
                         $party = $r->savePartyWithNewLoc($partyName,$dateStart,$dateEnd,$hourStart,$hourEnd,$price,$video, $locName,$address,$nbPlAs,$nbPlDe,$imgLoc);
-                        $html = "<div>Party ajoutée avec succès</div>";
                     }else{
                         $video = $_POST["video"];
                         $r = FestivalRepository::makeConnection();
                         $party = $r->saveParty($partyName,$dateStart,$dateEnd,$hourStart,$hourEnd,$idLoc,$price,$video);
-                        $html = "<div>Party ajoutée avec succès</div>";
                     }
+                    $html = "<div>Party ajoutée avec succès</div>";
                 }
                 //Si il n'est pas valide, renvoie une erreur
                 else{

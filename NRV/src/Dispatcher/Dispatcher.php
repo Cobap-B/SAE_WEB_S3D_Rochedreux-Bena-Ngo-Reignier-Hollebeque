@@ -70,7 +70,6 @@ class Dispatcher {
                                             <li><a class="dropdown-item" href="?action=add-party">Create Party</a></li>
                                             <li><a class="dropdown-item" href="?action=modif-party">Edit Party</a></li>
                                             <li><a class="dropdown-item" href="?action=add-show">Create Show</a></li>
-                                            <li><a class="dropdown-item" href="?action=modif-show">Edit Show</a></li>
                                             </ul>
                                         </li>
                                         FIN;

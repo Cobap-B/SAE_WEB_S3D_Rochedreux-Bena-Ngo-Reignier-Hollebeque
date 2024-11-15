@@ -123,19 +123,19 @@ class FestivalRepository{
 
         return $show;
     }
-
-    public function delShow(Show $spec){
-        $query = "DELETE from Party2Show where idShow = ?";
-        $prep = $this->bd->prepare($query);
-        $id = $spec->id;
-        $prep->bindParam(1,$id);
-        $prep->execute();
-
-        $query = "DELETE from Shows where idShow = ?";
-        $prep = $bd->prepare($query);
-        $prep->bindParam(1,$id);
-        $prep->execute();
-    }
+//
+//    public function delShow(Show $spec){
+//        $query = "DELETE from Party2Show where idShow = ?";
+//        $prep = $this->bd->prepare($query);
+//        $id = $spec->id;
+//        $prep->bindParam(1,$id);
+//        $prep->execute();
+//
+//        $query = "DELETE from Shows where idShow = ?";
+//        $prep = $bd->prepare($query);
+//        $prep->bindParam(1,$id);
+//        $prep->execute();
+//    }
 
     public function displayShow(string $category, string $date, string $lieu){
         $query = "SELECT shows.idshow, shows.categorie, shows.description, shows.title, shows.artist, shows.dateStart, shows.dateEnd, shows.imageName, shows.audioName from shows 
