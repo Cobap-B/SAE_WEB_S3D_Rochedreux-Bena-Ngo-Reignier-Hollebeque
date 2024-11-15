@@ -141,7 +141,7 @@ class Dispatcher {
                 break;
             case 'display-une-party':
                     $a = new act\ActionDisplayUneParty();
-                $this->css_action = "formulaire.css";
+                $this->css_action = "display_party.css";
                     break;
             case 'display-favorite':
                 $a = new act\ActionDisplayFavorite();

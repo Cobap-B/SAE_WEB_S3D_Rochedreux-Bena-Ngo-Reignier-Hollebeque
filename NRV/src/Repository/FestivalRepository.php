@@ -87,7 +87,7 @@ class FestivalRepository{
     }
 
 
-    public function saveShow(string $categorie, string $title, string $artist, string $dateD, string $dateF, string $hourStart, string $hourEnd, string $desc, string $picture, string $audio): \NRV\Event\Show{
+    public function saveShow(string $categorie, string $title, string $artist, string $dateD, string $dateF, string $hourStart, string $hourEnd, string $desc, string $audio, string $picture): \NRV\Event\Show{
         $query = "INSERT into shows (categorie, title, artist, dateStart, dateEnd, imageName, audioName) 
             VALUES (:c, :t, :a,  STR_TO_DATE( :d1 :h1,'%Y-%m-%d %H:%i'), STR_TO_DATE( :d2 :h2,'%Y-%m-%d %H:%i'), :p, :audio)";
         $prep = $this->bd->prepare($query); 
@@ -165,6 +165,23 @@ class FestivalRepository{
         return $shows;
     }
 
+    public function displayAllShow(){
+        $query = "SELECT DISTINCT (shows.idshow), shows.categorie, shows.description, shows.title, shows.artist, shows.dateStart, shows.dateEnd, shows.imageName, shows.audioName from shows";
+       
+        $prep = $this->bd->prepare($query);
+
+        $prep->execute();
+
+        $shows = [];
+
+        while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
+            $show = new \NRV\Event\Show($row['idshow'], $row['categorie'], $row['title'], $row['dateStart'], $row['dateEnd'], $row['artist'], $row['description'],  $row['audioName'], $row['imageName']);
+            array_push($shows, $show);
+        }
+
+        return $shows;
+    }
+
 
     public function displayShowByPartyId(int $id){
         $query = "SELECT shows.idshow, shows.categorie, shows.description, shows.title, shows.artist, shows.dateStart, shows.dateEnd, shows.imageName, shows.audioName from shows 
@@ -181,9 +198,6 @@ class FestivalRepository{
             $show = new \NRV\Event\Show($row['idshow'], $row['categorie'], $row['title'], $row['dateStart'], $row['dateEnd'], $row['artist'], $row['description'],  $row['audioName'], $row['imageName']);
             array_push($shows, $show);
         }
-
-        var_dump($shows);
-
         return $shows;
     }
 
@@ -227,7 +241,8 @@ class FestivalRepository{
         $row =$prep->fetch(PDO::FETCH_ASSOC);
         if ($row){
             $place = new \NRV\Event\Place($row['idLocation'], $row['locaName'], $row['address'], $row['nbPlacesAss'], $row['nbPlacesDeb'],$row['imagePath']);
-            $party = new \NRV\Event\Party($row['idParty'], $row['partyName'], $row['dateStart'], $row['dateEnd'], $place , $row['pricing'], $row['link']);
+            $party = new \NRV\Event\Party($row['idParty'], $row['partyName'], $row['dateStart'], $row['dateEnd'], $place , $row['pricing'], $row['link'],
+            $this->displayShowByPartyId($row['idParty']));
         }
         
         return $party;

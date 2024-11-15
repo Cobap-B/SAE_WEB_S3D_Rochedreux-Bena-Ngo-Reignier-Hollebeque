@@ -25,9 +25,9 @@ class Party extends Event{
     public function __toString(): string {
         $details = "";
         foreach ($this->shows as $show) {
-
             $render = new ShowRenderer($show);
-            $details = $render->render(1);
+            $details .= $render->render(1);
+            $details .= "<br>";
         }
 
         return <<<HTML

@@ -12,7 +12,7 @@ class ActionModifyParty extends Action
         $html = "";
         if ($this->http_method === 'GET' || $this->http_method === 'POST') {
             $bd = FestivalRepository::makeConnection();
-            $shows = $bd->displayShow("", "", "");
+            $shows = $bd->displayAllShow();
             $parties = $bd->displayParty();
             $successMessage = "";
 
