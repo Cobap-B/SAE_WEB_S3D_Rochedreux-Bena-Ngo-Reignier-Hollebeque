@@ -177,6 +177,7 @@ class FestivalRepository{
         $shows = [];
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
+            
             $show = new \NRV\Event\Show($row['idshow'], $row['categorie'], $row['title'], $row['dateStart'], $row['dateEnd'], $row['artist'], $row['description'],  $row['audioName'], $row['imageName']);
             array_push($shows, $show);
         }
