@@ -145,7 +145,7 @@ class Dispatcher {
                     break;
             case 'display-favorite':
                 $a = new act\ActionDisplayFavorite();
-                $this->css_action = "formulaire.css";
+                $this->css_action = "display_show2.css";
                 break;
             case 'register':
                 $a = new act\ActionRegister();

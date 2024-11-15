@@ -356,4 +356,26 @@ class FestivalRepository{
         
         return $cat;
     }
+
+    function saveFavorite(int $id){
+        $query = "INSERT into Favorite (idUser, idShow) Values (:idUser, :idShow)";
+        $prep = $this->bd->prepare($query); 
+        $prep->bindParam(":idUser",$_SESSION['user']['id'], PDO::PARAM_INT);
+        $prep->bindParam(":idShow",$id, PDO::PARAM_INT);
+        $prep->execute();
+    }
+
+    function getFavorite(int $id){
+        $query = "Select idShow from Favorite where idUser = :idUser";
+        $prep = $this->bd->prepare($query); 
+        $prep->bindParam(":idUser",$id, PDO::PARAM_INT);
+        $prep->execute();
+
+        $cat=[];
+        $row =$prep->fetch(PDO::FETCH_ASSOC);
+        while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
+            array_push($cat, $row["idShow"]);
+        }
+        return $cat;
+    }
 }

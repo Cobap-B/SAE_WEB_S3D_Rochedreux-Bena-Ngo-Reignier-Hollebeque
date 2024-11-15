@@ -9,45 +9,56 @@ class ActionDisplayFavorite extends Action{
 
     public function execute(): string{
         $html = "";
-        $r = FestivalRepository::makeConnection();
-        //si l'utilisateur est connecté
-        if (isset($_SESSION['userId'])) {
-            if ($this->http_method === 'GET') {
-                $h = $r->displayFavorite("");
-                $html .= $h;
-                /*return <<<END
-                <form method="POST" action="?action=display-favorite">
-                <label for="id">ID de la liste de préférence :</label>
-                <input type="number" name="id">
-                <button type="submit"> Afficher préférence </button>
-                </form>
-            END;*/
-            } else {
-                $html = "<div>Affichage des préférences</div>";
-                $id = filter_var($_POST['id']);
-                if (AuthnProvider::authenticate($_SESSION['userId'], $id)) {
-                    $h = $r->displayFavorite($id);
-                    $html .= $h;
-                    return $html;
-                } else {
-                    return "<div>Pas de Favori</div>";
+
+        $pdo = \NRV\Repository\FestivalRepository::makeConnection();
+
+        if (isset($_POST["Favorite"])){
+            //AJOUT AU FAVORITE
+            if (! isset($_SESSION["Favorite"]) || count($_SESSION["Favorite"])==0){
+                $_SESSION["Favorite"] = [];
+            }
+            if (in_array($_POST["Favorite"], $_SESSION["Favorite"])){
+                $i = array_search($_POST["Favorite"], $_SESSION["Favorite"]);
+                unset($_SESSION["Favorite"][$i]);
+            }else{
+                array_push($_SESSION["Favorite"], $_POST["Favorite"]);
+                if (isset($_SESSION['user']['id'])){
+                    $pdo->saveFavorite($_POST["Favorite"]);
                 }
             }
-        } /*else {
-            //afficher la liste sans être connecter
-            if ($this->http_method === 'GET') {
-                return <<<END
-                <form method="POST" action="?action=display-favorite">
-                <button type="submit"> Afficher préference </button>
-                </form>
-            END;
-            } else {
-                $html = "<div>Affichage des préférences</div>";
-                $id = filter_var($_POST['id']);
-                $html = $r->displayFavorite($id);
-                return $html;
+            //unset($_POST["Favorite"]);
+            //MARCHE PAS ;(
+        }   
+
+        //si l'utilisateur est connecté
+        if (isset($_SESSION['Favorite'])) {
+            $html.='<br><br><br><br><br><br>';
+            if (!isset($_SESSION['user'])){
+                $html.='<center><div class="p">
+                            Vous devez être connecté pour sauvegarder des favorites
+                        </div></center><br>';
             }
-        }*/
+            $html.='<div class="conta">';
+            $shows = $pdo->displayShow("", "", "");
+            foreach($shows as $a){
+                if (in_array($a->id, $_SESSION["Favorite"])){
+                    $id = $pdo->getIdParty($a->id);
+                    $render = new \NRV\Renderer\ShowRenderer($a);
+                    $html .= '<div class="cont">';
+                    $html .= "<a href='?action=display-une-party&id=$id'>Look party</a>";
+                    $html .= "<form class='formLove' method='POST' action='?action=display-favorite'>";
+                    
+                    $html .= "<input class='love2' type='submit' name='Favorite' value='$a->id'>";
+                   
+                    $html .= "</form>";
+                    $html .= $render->render(2);
+                    $html .= "</div>";
+                    $html .= "<br><br>";
+                }
+                
+            }
+            $html.='</div">';
+        }
         return $html;
     }
 }

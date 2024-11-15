@@ -18,6 +18,23 @@ img {
     
 }
 
+.p {
+    position: relative;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 350px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    gap: 10px;
+    text-align: center;
+    margin: 0;
+    font-size: 15px;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+}
+
 .cont {
     position: relative;
     background-color: #f8f9fa;
