@@ -98,7 +98,7 @@ class ActionDisplayShow extends Action {
                 
             }else{
                 array_push($_SESSION["Favorite"], $_POST["Favorite"]);
-                if (isset($_SESSION['user']['id'])){
+                if (isset($_SESSION['user']) && isset($_SESSION['user']['id'])){
                     $pdo->saveFavorite($_POST["Favorite"]);
                 }
             }

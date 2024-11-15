@@ -11,7 +11,6 @@ class ActionDisplayFavorite extends Action{
         $html = "";
 
         $pdo = \NRV\Repository\FestivalRepository::makeConnection();
-
         if (isset($_POST["Favorite"])){
             //AJOUT AU FAVORITE
             if (! isset($_SESSION["Favorite"]) || count($_SESSION["Favorite"])==0){
@@ -23,7 +22,7 @@ class ActionDisplayFavorite extends Action{
                 unset($_SESSION["Favorite"][$i]);
             }else{
                 array_push($_SESSION["Favorite"], $_POST["Favorite"]);
-                if (isset($_SESSION['user']['id'])){
+                if (isset($_SESSION['user']) && isset($_SESSION['user']['id'])){
                     $pdo->saveFavorite($_POST["Favorite"]);
                 }
             }
@@ -34,7 +33,7 @@ class ActionDisplayFavorite extends Action{
         //si l'utilisateur est connecté
         if (isset($_SESSION['Favorite'])) {
             $html.='<br><br><br><br><br><br>';
-            if (!isset($_SESSION['user'])){
+            if (!isset($_SESSION['user']['id'])){
                 $html.='<center><div class="p">
                             Vous devez être connecté pour sauvegarder des favorites
                         </div></center><br>';

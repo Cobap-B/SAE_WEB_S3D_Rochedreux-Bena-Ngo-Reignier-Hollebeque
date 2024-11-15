@@ -88,9 +88,10 @@ class FestivalRepository{
 
 
     public function saveShow(string $categorie, string $title, string $artist, string $dateD, string $dateF, string $hourStart, string $hourEnd, string $desc, string $audio, string $picture): \NRV\Event\Show{
-        $query = "INSERT into shows (categorie, title, artist, dateStart, dateEnd, imageName, audioName) 
-            VALUES (:c, :t, :a,  STR_TO_DATE( :d1 :h1,'%Y-%m-%d %H:%i'), STR_TO_DATE( :d2 :h2,'%Y-%m-%d %H:%i'), :p, :audio)";
+        $query = "INSERT into shows (description, categorie, title, artist, dateStart, dateEnd, imageName, audioName) 
+            VALUES (:desc, :c, :t, :a,  STR_TO_DATE( :d1 :h1,'%Y-%m-%d %H:%i'), STR_TO_DATE( :d2 :h2,'%Y-%m-%d %H:%i'), :p, :audio)";
         $prep = $this->bd->prepare($query); 
+        $prep->bindParam(":desc",$desc, PDO::PARAM_STR);
         $prep->bindParam(":c",$categorie, PDO::PARAM_STR);
         $prep->bindParam(":t",$title, PDO::PARAM_STR);
         $prep->bindParam(":a",$artist, PDO::PARAM_STR);

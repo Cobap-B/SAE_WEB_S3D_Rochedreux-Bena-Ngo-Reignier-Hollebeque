@@ -15,7 +15,7 @@ class Dispatcher {
     private function renderPage(string $html): void {
         // Définition de la structure de la navbar avec le lien pour se déconnecter ou s'authentifier
         $str = "";
-        $bool = isset($_SESSION['user']);
+        $bool = (isset($_SESSION['user']) && isset($_SESSION['user']['role']));
         if (isset($_SESSION['user']['email'])) {
             $m = $_SESSION['user']['email'];
             $str = <<<FIN
