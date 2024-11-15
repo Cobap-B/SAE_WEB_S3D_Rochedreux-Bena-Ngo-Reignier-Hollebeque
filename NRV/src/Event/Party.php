@@ -1,6 +1,8 @@
 <?php
 namespace NRV\Event;
 
+use NRV\Renderer\ShowRenderer;
+
 class Party extends Event{
 
 
@@ -23,7 +25,9 @@ class Party extends Event{
     public function __toString(): string {
         $details = "";
         foreach ($this->shows as $show) {
-            $details .= "<li>" . htmlspecialchars($show) . "</li>\n";
+
+            $render = new ShowRenderer($show);
+            $details = $render->renderCompact();
         }
 
         return <<<HTML
@@ -52,7 +56,4 @@ class Party extends Event{
         </center>
         HTML;
     }
-
-
-
 }

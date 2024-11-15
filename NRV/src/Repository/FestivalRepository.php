@@ -24,17 +24,6 @@ class FestivalRepository{
         return self::$instance;
     }
 
-    public function findPartyById(int $id): ?Party{
-        $stmt = self::$instance->bd->prepare('SELECT idParty, nomParty FROM Party WHERE idParty = ?');
-        $stmt->execute([$id]);
-        $data = $stmt->fetch();
-
-        if($data){
-            $party = new Party($data['nom']);
-        }
-
-        return $party;
-    }
 
     public function saveParty(string $name, string $dateD, string $dateF, string $hourStart, string $hourEnd, string $idLoc, int $price, string $video ): \NRV\Event\Party{
         $stmt = $this->bd->prepare("INSERT INTO party (partyName, dateStart, dateEnd, idLocation, pricing, link) 
@@ -165,6 +154,7 @@ class FestivalRepository{
         }
 
         $prep->execute();
+
         $shows = [];
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
@@ -174,6 +164,26 @@ class FestivalRepository{
 
         return $shows;
     }
+
+
+    public function displayShowByPartyId(int $id){
+        $query = "SELECT shows.idshow, shows.categorie, shows.description, shows.title, shows.artist, shows.dateStart, shows.dateEnd, shows.imageName, shows.audioName from shows 
+            INNER JOIN party2show on shows.idshow = party2show.idShow
+            INNER JOIN party on party2show.idParty = party.idParty WHERE Party.idParty = :id";
+
+        $prep = $this->bd->prepare($query);
+        $prep->bindParam(':id',$id, PDO::PARAM_INT);
+        $prep->execute();
+        $shows = [];
+
+        while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
+            $show = new \NRV\Event\Show($row['idshow'], $row['categorie'], $row['title'], $row['dateStart'], $row['dateEnd'], $row['artist'], $row['description'],  $row['audioName'], $row['imageName']);
+            array_push($shows, $show);
+        }
+
+        return $shows;
+    }
+
 
 
     public function displayParty(): array
@@ -190,13 +200,13 @@ class FestivalRepository{
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
             $place = new \NRV\Event\Place($row['idLocation'], $row['locaName'], $row['address'], $row['nbPlacesAss'], $row['nbPlacesDeb'],$row['imagePath']);
-            $party = new \NRV\Event\Party($row['idParty'], $row['partyName'], $row['dateStart'], $row['dateEnd'], $place , $row['pricing'], $row['link']);
+            $party = new \NRV\Event\Party($row['idParty'], $row['partyName'], $row['dateStart'], $row['dateEnd'], $place , $row['pricing'], $row['link'],
+                 $this->displayShowByPartyId($row['idParty']));
 
-            array_push($array, $party);
+            $array[] = $party;
         }
 
         return $array;
-
     }
 
     public function getParty(int $id){
@@ -321,6 +331,9 @@ class FestivalRepository{
 
         return $places;
     }
+
+
+
 
     function getIdParty(int $id){
         $query = "
