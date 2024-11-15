@@ -127,7 +127,7 @@ class FestivalRepository{
 //    }
 
     public function displayShow(string $category, string $date, string $lieu){
-        $query = "SELECT shows.idshow, shows.categorie, shows.description, shows.title, shows.artist, shows.dateStart, shows.dateEnd, shows.imageName, shows.audioName from shows 
+        $query = "SELECT DISTINCT (shows.idshow), shows.categorie, shows.description, shows.title, shows.artist, shows.dateStart, shows.dateEnd, shows.imageName, shows.audioName from shows 
             INNER JOIN party2show on shows.idshow = party2show.idShow
             INNER JOIN party on party2show.idParty = party.idParty WHERE";
         if ($category != ""){
