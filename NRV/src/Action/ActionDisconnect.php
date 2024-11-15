@@ -4,6 +4,7 @@ namespace NRV\action;
 class ActionDisconnect extends Action{
     public function execute(): string{
         unset($_SESSION['user']);
+        unset($_SESSION["Favorite"]);
         return <<<FIN
             <html lang="fr">
             <head>  

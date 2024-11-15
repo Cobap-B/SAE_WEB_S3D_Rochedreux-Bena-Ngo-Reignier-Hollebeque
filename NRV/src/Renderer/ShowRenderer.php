@@ -27,10 +27,10 @@ class ShowRenderer implements Renderer {
 
     public function renderCompact(): string {
         return sprintf(
-            "Show: %s by %s (%d min)",
+            "%s par %s, Débute le %s",
             $this->show->name,
             $this->show->artist,
-            $this->show->dateDebut->format('Y-m-d H:i'),
+            $this->show->dateDebut->format('d-m-y à H:i'),
 
         );
     }

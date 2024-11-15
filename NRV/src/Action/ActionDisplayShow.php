@@ -85,6 +85,28 @@ class ActionDisplayShow extends Action {
         FIN;
 
         
+        if (isset($_POST["Favorite"])){
+            //AJOUT AU FAVORITE
+            if (! isset($_SESSION["Favorite"]) || count($_SESSION["Favorite"])==0){
+                $_SESSION["Favorite"] = [];
+            }
+            if (in_array($_POST["Favorite"], $_SESSION["Favorite"])){
+                $i = array_search($_POST["Favorite"], $_SESSION["Favorite"]);
+                $pdo->removeFavorite($_SESSION["Favorite"][$i]);
+                unset($_SESSION["Favorite"][$i]);
+                
+            }else{
+                array_push($_SESSION["Favorite"], $_POST["Favorite"]);
+                if (isset($_SESSION['user']['id'])){
+                    $pdo->saveFavorite($_POST["Favorite"]);
+                }
+            }
+            //unset($_POST["Favorite"]);
+            //MARCHE PAS ;(
+        }   
+        
+        
+
         if ($this->http_method === 'GET'){
             //r
         }elseif ($this->http_method === 'POST'){
@@ -96,11 +118,22 @@ class ActionDisplayShow extends Action {
                 $render = new \NRV\Renderer\ShowRenderer($a);
                 $html .= '<div class="cont">';
                 $html .= "<a href='?action=display-une-party&id=$id'>Look party</a>";
+                $html .= "<form class='formLove' method='POST' action='?action=display-show'>";
+                
+                if (isset($_SESSION["Favorite"]) && in_array($a->id, $_SESSION["Favorite"])){
+                    $html .= "<input class='love2' type='submit' name='Favorite' value='$a->id'>";
+                }else{
+                    $html .= "<input class='love' type='submit' name='Favorite' value='$a->id'>";
+                }
+                            
+                $html .= "</form>";
                 $html .= $render->render(2);
                 $html .= "</div>";
                 $html .= "<br><br>";
             }
             $html.='</div">';
+
+         
         }
 
         return $html;

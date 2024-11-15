@@ -1,0 +1,57 @@
+.party-container {
+    max-width: 600px;
+    margin: 20px auto;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 20px;
+}
+
+.party-title {
+
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.party-details, .party-shows {
+    margin: 15px 0;
+}
+
+.party-video {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.party-info {
+    list-style: none;
+    padding: 0;
+    font-size: 16px;
+    color: #555;
+}
+
+.party-info li {
+    margin-bottom: 8px;
+}
+
+.party-shows h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.party-shows ul {
+    list-style-type: disc;
+    margin: 0 0 0 20px;
+    padding: 0;
+}
+
+.party-shows li {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 5px;
+}

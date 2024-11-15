@@ -50,14 +50,14 @@ class Dispatcher {
                     <nav>
                         <ul class="nav">
                             <div class="nav-left">
-                                <li class="nav-item"><a class="nav-link" href="?action=default">HOME</a></li>
+                                <li class="nav-item"><a class="nav-link" href="?action=default"> ACCUEIL </a></li>
                                 
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link">DISPLAY</a>
+                                    <a class="nav-link">DECOUVRIR</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="?action=display-show">Shows</a></li>
-                                        <li><a class="dropdown-item" href="?action=display-party">Partys</a></li>
-                                        <li><a class="dropdown-item" href="?action=display-favorite">Favorites</a></li>
+                                        <li><a class="dropdown-item" href="?action=display-show"> Nos Spectacles </a></li>
+                                        <li><a class="dropdown-item" href="?action=display-party"> Nos Soirées </a></li>
+                                        <li><a class="dropdown-item" href="?action=display-favorite"> Vos Favoris </a></li>
                                     </ul>
                                 </li>
         FIN;
@@ -65,19 +65,18 @@ class Dispatcher {
                                     if ($_SESSION['user']['role'] > 1){
                                         echo <<<FIN
                                         <li class="nav-item dropdown">
-                                            <a class="nav-link">MODIFY CONTENT</a>
+                                            <a class="nav-link">MODIFIER UN CONTENU </a>
                                             <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="?action=add-party">Create Party</a></li>
-                                            <li><a class="dropdown-item" href="?action=modif-party">Edit Party</a></li>
-                                            <li><a class="dropdown-item" href="?action=add-show">Create Show</a></li>
-                                            <li><a class="dropdown-item" href="?action=modif-show">Edit Show</a></li>
+                                            <li><a class="dropdown-item" href="?action=add-party">Organiser une soirée</a></li>
+                                            <li><a class="dropdown-item" href="?action=modif-party">Modifier une soirée</a></li>
+                                            <li><a class="dropdown-item" href="?action=add-show">Ajouter un spectacle</a></li>
                                             </ul>
                                         </li>
                                         FIN;
                                     }
                                     if ($_SESSION['user']['role'] > 2){
                                         echo <<<FIN
-                                        <li class="nav-item"><a class="nav-link" href="?action=add-staff">CREATE STAFF ACCOUNT</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="?action=add-staff">CREER UN COMPTE STAFF</a></li>
                                         FIN;
                                     }
                                 }
@@ -138,7 +137,7 @@ class Dispatcher {
                 break;
             case 'display-party':
                 $a = new act\ActionDisplayParty();
-                $this->css_action = "formulaire.css";
+                $this->css_action = "display_party.css";
                 break;
             case 'display-une-party':
                     $a = new act\ActionDisplayUneParty();
@@ -146,7 +145,7 @@ class Dispatcher {
                     break;
             case 'display-favorite':
                 $a = new act\ActionDisplayFavorite();
-                $this->css_action = "formulaire.css";
+                $this->css_action = "display_show2.css";
                 break;
             case 'register':
                 $a = new act\ActionRegister();

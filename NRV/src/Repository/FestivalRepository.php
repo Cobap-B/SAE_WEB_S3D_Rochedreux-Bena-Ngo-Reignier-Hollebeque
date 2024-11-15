@@ -24,17 +24,6 @@ class FestivalRepository{
         return self::$instance;
     }
 
-    public function findPartyById(int $id): ?Party{
-        $stmt = self::$instance->bd->prepare('SELECT idParty, nomParty FROM Party WHERE idParty = ?');
-        $stmt->execute([$id]);
-        $data = $stmt->fetch();
-
-        if($data){
-            $party = new Party($data['nom']);
-        }
-
-        return $party;
-    }
 
     public function saveParty(string $name, string $dateD, string $dateF, string $hourStart, string $hourEnd, string $idLoc, int $price, string $video ): \NRV\Event\Party{
         $stmt = $this->bd->prepare("INSERT INTO party (partyName, dateStart, dateEnd, idLocation, pricing, link) 
@@ -60,6 +49,43 @@ class FestivalRepository{
         
         return $party;
     }
+    
+    public function savePartyWithNewLoc(string $name, string $dateD, string $dateF, string $hourStart, string $hourEnd, int $price, string $video, string $locName, string $address, int $nbPlAs, int $nbPlDe, string $imgLoc): \NRV\Event\Party{
+        $stmt = $this->bd->prepare("INSERT INTO location(locaName, address, nbPlacesAss, nbPlacesDeb, imagePath)
+        VALUES (:locN, :adr, :PlA, :PlD, :img)");
+        $stmt->bindParam(":locN", $locName, PDO::PARAM_STR);
+        $stmt->bindParam(":adr", $address, PDO::PARAM_STR);
+        $stmt->bindParam(":PlA", $nbPlAs);
+        $stmt->bindParam(":PlD", $nbPlDe);
+        $stmt->bindParam(":img", $imgLoc);
+        $stmt->execute();
+
+        $idLoc = (int)$this->bd->lastInsertId();
+        
+        $stmt = $this->bd->prepare("INSERT INTO party (partyName, dateStart, dateEnd, idLocation, pricing, link) 
+        VALUES (:n, STR_TO_DATE( :d1 :h1,'%Y-%m-%d %H:%i'), STR_TO_DATE( :d2 :h2,'%Y-%m-%d %H:%i'), :i, :p, :v)");
+        $stmt->bindParam(":n", $name, PDO::PARAM_STR);
+        $stmt->bindParam(":d1", $dateD);
+        $stmt->bindParam(":h1", $hourStart);
+        $stmt->bindParam(":d2", $dateF);
+        $stmt->bindParam(":h2", $hourEnd);
+        $stmt->bindParam(":i", $idLoc);
+        $stmt->bindParam(":p", $price);
+        $stmt->bindParam(":v", $video);
+        $stmt->execute();
+
+        $lastInsertId = (int)$this->bd->lastInsertId();
+
+        $dhS = $dateD . " " . $hourStart . ":00";
+        $dhF = $dateF . " " . $hourEnd . ":00";
+
+        $place = $this->getPlace($idLoc);
+
+        $party = new \NRV\Event\Party($lastInsertId, $name, $dhS, $dhF, $place, $price, $video);
+        
+        return $party;
+    }
+
 
     public function saveShow(string $categorie, string $title, string $artist, string $dateD, string $dateF, string $hourStart, string $hourEnd, string $desc, string $picture, string $audio): \NRV\Event\Show{
         $query = "INSERT into shows (categorie, title, artist, dateStart, dateEnd, imageName, audioName) 
@@ -86,22 +112,22 @@ class FestivalRepository{
 
         return $show;
     }
-
-    public function delShow(Show $spec){
-        $query = "DELETE from Party2Show where idShow = ?";
-        $prep = $this->bd->prepare($query);
-        $id = $spec->id;
-        $prep->bindParam(1,$id);
-        $prep->execute();
-
-        $query = "DELETE from Shows where idShow = ?";
-        $prep = $bd->prepare($query);
-        $prep->bindParam(1,$id);
-        $prep->execute();
-    }
+//
+//    public function delShow(Show $spec){
+//        $query = "DELETE from Party2Show where idShow = ?";
+//        $prep = $this->bd->prepare($query);
+//        $id = $spec->id;
+//        $prep->bindParam(1,$id);
+//        $prep->execute();
+//
+//        $query = "DELETE from Shows where idShow = ?";
+//        $prep = $bd->prepare($query);
+//        $prep->bindParam(1,$id);
+//        $prep->execute();
+//    }
 
     public function displayShow(string $category, string $date, string $lieu){
-        $query = "SELECT shows.idshow, shows.categorie, shows.description, shows.title, shows.artist, shows.dateStart, shows.dateEnd, shows.imageName, shows.audioName from shows 
+        $query = "SELECT DISTINCT (shows.idshow), shows.categorie, shows.description, shows.title, shows.artist, shows.dateStart, shows.dateEnd, shows.imageName, shows.audioName from shows 
             INNER JOIN party2show on shows.idshow = party2show.idShow
             INNER JOIN party on party2show.idParty = party.idParty WHERE";
         if ($category != ""){
@@ -128,6 +154,7 @@ class FestivalRepository{
         }
 
         $prep->execute();
+
         $shows = [];
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
@@ -137,6 +164,29 @@ class FestivalRepository{
 
         return $shows;
     }
+
+
+    public function displayShowByPartyId(int $id){
+        $query = "SELECT shows.idshow, shows.categorie, shows.description, shows.title, shows.artist, shows.dateStart, shows.dateEnd, shows.imageName, shows.audioName from shows 
+            INNER JOIN party2show on shows.idshow = party2show.idShow
+            INNER JOIN party on party2show.idParty = party.idParty WHERE Party.idParty = :id";
+
+        $prep = $this->bd->prepare($query);
+        $prep->bindParam(':id',$id, PDO::PARAM_INT);
+        $prep->execute();
+        $shows = [];
+
+        while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
+
+            $show = new \NRV\Event\Show($row['idshow'], $row['categorie'], $row['title'], $row['dateStart'], $row['dateEnd'], $row['artist'], $row['description'],  $row['audioName'], $row['imageName']);
+            array_push($shows, $show);
+        }
+
+        var_dump($shows);
+
+        return $shows;
+    }
+
 
 
     public function displayParty(): array
@@ -153,13 +203,13 @@ class FestivalRepository{
 
         while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
             $place = new \NRV\Event\Place($row['idLocation'], $row['locaName'], $row['address'], $row['nbPlacesAss'], $row['nbPlacesDeb'],$row['imagePath']);
-            $party = new \NRV\Event\Party($row['idParty'], $row['partyName'], $row['dateStart'], $row['dateEnd'], $place , $row['pricing'], $row['link']);
+            $party = new \NRV\Event\Party($row['idParty'], $row['partyName'], $row['dateStart'], $row['dateEnd'], $place , $row['pricing'], $row['link'],
+                 $this->displayShowByPartyId($row['idParty']));
 
-            array_push($array, $party);
+            $array[] = $party;
         }
 
         return $array;
-
     }
 
     public function getParty(int $id){
@@ -285,6 +335,9 @@ class FestivalRepository{
         return $places;
     }
 
+
+
+
     function getIdParty(int $id){
         $query = "
         SELECT * from Party2Show where idShow = :id;
@@ -317,6 +370,36 @@ class FestivalRepository{
         }
         
         
+        return $cat;
+    }
+
+    function saveFavorite(int $id){
+        $query = "INSERT into Favorite (idUser, idShow) Values (:idUser, :idShow)";
+        $prep = $this->bd->prepare($query); 
+        $prep->bindParam(":idUser",$_SESSION['user']['id'], PDO::PARAM_INT);
+        $prep->bindParam(":idShow",$id, PDO::PARAM_INT);
+        $prep->execute();
+    }
+
+    function removeFavorite(int $id){
+        $query = "DELETE from Favorite where idUser = :idUser and idShow = :idShow";
+        $prep = $this->bd->prepare($query); 
+        $prep->bindParam(":idUser",$_SESSION['user']['id'], PDO::PARAM_INT);
+        $prep->bindParam(":idShow",$id, PDO::PARAM_INT);
+        $prep->execute();
+    }
+
+    function getFavorite(int $id){
+        $query = "Select idShow from Favorite where idUser = :idUser";
+        $prep = $this->bd->prepare($query); 
+        $prep->bindParam(":idUser",$id, PDO::PARAM_INT);
+        $prep->execute();
+
+        $cat=[];
+        $row =$prep->fetch(PDO::FETCH_ASSOC);
+        while ($row = $prep->fetch(PDO::FETCH_ASSOC)) {
+            array_push($cat, $row["idShow"]);
+        }
         return $cat;
     }
 }
